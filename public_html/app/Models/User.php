@@ -184,7 +184,6 @@ class User extends Authenticatable implements LaratrustUser,MustVerifyEmail
             'user chat manage',
             'user profile manage',
             'user logs history',
-
         ];
         $client_role_permission = [
             'user chat manage',

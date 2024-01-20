@@ -11,7 +11,7 @@
         @stack('project_template_button')
         @if (auth()->user()->type == 'company' || auth()->user()->type == 'super admin')
             <a href="{{ route('projects.disapproved') }}" class="btn btn-sm btn-primary" data-title="{{ __('Duyệt công việc') }}"
-                 title="{{ __('Duyệt công việc') }}"><i
+                 data-toggle="tooltip" title="{{ __('Duyệt công việc') }}"><i
                     class="ti ti-check"></i>
             </a>
         @endif

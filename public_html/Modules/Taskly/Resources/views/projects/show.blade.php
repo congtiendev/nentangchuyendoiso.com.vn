@@ -7,14 +7,14 @@
     }
 @endphp
 @section('page-title')
-        {{ __($name.' Detail') }}
+        {{ __('Chi tiết công việc') }}
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/dropzone.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('Modules/Taskly/Resources/assets/css/custom.css') }}" type="text/css" />
 @endpush
 @section('page-breadcrumb')
-        {{ __($name.' Detail') }}
+        {{ __('Chi tiết công việc') }}
 @endsection
 
 @section('page-action')
@@ -34,8 +34,8 @@
     @permission('project setting')
         <div class="col-sm-auto">
             <a href="#" class="btn btn-xs btn-primary btn-icon-only col-12"
-                data-title="{{ __('Shared Project Settings') }}" data-ajax-popup="true" data-size="md" data-bs-toggle="tooltip"
-                data-bs-original-title="{{ __('Shared Project Setting') }}"
+                data-title="{{ __('Cài đặt công việc được chia sẻ') }}" data-ajax-popup="true" data-size="md" data-bs-toggle="tooltip"
+                data-bs-original-title="{{ __('Cài đặt công việc được chia sẻ') }}"
                 data-url="{{ route('project.setting', [$project->id]) }}">
                 <i class="ti ti-settings"></i>
             </a>
