@@ -15,9 +15,9 @@
         @endif
         @if ((module_is_active('ProductService') && module_is_active('Account')) || module_is_active('Taskly'))
             @permission('proposal manage')
-                <a href="{{ route('proposal.grid.view') }}"  data-bs-toggle="tooltip" data-bs-original-title="{{__('Grid View')}}" class="btn btn-sm btn-primary btn-icon">
+                {{-- <a href="{{ route('proposal.grid.view') }}"  data-bs-toggle="tooltip" data-bs-original-title="{{__('Grid View')}}" class="btn btn-sm btn-primary btn-icon">
                     <i class="ti ti-layout-grid"></i>
-                </a>
+                </a> --}}
             @endpermission
             @permission('proposal create')
                 <a href="{{ route('proposal.create', 0) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"

@@ -352,6 +352,7 @@ class ProposalController extends Controller
             $proposal = Proposal::find($id);
             if(!empty($proposal) && $proposal->workspace == getActiveWorkSpace())
             {
+                $file = $proposal->image;
                 $user = $proposal->customer;
                 $proposal_attachment = ProposalAttechment::where('proposal_id', $proposal->id)->get();
                 $customer = [];
@@ -367,7 +368,6 @@ class ProposalController extends Controller
                 }else{
                     $customFields = null;
                 }
-
                 return view('proposal.view', compact('proposal', 'customer', 'iteams', 'status','customFields','proposal_attachment'));
             } else {
                 return redirect()->route('proposal.index')->with('error', __('Proposal Not Found.'));

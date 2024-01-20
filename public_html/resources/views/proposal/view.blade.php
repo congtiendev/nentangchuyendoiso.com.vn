@@ -117,7 +117,7 @@
                                     <h6 class="text-primary my-3">{{__('Tạo văn bản')}}</h6>
                                     <p class="text-muted text-sm mb-3"><i class="ti ti-clock mr-2"></i>{{__('Created on ')}}{{ company_date_formate($proposal->issue_date)}}</p>
                                     @permission('proposal edit')
-                                        <a href="{{ route('proposal.edit',\Crypt::encrypt($proposal->id)) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="ti ti-pencil mr-2"></i>{{__('Edit')}}</a>
+                                        {{-- <a href="{{ route('proposal.edit',\Crypt::encrypt($proposal->id)) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="ti ti-pencil mr-2"></i>{{__('Edit')}}</a> --}}
                                     @endpermission
                                 </div>
                                 <div class="col-md-6 col-lg-4 col-xl-4">
@@ -125,7 +125,7 @@
                                         <i class="ti ti-mail text-warning"></i>
                                     </div>
                                     <h6 class="text-warning my-3">{{__('Gửi văn bản')}}</h6>
-                                    <p class="text-muted text-sm mb-3">
+                                    {{-- <p class="text-muted text-sm mb-3">
                                         @if($proposal->status!=0)
                                             <i class="ti ti-clock mr-2"></i>{{__('Sent on')}} {{ company_date_formate($proposal->send_date)}}
                                         @else
@@ -133,12 +133,12 @@
                                                 <small>{{__('Status')}} : {{__('Not Sent')}}</small>
                                             @endpermission
                                         @endif
-                                    </p>
-                                    @if($proposal->status==0)
+                                    </p> --}}
+                                    {{-- @if($proposal->status==0)
                                         @permission('proposal send')
                                             <a href="{{ route('proposal.sent',$proposal->id) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" data-original-title="{{__('Mark Sent')}}"><i class="ti ti-send mr-2"></i>{{__('Send')}}</a>
                                         @endpermission
-                                    @endif
+                                    @endif --}}
                                 </div>
                                 <div class="col-md-6 col-lg-4 col-xl-4">
                                     <div class="timeline-icons"><span class="timeline-dots"></span>
@@ -194,7 +194,7 @@
                     <div class="all-button-box mx-2">
                         <select class="form-control status_change pe-5" name="status" data-url="{{route('proposal.status.change',$proposal->id)}}">
                             @foreach($status as $k=>$val)
-                                <option value="{{$k}}" {{($proposal->status==$k)?'selected':''}}>{{$val}}</option>
+                                <option value="{{$k}}" {{($proposal->status==$k)?'selected':''}}>{{__($val)}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -320,7 +320,9 @@
                                             <div class="font-weight-bold">{{__('Item Summary')}}</div>
                                             <small>{{__('All items here cannot be deleted.')}}</small>
                                             <div class="table-responsive mt-2">
+
                                                 <table class="table mb-0 table-striped">
+                                                    
                                                     <tr>
                                                         <th class="text-dark" data-width="40">#</th>
                                                         @if($proposal->proposal_module == "account")

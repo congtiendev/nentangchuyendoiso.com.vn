@@ -13,7 +13,7 @@
             <a href="#"  class="btn btn-sm btn-primary" data-ajax-popup="true" data-title="{{__('Product & Service Import')}}" data-url="{{ route('product-service.file.import') }}"  data-toggle="tooltip" title="{{ __('Import') }}"><i class="ti ti-file-import"></i>
             </a>
         @endpermission
-        <a href="{{ route('product-service.grid') }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-title="{{__('Grid View')}}" title="{{ __('Grid View') }}"><i class="ti ti-layout-grid text-white"></i></a>
+        {{-- <a href="{{ route('product-service.grid') }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-title="{{__('Grid View')}}" title="{{ __('Grid View') }}"><i class="ti ti-layout-grid text-white"></i></a> --}}
 
         <a href="{{ route('category.index') }}"data-size="md"  class="btn btn-sm btn-primary" data-bs-toggle="tooltip"data-title="{{__('Setup')}}" title="{{__('Setup')}}"><i class="ti ti-settings"></i></a>
 
@@ -94,7 +94,8 @@
                             <tr class="font-style">
                                 <td>
                                     <a href="{{ $path }}" target="_blank">
-                                        <img src=" {{ $path }} " class="wid-75 rounded me-3">
+                                        <i class="fas fa-file-alt wid-75 rounded me-3"></i>
+
                                     </a>
                                 </td>
                                 <td>{{ $productService->name}}</td>

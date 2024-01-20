@@ -73,9 +73,9 @@
                     <input type="file" class="form-control file" name="image" id="image"
                         data-filename="image_update"
                         onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
-
-                    <img id="blah" src="{{ asset('Modules/ProductService/Resources/assets/image/img01.jpg') }}"
-                        alt="your image" width="100" height="100" />
+                        <i class="fas fa-upload upload-icon"></i>
+                  <!--  <img id="blah" src="{{ asset('Modules/ProductService/Resources/assets/image/img01.jpg') }}" 
+                        alt="your image" width="100" height="100" /> -->
                 </label>
             </div>
         </div>

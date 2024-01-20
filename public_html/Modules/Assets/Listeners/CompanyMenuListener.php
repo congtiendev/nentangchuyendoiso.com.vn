@@ -13,30 +13,30 @@ class CompanyMenuListener
     {
         $module = 'Assets';
         $menu = $event->menu;
-        $menu->add([
-            'title' => 'Assets',
-            'icon' => 'calculator',
-            'name' => 'assets',
-            'parent' => null,
-            'order' => 875,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => '',
-            'module' => $module,
-            'permission' => 'assets manage'
-        ]);
-        $menu->add([
-            'title' => __('Assets'),
-            'icon' => '',
-            'name' => 'asset',
-            'parent' => 'assets',
-            'order' => 10,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => 'asset.index',
-            'module' => $module,
-            'permission' => 'assets manage'
-        ]);
+        // $menu->add([
+        //     'title' => 'Assets',
+        //     'icon' => 'calculator',
+        //     'name' => 'assets',
+        //     'parent' => null,
+        //     'order' => 875,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => '',
+        //     'module' => $module,
+        //     'permission' => 'assets manage'
+        // ]);
+        // $menu->add([
+        //     'title' => __('Assets'),
+        //     'icon' => '',
+        //     'name' => 'asset',
+        //     'parent' => 'assets',
+        //     'order' => 10,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => 'asset.index',
+        //     'module' => $module,
+        //     'permission' => 'assets manage'
+        // ]);
         $menu->add([
             'title' => __('History'),
             'icon' => '',

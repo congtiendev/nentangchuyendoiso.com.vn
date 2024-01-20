@@ -201,12 +201,12 @@ class ProductServiceController extends Controller
             $rules = [
                 'name' => 'required',
                 'sku' => 'required',
-                'sale_price' => 'required|numeric',
-                'purchase_price' => 'required|numeric',
+                // 'sale_price' => 'required|numeric',
+                // 'purchase_price' => 'required|numeric',
                 'category_id' => 'required',
-                'unit_id' => 'required',
-                'type' => 'required',
-                'tax_id' => 'required',
+                // 'unit_id' => 'required',
+                // 'type' => 'required',
+                // 'tax_id' => 'required',
 
             ];
 

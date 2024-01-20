@@ -103,10 +103,10 @@
                                         class="ti ti-clock mr-2"></i>{{ __('Created on ') }}{{ company_date_formate($invoice->issue_date) }}
                                 </p>
                                 @permission('invoice edit')
-                                    <a href="{{ route('invoice.edit', \Crypt::encrypt($invoice->id)) }}"
+                                    {{-- <a href="{{ route('invoice.edit', \Crypt::encrypt($invoice->id)) }}"
                                         class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
                                         data-original-title="{{ __('Edit') }}"><i
-                                            class="ti ti-edit mr-2"></i>{{ __('Edit') }}</a>
+                                            class="ti ti-edit mr-2"></i>{{ __('Edit') }}</a> --}}
                                 @endpermission
                             </div>
                             <div class="col-md-6 col-lg-4 col-xl-4">
@@ -124,11 +124,11 @@
                                 </p>
 
                                 @if ($invoice->status == 0)
-                                    @permission('invoice send')
+                                    {{-- @permission('invoice send')
                                         <a href="{{ route('invoice.sent', $invoice->id) }}" class="btn btn-sm btn-warning"
                                             data-bs-toggle="tooltip" data-original-title="{{ __('Mark Sent') }}"><i
                                                 class="ti ti-send mr-2"></i>{{ __('Send') }}</a>
-                                    @endpermission
+                                    @endpermission --}}
                                 @endif
                             </div>
                             <div class="col-md-6 col-lg-4 col-xl-4">
@@ -180,28 +180,28 @@
                 @permission('creditnote create')
                     @if (module_is_active('Account'))
                         {{-- @if (!empty($invoicePayment)) --}}
-                        <div class="all-button-box mx-2">
+                        {{-- <div class="all-button-box mx-2">
                             <a href="#" class="btn btn-sm btn-primary"
                                 data-url="{{ route('invoice.credit.note', $invoice->id) }}" data-ajax-popup="true"
                                 data-title="{{ __('Add Credit Note') }}">
                                 {{ __('Add Credit Note') }}
                             </a>
-                        </div>
+                        </div> --}}
                     @endif
                     {{-- @endif --}}
                 @endpermission
                 @if (\Auth::user()->type == 'company')
                     @if ($invoice->status != 4)
-                        <div class="all-button-box mx-2">
+                        {{-- <div class="all-button-box mx-2">
                             <a href="{{ route('invoice.payment.reminder', $invoice->id) }}"
                                 class="btn btn-sm btn-primary">{{ __('Receipt Reminder') }}</a>
-                        </div>
+                        </div> --}}
                     @endif
-                    <div class="all-button-box mx-2">
+                    {{-- <div class="all-button-box mx-2">
                         <a href="{{ route('invoice.resent', $invoice->id) }}"
                                                        class="btn btn-sm btn-primary">{{ __('Gửi lại văn bản') }}</a>
 
-                    </div>
+                    </div> --}}
                 @endif
                 <div class="all-button-box mx-2">
                     <a href="{{ route('invoice.pdf', Crypt::encrypt($invoice->id)) }}" target="_blank"
@@ -300,7 +300,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         @if (!empty($customer->billing_name) && !empty($customer->billing_address) && !empty($customer->billing_zip))
                                             <div class="col">
                                                 <small class="font-style">
@@ -360,8 +360,8 @@
                                                 </div>
                                             @endif
                                         </div>
-                                    </div>
-                                    <div class="row mt-3">
+                                    </div> --}}
+                                    {{-- <div class="row mt-3">
                                         <div class="col">
                                             <small>
                                                 <strong>{{ __('Status') }} :</strong><br>
@@ -401,12 +401,12 @@
                                                 </div>
                                             @endforeach
                                         @endif
-                                    </div>
+                                    </div> --}}
 
                                     <div class="row mt-4">
                                         <div class="col-md-12">
-                                            <div class="font-weight-bold">{{ __('Item Summary') }}</div>
-                                            <small>{{ __('All items here cannot be deleted.') }}</small>
+                                            {{-- <div class="font-weight-bold">{{ __('Item Summary') }}</div>
+                                            <small>{{ __('All items here cannot be deleted.') }}</small> --}}
                                             <div class="table-responsive mt-2">
                                                 <table class="table mb-0 table-striped">
                                                     <tr>

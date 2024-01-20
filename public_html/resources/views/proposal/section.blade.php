@@ -298,7 +298,7 @@
                         <tr>
                             {{ Form::hidden('id', null, ['class' => 'form-control id']) }}
                             <td  class="form-group pt-0">
-                                {{ Form::select('product_type', array_map('__', $product_type), null, ['class' => 'form-control product_type ', 'required' => 'required', 'placeholder' => '--']) }}
+                                {{ Form::select('product_type', array_map('__', $product_type), null, ['class' => 'form-control product_type ', 'required' => 'required']) }}
                             </td>
                             <td width="25%" class="form-group pt-0 product_div">
                                     <select name="item" class="form-control product_id item  js-searchBox" data-url="{{route('proposal.product')}}" required>
@@ -355,7 +355,7 @@
                             </td> --}}
                         </tr>
                         <tr>
-                            <td colspan="2">
+                            <td colspan="1">
                                 <label for=""><strong>Ý kiến của lãnh đạo trình kí</strong></label>
                                 <div class="form-group">
                                     {{ Form::textarea('description', null, ['class' => 'form-control pro_description', 'rows' => '1', 'placeholder' => __('Description')]) }}
