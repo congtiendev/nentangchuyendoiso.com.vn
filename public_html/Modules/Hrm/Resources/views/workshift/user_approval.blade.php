@@ -19,7 +19,6 @@ Ca làm việc
                     <table class="table mb-0 pc-dt-simple" id="assets">
                         <thead>
                             <tr>
-                                <th>Tên nhân viên</th>
                                 <th>Ca làm việc</th>
                                 <th>Ngày</th>
                                 <th>Trạng thái</th>
@@ -27,13 +26,12 @@ Ca làm việc
                                 <th>Ngày tạo</th>
                                 <th>Ngày cập nhật</th>
                                 <th>Người phê duyệt</th>
-                                <th>Thao tác</th>
+              
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($workshiftApprovals as $workshift)
                             <tr>
-                                <td>{{ $workshift->user_name }}</td>
                                 <td>
                                     {{ getWorkshiftTypeName($workshift->shift) }} 
                                 </td>
@@ -54,55 +52,7 @@ Ca làm việc
                                     }} @else
                                     {{ 'Chưa phê duyệt' }} @endif</td>
                                 </td>
-                                <td class="d-flex gap-5">
-
-                                    @if($workshift->status != 1 && $workshift->status != 2)
-                                    <div class="action-btn bg-success">
-                                        <form method="POST"
-                                            action="{{route('workshift.approval', ['id' => $workshift->id])}}"
-                                            accept-charset="UTF-8" class="m-0">
-                                            @csrf
-                                            <input type="hidden" name="workshift_id"
-                                                value="{{ $workshift->workshift_id }}">
-                                            <button type="submit" class="btn btn-sm btn-success"
-                                                data-bs-toggle="tooltip" title="" data-bs-original-title="Approve"
-                                                aria-label="Approve">
-                                            Đuổi việc
-                                            </button>
-                                        </form>
-                                    </div>
-
-                                    <div class="action-btn bg-danger ms-2">
-                                        <form method="POST"
-                                            action="{{route('workshift.reject', ['id' => $workshift->id])}}"
-                                            accept-charset="UTF-8" class="m-0">
-                                            @csrf
-                                            <input type="hidden" name="workshift_id"
-                                                value="{{ $workshift->workshift_id }}">
-                                            <button type="submit" class="btn btn-sm btn-danger" data-bs-toggle="tooltip"
-                                                title="" data-bs-original-title="Reject" aria-label="Reject">
-                                                Từ chối
-                                            </button>
-                                        </form>
-                                    </div>
-                                    @else
-                                    <div class="action-btn bg-danger ms-2">
-                                        <form method="POST"
-                                            action="{{ route('workshift.destroy.approval',['id' => $workshift->id]) }}"
-                                            accept-charset="UTF-8" class="m-0">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="DELETE"> <a
-                                                class="mx-3 btn btn-sm  align-items-center bs-pass-para show_confirm"
-                                                data-bs-toggle="tooltip" title="" data-bs-original-title="Delete"
-                                                aria-label="Delete" data-confirm="Bạn có chắc chắn?"
-                                                data-text="Hành động này không thể được hoàn tác. Bạn có muốn tiếp tục?"
-                                                data-confirm-yes="delete-form-30">
-                                                <i class="ti ti-trash"></i>
-                                            </a>
-                                        </form>
-                                    </div>
-                                    @endif
-                                </td>
+                       
                             </tr>
                             @endforeach
                     </table>

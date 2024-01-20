@@ -39,6 +39,7 @@ Ca làm việc
                             <tr>
                                 @if(Auth::user()->type == 'company' || Auth::user()->type == 'hr')
                                 <th>Tên nhân viên</th>
+                                <th>Phòng ban</th>
                                 @endif
                                 @foreach(dateOfWeek() as $day => $date)
                                 <th>{{ ucfirst($day) }}</th>
@@ -56,6 +57,7 @@ Ca làm việc
                             <tr>
                                 @if(Auth::user()->type == 'company' || Auth::user()->type == 'hr')
                                 <td>{{ $workShift->user_name }}</td>
+                                <td>{{ getDepartmentNameByUserId($workShift->user_id)}}</td>
                                 @endif
                                 @foreach(dateOfWeek() as $day => $date)
                                 <td>
@@ -203,7 +205,6 @@ Ca làm việc
 
 <script>
     $(document).ready(function () {
-  
         $('#showCreateWorkShiftModal').click(function () {
             $('#createWorkShiftModal').modal('show');
          });
@@ -229,7 +230,6 @@ Ca làm việc
             $('#employeeCreateWorkShiftModal').modal('hide');
             $('#employeeEditWorkShiftModal').modal('hide');
          });
-
      
 
         $(document).on('change', '.shift', function () {
