@@ -1,0 +1,33 @@
+.location_name
+{
+    background-color: #fff;
+    color: #525b69;
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 15px;
+    border-radius: 4px;
+    position: relative;
+    font-weight: 500;
+    border-radius: 10px;
+}
+
+.loc-qr {
+    margin-left: 460px;
+    margin-top: -20px;
+}
+
+.loc-ql{
+    margin-right: 460px;
+    margin-bottom: auto;
+}
+
+.absolutr-left-top-border,
+.absolutr-right-top-border, 
+.absolutr-left-bottom-border, 
+.absolutr-right-bottom-border {
+    position: absolute;
+}
+.absolutr-left-top-border {left: 0; top: 0;}
+.absolutr-right-top-border {right: 0; top: 0;}
+.absolutr-left-bottom-border {left: 0; bottom: 0;}
+.absolutr-right-bottom-border {right: 0; bottom: 0;}

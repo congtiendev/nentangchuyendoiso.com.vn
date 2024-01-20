@@ -1,0 +1,17 @@
+{
+    "Account": true,
+    "Hrm": true,
+    "LandingPage": true,
+    "Lead": true,
+    "Paypal": false,
+    "Pos": true,
+    "ProductService": true,
+    "Stripe": false,
+    "Taskly": true,
+    "Sales": true,
+    "Assets": true,
+    "Contract": true,
+    "SideMenuBuilder": true,
+    "CMMS": true,
+    "Training": true
+}

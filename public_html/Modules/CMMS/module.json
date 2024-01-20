@@ -1,0 +1,13 @@
+{
+    "name": "CMMS",
+    "alias": "CMMS",
+    "description": "",
+    "keywords": [],
+    "priority": 85,
+    "version":3.0,
+    "providers": [
+        "Modules\\CMMS\\Providers\\CMMSServiceProvider",
+        "Modules\\CMMS\\Providers\\EventServiceProvider"
+    ],
+    "files": []
+}
