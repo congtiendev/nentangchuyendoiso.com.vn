@@ -22,9 +22,12 @@ Route::group(['middleware' => 'PlanModuleCheck:Taskly'], function ()
     Route::get('/project/copy/{id}',[ProjectController::class,'copyproject'])->name('project.copy')->middleware(['auth']);
     Route::post('/project/copy/store/{id}',[ProjectController::class,'copyprojectstore'])->name('project.copy.store')->middleware(['auth']);
 
-    Route::resource('projects', 'ProjectController')->middleware(['auth']);
-    Route::resource('stages', 'StageController')->middleware(['auth']);
     Route::get('projects-list', [ProjectController::class,'List'])->name('projects.list')->middleware(['auth']);
+    Route::get('projects/disapproved', [ProjectController::class,'listDisapproved'])->name('projects.disapproved')->middleware(['auth']);
+    Route::post('projects/approved', [ProjectController::class,'approved'])->name('projects.approved')->middleware(['auth']);
+    Route::post('projects/reject', [ProjectController::class,'reject'])->name('projects.reject')->middleware(['auth']);
+    Route::resource('stages', 'StageController')->middleware(['auth']);
+    Route::resource('projects', 'ProjectController')->middleware(['auth']);
     //project import
     Route::get('project/import/export', [ProjectController::class,'fileImportExport'])->name('project.file.import')->middleware(['auth']);
     Route::post('project/import', [ProjectController::class,'fileImport'])->name('project.import')->middleware(['auth']);
@@ -44,7 +47,7 @@ Route::group(['middleware' => 'PlanModuleCheck:Taskly'], function ()
     Route::post('projects/{id}/task-board/{tid}/update',[ProjectController::class,'taskUpdate'])->name('tasks.update')->middleware(['auth']);
     Route::delete('projects/{id}/task-board/{tid}',[ProjectController::class,'taskDestroy'])->name('tasks.destroy')->middleware(['auth']);
     Route::get('projects/{id}/task-board/{tid}/{cid?}',[ProjectController::class,'taskShow'])->name('tasks.show')->middleware(['auth']);
-    Route::get('projects/{id}/task-board-list', [ProjectController::class,'TaskList'])->name('projecttask.list')->middleware(['auth']);
+    Route::any('projects/{id}/task-board-list', [ProjectController::class,'TaskList'])->name('projecttask.list')->middleware(['auth']);
 
     // Gantt Chart
     Route::get('projects/{id}/gantt/{duration?}',[ProjectController::class,'gantt'])->name('projects.gantt')->middleware(['auth']);

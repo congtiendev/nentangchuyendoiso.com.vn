@@ -5,7 +5,7 @@
 @endsection
 
 @section('page-breadcrumb')
-    {{ __('Project')}}
+    {{ __('Công việc')}}
 @endsection
 
 @section('content')
@@ -107,7 +107,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <span class="text-muted font-13">{{ __('Project') }}</span>
+                                            <span class="text-muted font-13">{{ __('Công việc') }}</span>
                                             <div class="font-14 mt-1 font-weight-normal">{{ $task->project->name }}</div>
                                         </td>
                                         @if (Auth::user()->hasRole('client') || Auth::user()->hasRole('client'))
@@ -146,7 +146,7 @@
                         <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Refferals"><i
                                 class=""></i></a>
                     </div>
-                    <h5>{{ __('Project Status') }}</h5>
+                    <h5>{{ __('Trạng thái công việc') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="row align-items-center">
