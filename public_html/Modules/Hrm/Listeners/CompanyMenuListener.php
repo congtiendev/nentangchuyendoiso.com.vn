@@ -3,7 +3,7 @@
 namespace Modules\Hrm\Listeners;
 
 use App\Events\CompanyMenuEvent;
-
+use Illuminate\Support\Facades\Auth;
 class CompanyMenuListener
 {
     /**
@@ -278,7 +278,7 @@ class CompanyMenuListener
             'permission' => 'holiday manage'
         ]);
         $menu->add([
-            'title' => "Quản lí ca làm việc",
+            'title' => "Ca làm việc nhân viên",
             'icon' => '',
             'name' => 'workshift',
             'parent' => 'hrm',
@@ -288,6 +288,33 @@ class CompanyMenuListener
             'route' => 'workshift.index',
             'module' => $module,
         ]);
+
+        if(Auth::user()->type == 'company' || Auth::user()->type == 'hr'){
+        $menu->add([
+            'title' => "Ca làm việc phòng ban",
+            'icon' => '',
+            'name' => 'workshift-department',
+            'parent' => 'hrm',
+            'order' => 48,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'workshift-department.index',
+            'module' => $module,
+        ]);
+        }
+        if(Auth::user()->type == 'company' || Auth::user()->type == 'hr'){
+        $menu->add([
+            'title' => "Loại ca làm việc",
+            'icon' => '',
+            'name' => 'workshift',
+            'parent' => 'hrm',
+            'order' => 49,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'workshift-type.index',
+            'module' => $module,
+        ]);
+        }
         $menu->add([
             'title' => "Bảo hiểm",
             'icon' => '',

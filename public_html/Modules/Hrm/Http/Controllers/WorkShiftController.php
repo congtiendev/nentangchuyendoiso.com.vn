@@ -8,7 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Hrm\Entities\Employee;
 use App\Models\User;
 use App\Models\WorkShift;
+use App\Models\WorkshiftTypes;
 use App\Models\WorkshiftApproval;
+use Modules\Hrm\Entities\Department;
+use Modules\Hrm\Entities\Branch;
 use Carbon\Carbon;
 use DB;
 
@@ -22,6 +25,8 @@ class WorkShiftController extends Controller
   {
     if (Auth::user()->isAbleTo('attendance manage')) {
       $employees = Employee::all();
+      $workShiftTypes = WorkshiftTypes::all();
+      $departments = Department::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->get();
       if (Auth::user()->type == 'company' || Auth::user()->type == 'hr') {
         $workShifts = WorkShift::join('users', 'users.id', '=', 'workshift.user_id')
           ->select('workshift.*', 'users.name as user_name', 'users.id as user_id')
@@ -35,7 +40,7 @@ class WorkShiftController extends Controller
           ->where('workshift.user_id', Auth::user()->id)
           ->get();
       }
-      return view('hrm::workshift.index', compact('workShifts', 'employees'));
+      return view('hrm::workshift.index', compact('workShifts', 'employees', 'workShiftTypes', 'departments'));
     } else {
       return redirect()->back()->with('error', 'Bạn không có quyền truy cập !');
     }
@@ -115,14 +120,25 @@ class WorkShiftController extends Controller
 
   public function workshiftApprovalList()
   {
-    if(Auth::user()->type == 'company' || Auth::user()->type == 'hr'){
-    $workshiftApprovals = WorkshiftApproval::join('users', 'users.id', '=', 'workshift_approval.user_id')
-      ->select('workshift_approval.*', 'users.name as user_name')
-      ->get();
-    return view('hrm::workshift.approval', compact('workshiftApprovals'));
+    $workShiftTypes = WorkshiftTypes::all();
+    if (Auth::user()->type == 'company' || Auth::user()->type == 'hr') {
+      $workshiftApprovals = WorkshiftApproval::join('users', 'users.id', '=', 'workshift_approval.user_id')
+        ->select('workshift_approval.*', 'users.name as user_name')
+        ->get();
+      return view('hrm::workshift.approval', compact('workshiftApprovals', 'workShiftTypes'));
     } else {
       return redirect()->back()->with('error', 'Bạn không có quyền truy cập !');
     }
+  }
+
+  public function workshiftApprovalListByUser(string $id)
+  {
+    $workShiftTypes = WorkshiftTypes::all();
+      $workshiftApprovals = WorkshiftApproval::join('users', 'users.id', '=', 'workshift_approval.user_id')
+        ->select('workshift_approval.*', 'users.name as user_name')
+        ->where('workshift_approval.user_id', $id)
+        ->get();
+      return view('hrm::workshift.user_approval', compact('workshiftApprovals', 'workShiftTypes'));
   }
 
   public function workshiftApproval(Request $request, string $id)
@@ -152,12 +168,12 @@ class WorkShiftController extends Controller
     return redirect()->back()->with('success', 'Từ chối duyệt ca làm việc thành công !');
   }
 
- public function destroy($id)
+  public function destroy($id)
   {
     $workShift = WorkShift::find($id);
-    try{
+    try {
       $workShift->delete();
-    return redirect()->back()->with('success', 'Xóa ca làm việc thành công !');
+      return redirect()->back()->with('success', 'Xóa ca làm việc thành công !');
     } catch (\Exception $e) {
       return redirect()->back()->with('error', 'Xóa ca làm việc thất bại !');
     }
@@ -166,11 +182,15 @@ class WorkShiftController extends Controller
   public function destroyApproval($id)
   {
     $workShift = WorkshiftApproval::find($id);
-    try{
+    try {
       $workShift->delete();
-    return redirect()->back()->with('success', 'Xóa yêu cầu duyệt ca làm việc thành công !');
+      return redirect()->back()->with('success', 'Xóa yêu cầu duyệt ca làm việc thành công !');
     } catch (\Exception $e) {
       return redirect()->back()->with('error', 'Xóa yêu cầu duyệt ca làm việc thất bại !');
     }
   }
+
+
+
+
 }

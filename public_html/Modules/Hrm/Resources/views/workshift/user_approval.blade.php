@@ -55,6 +55,7 @@ Ca làm việc
                                     {{ 'Chưa phê duyệt' }} @endif</td>
                                 </td>
                                 <td class="d-flex gap-5">
+
                                     @if($workshift->status != 1 && $workshift->status != 2)
                                     <div class="action-btn bg-success">
                                         <form method="POST"
@@ -66,7 +67,7 @@ Ca làm việc
                                             <button type="submit" class="btn btn-sm btn-success"
                                                 data-bs-toggle="tooltip" title="" data-bs-original-title="Approve"
                                                 aria-label="Approve">
-                                                Phê duyệt
+                                            Đuổi việc
                                             </button>
                                         </form>
                                     </div>

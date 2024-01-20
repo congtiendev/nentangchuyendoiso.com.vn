@@ -39,8 +39,10 @@ use Modules\Hrm\Http\Controllers\TerminationTypeController;
 use Modules\Hrm\Http\Controllers\TransferController;
 use Modules\Hrm\Http\Controllers\TravelController;
 use Modules\Hrm\Http\Controllers\WarningController;
-use Modules\Hrm\Http\Controllers\WorkShiftController;
 use Modules\Hrm\Http\Controllers\InsuranceController;
+use Modules\Hrm\Http\Controllers\WorkShiftController;
+use Modules\Hrm\Http\Controllers\WorkShiftTypesController;
+use Modules\Hrm\Http\Controllers\WorkShiftDepartmentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,12 +55,11 @@ use Modules\Hrm\Http\Controllers\InsuranceController;
 */
 
 
-Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
- {
-    Route::prefix('hrm')->group(function() {
+Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function () {
+    Route::prefix('hrm')->group(function () {
         Route::get('/', [HrmController::class, 'index'])->middleware(['auth']);
     });
-    Route::get('dashboard/hrm',[HrmController::class, 'index'])->name('hrm.dashboard')->middleware(['auth']);
+    Route::get('dashboard/hrm', [HrmController::class, 'index'])->name('hrm.dashboard')->middleware(['auth']);
     Route::resource('document', DocumentController::class)->middleware(
         [
             'auth'
@@ -85,7 +86,7 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
             'auth',
         ]
     );
-
+    // -----------------Workshift -----------------
     Route::resource('workshift', WorkShiftController::class)->middleware(
         [
             'auth',
@@ -98,6 +99,11 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
         ]
     );
     Route::get('workshift/approval/list', [WorkShiftController::class, 'workshiftApprovalList'])->name('workshift.approval.list')->middleware(
+        [
+            'auth',
+        ]
+    );
+    Route::get('workshift/approval/list/{id}', [WorkShiftController::class, 'workshiftApprovalListByUser'])->name('workshift.approval.list.by.user')->middleware(
         [
             'auth',
         ]
@@ -125,6 +131,41 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
         ]
     );
     Route::DELETE('workshift/destroy/approval/{id}', [WorkShiftController::class, 'destroyApproval'])->name('workshift.destroy.approval')->middleware(
+        [
+            'auth',
+        ]
+    );
+    // -----------------Workshift Type-----------------
+    Route::resource('workshift-type', WorkShiftTypesController::class)->middleware(
+        [
+            'auth',
+        ]
+    );
+    Route::DELETE('workshift-type/destroy/{id}', [WorkShiftTypesController::class, 'destroy'])->name('workshift-type.destroy')->middleware(
+        [
+            'auth',
+        ]
+    );
+    Route::post('workshift-type/update/{id}', [WorkShiftTypesController::class, 'update'])->name('workshift-type.update')->middleware(
+        [
+            'auth',
+        ]
+    );
+    // -----------------Workshift Department-----------------
+    Route::resource('workshift-department', WorkShiftDepartmentController::class)->middleware(
+        [
+            'auth',
+        ]
+    );
+
+    Route::DELETE('workshift-department/destroy/{id}', [WorkShiftDepartmentController::class, 'destroy'])->name('workshift-department.destroy')->middleware(
+        [
+            'auth',
+        ]
+    );
+
+    //addWorkshiftDepartment
+    Route::post('workshift-department/addWorkshiftDepartment/', [WorkShiftDepartmentController::class, 'addWorkshiftDepartment'])->name('workshift-department.addWorkshiftDepartment')->middleware(
         [
             'auth',
         ]
@@ -224,7 +265,7 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
     Route::get('log-employee', [EmployeeController::class, 'activityLog'])->name('activityLog.employee')->middleware(['auth']);
 
     //
-       Route::get('appoint', [EmployeeController::class, 'appoint'])->name('appoint.appoint')->middleware(['auth']);
+    Route::get('appoint', [EmployeeController::class, 'appoint'])->name('appoint.appoint')->middleware(['auth']);
     Route::get('appoint/{employee}/create', [EmployeeController::class, 'createAppoint'])->name('appoint.create')->middleware(['auth']);
     Route::get('appoint/{employee}/edit', [EmployeeController::class, 'editAppoint'])->name('appoint.edit')->middleware(['auth']);
     Route::put('appoint/{employee}', [EmployeeController::class, 'update2'])->name('appoint.update')->middleware(['auth']);
@@ -384,10 +425,10 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
     );
 
     // Holiday import
-     Route::get('holiday/import/export', [HolidayController::class, 'fileImportExport'])->name('holiday.file.import')->middleware(['auth']);
-     Route::post('holiday/import', [HolidayController::class, 'fileImport'])->name('holiday.import')->middleware(['auth']);
-     Route::get('holiday/import/modal', [HolidayController::class, 'fileImportModal'])->name('holiday.import.modal')->middleware(['auth']);
-     Route::post('holiday/data/import/', [HolidayController::class, 'holidayImportdata'])->name('holiday.import.data')->middleware(['auth']);
+    Route::get('holiday/import/export', [HolidayController::class, 'fileImportExport'])->name('holiday.file.import')->middleware(['auth']);
+    Route::post('holiday/import', [HolidayController::class, 'fileImport'])->name('holiday.import')->middleware(['auth']);
+    Route::get('holiday/import/modal', [HolidayController::class, 'fileImportModal'])->name('holiday.import.modal')->middleware(['auth']);
+    Route::post('holiday/data/import/', [HolidayController::class, 'holidayImportdata'])->name('holiday.import.data')->middleware(['auth']);
 
     // Report
     Route::get('report/monthly/attendance', [ReportController::class, 'monthlyAttendance'])->name('report.monthly.attendance')->middleware(
@@ -605,5 +646,4 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
     Route::post('setting/noc/{lang?}', [HrmController::class, 'NOCupdate'])->name('noc.update');
     Route::get('employee/nocpdf/{id}', [EmployeeController::class, 'NocPdf'])->name('noc.download.pdf');
     Route::get('employee/nocdoc/{id}', [EmployeeController::class, 'NocDoc'])->name('noc.download.doc');
-
 });

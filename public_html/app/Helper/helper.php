@@ -27,9 +27,12 @@ use App\Models\UserNotifications;
 
 use Modules\Hrm\Entities\Designation;
 use Modules\Hrm\Entities\Department;
+use Modules\Hrm\Entities\Branch;
 
 use Modules\Taskly\Entities\Project;
 use Modules\Taskly\Entities\Task;
+
+use App\Models\WorkshiftTypes;
 if (!function_exists('getMenu')) {
     function getMenu()
     {
@@ -1948,6 +1951,24 @@ if(! function_exists('AnnualLeaveCycle'))
         function getUserById($id)
         {
             return User::find($id);
+        }
+    }
+
+    if(!function_exists('getWorkshiftTypeName')) {
+        function getWorkshiftTypeName($id)
+        {
+          return WorkshiftTypes::find($id)->name;
+        }
+    }
+
+    if(!function_exists('getBranchNameById')) {
+        function getBranchNameById($id)
+        {
+            $branch = Branch::find($id);
+            if($branch){
+                return $branch->name;
+            }
+            return '';
         }
     }
 }
