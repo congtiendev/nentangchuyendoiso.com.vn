@@ -90,12 +90,12 @@ class ProductServiceController extends Controller
             $rules = [
                 'name' => 'required',
                 'sku' => 'required',
-                'sale_price' => 'required|numeric',
-                'purchase_price' => 'required|numeric',
+                // 'sale_price' => 'required|numeric',
+                // 'purchase_price' => 'required|numeric',
                 'category_id' => 'required',
-                'unit_id' => 'required',
-                'type' => 'required',
-                'tax_id' => 'required',
+                // 'unit_id' => 'required',
+                // 'type' => 'required',
+                // 'tax_id' => 'required',
             ];
 
             $validator = \Validator::make($request->all(), $rules);
@@ -116,10 +116,10 @@ class ProductServiceController extends Controller
                 $productService->image          = empty($path) ? null : $path['url'];
             }
 
-            $productService->sale_price     = $request->sale_price;
-            $productService->purchase_price = $request->purchase_price;
-            $productService->tax_id         = !empty($request->tax_id) ? implode(',', $request->tax_id) : '';
-            $productService->unit_id        = $request->unit_id;
+            // $productService->sale_price     = $request->sale_price;
+            // $productService->purchase_price = $request->purchase_price;
+            // $productService->tax_id         = !empty($request->tax_id) ? implode(',', $request->tax_id) : '';
+            // $productService->unit_id        = $request->unit_id;
             if(!empty($request->quantity))
             {
                 $productService->quantity        = $request->quantity;
@@ -201,12 +201,12 @@ class ProductServiceController extends Controller
             $rules = [
                 'name' => 'required',
                 'sku' => 'required',
-                'sale_price' => 'required|numeric',
-                'purchase_price' => 'required|numeric',
+                // 'sale_price' => 'required|numeric',
+                // 'purchase_price' => 'required|numeric',
                 'category_id' => 'required',
-                'unit_id' => 'required',
-                'type' => 'required',
-                'tax_id' => 'required',
+                // 'unit_id' => 'required',
+                // 'type' => 'required',
+                // 'tax_id' => 'required',
 
             ];
 
