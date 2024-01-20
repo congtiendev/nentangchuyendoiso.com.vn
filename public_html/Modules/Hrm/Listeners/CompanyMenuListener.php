@@ -314,7 +314,20 @@ class CompanyMenuListener
             'route' => 'workshift-type.index',
             'module' => $module,
         ]);
-        }
+
+        $menu->add([
+            'title' => "Quy định",
+            'icon' => '',
+            'name' => 'rules',
+            'parent' => 'hrm',
+            'order' => 50,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'rules.index',
+            'module' => $module,
+        ]);
+    }
+
         $menu->add([
             'title' => "Bảo hiểm",
             'icon' => '',

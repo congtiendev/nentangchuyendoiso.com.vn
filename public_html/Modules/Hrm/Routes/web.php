@@ -43,6 +43,7 @@ use Modules\Hrm\Http\Controllers\InsuranceController;
 use Modules\Hrm\Http\Controllers\WorkShiftController;
 use Modules\Hrm\Http\Controllers\WorkShiftTypesController;
 use Modules\Hrm\Http\Controllers\WorkShiftDepartmentController;
+use Modules\Hrm\Http\Controllers\RulesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -171,6 +172,12 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function () {
         ]
     );
 
+    //Rules
+    Route::resource('rules', RulesController::class)->middleware(
+        [
+            'auth',
+        ]
+    );
 
     Route::resource('document-type', DocumentTypeController::class)->middleware(
         [
