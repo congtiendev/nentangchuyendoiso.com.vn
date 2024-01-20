@@ -1,13 +1,13 @@
 @extends('layouts.main')
 
 @section('page-title')
-    {{ __('Project Detail') }}
+    {{ __('Chi tiết công việc') }}
 @endsection
 
 
 @section('page-breadcrumb')
-    {{ __('Project Report') }},
-    {{ __('Project Details') }}
+    {{ __('Báo cáo công việc') }},
+    {{ __('Chi tiết công việc') }}
 @endsection
 
 
@@ -41,11 +41,11 @@
                                     <table class="table" id="pc-dt-simple">
                                         <tbody>
                                             <tr class="table_border">
-                                                <th class="table_border">{{ __('Project Name') }}:</th>
+                                                <th class="table_border">{{ __('Tên công việc') }}:</th>
                                                 <td class="table_border">{{ $project->name }}</td>
                                             </tr>
                                             <tr>
-                                                <th class="table_border">{{ __('Project Status') }}:</th>
+                                                <th class="table_border">{{ __('Trạng thái công việc') }}:</th>
                                                 <td class="table_border">
                                                     @if ($project->status == 'Finished')
                                                         <div class="badge  bg-success p-2 px-3 rounded">

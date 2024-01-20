@@ -1,0 +1,3 @@
+Thêm thuộc tính Disapproved,Rejected vào cột status của bảng Projects
+SET Default lại cho cột status thành Disapproved
+`status` enum('Rejected','Disapproved','Ongoing','Finished','OnHold') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Disapproved',
