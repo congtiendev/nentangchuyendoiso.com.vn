@@ -269,10 +269,10 @@
             <div class="row justify-content-between align-items-center">
                 <div class="col-md-12 d-flex align-items-center justify-content-md-end px-5">
                     <div class="all-button-box ">
-                        <a href="#" data-repeater-create="" class="btn btn-primary mr-2" data-toggle="modal"
+                        {{-- <a href="#" data-repeater-create="" class="btn btn-primary mr-2" data-toggle="modal"
                             data-target="#add-bank">
                             <i class="ti ti-plus"></i> {{ __('Add item') }}
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
             </div>
@@ -282,15 +282,15 @@
                 <table class="table mb-0" data-repeater-list="items" id="sortable-table">
                     <thead>
                         <tr>
-                            <th>{{ __('Item Type') }}</th>
-                            <th>{{ __('Items') }}</th>
-                            <th>{{ __('Quantity') }}</th>
-                            <th>{{ __('Price') }} </th>
+                            <th>{{ __('Loại') }}</th>
+                            <th>{{ __('Văn bản') }}</th>
+                            {{-- <th>{{ __('Quantity') }}</th> --}}
+                            {{-- <th>{{ __('Price') }} </th>
                             <th>{{ __('Discount') }}</th>
-                            <th>{{ __('Tax') }} (%)</th>
-                            <th class="text-end">{{ __('Amount') }} <br>
+                            <th>{{ __('Tax') }} (%)</th> --}}
+                            {{-- <th class="text-end">{{ __('Amount') }} <br>
                                 <small class="text-danger font-weight-bold">{{ __('After discount & tax') }}</small>
-                            </th>
+                            </th> --}}
                             <th></th>
                         </tr>
                     </thead>
@@ -313,7 +313,7 @@
                                     </div>
                                 @endif
                             </td>
-                            <td>
+                            {{-- <td>
                                 <div class="form-group price-input input-group search-form">
                                     {{ Form::text('quantity', '', ['class' => 'form-control quantity', 'required' => 'required', 'placeholder' => __('Qty'), 'required' => 'required']) }}
                                     <span class="unit input-group-text bg-transparent"></span>
@@ -325,8 +325,8 @@
                                     <span
                                         class="input-group-text bg-transparent">{{ isset($company_settings['defult_currancy_symbol']) ? $company_settings['defult_currancy_symbol'] : '' }}</span>
                                 </div>
-                            </td>
-                            <td>
+                            </td> --}}
+                            {{-- <td>
                                 <div class="form-group price-input input-group search-form">
                                     {{ Form::text('discount', '', ['class' => 'form-control discount', 'required' => 'required', 'placeholder' => __('Discount')]) }}
                                     <span
@@ -352,10 +352,11 @@
                                         <i class="ti ti-trash text-white text-white"></i>
                                     </div>
                                 </a>
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td colspan="2">
+                                <label for=""><strong>Ý kiến của lãnh đạo trình kí</strong></label>
                                 <div class="form-group">
                                     {{ Form::textarea('description', null, ['class' => 'form-control pro_description', 'rows' => '1', 'placeholder' => __('Description')]) }}
                                 </div>
@@ -363,7 +364,7 @@
                             <td colspan="5"></td>
                         </tr>
                     </tbody>
-                    <tfoot>
+                    {{-- <tfoot>
                         <tr class="border-none">
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
@@ -408,7 +409,7 @@
                             <td class="text-end totalAmount blue-text border-none">0.00</td>
                             <td></td>
                         </tr>
-                    </tfoot>
+                    </tfoot> --}}
                 </table>
             </div>
         </div>

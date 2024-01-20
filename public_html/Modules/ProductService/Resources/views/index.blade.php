@@ -1,9 +1,9 @@
 @extends('layouts.main')
 @section('page-title')
-{{__('Quản lí sản phẩm & dịch vụ')}}
+{{__('Quản lí văn bản liên quan')}}
 @endsection
 @section('page-breadcrumb')
-{{ __('Sản phẩm và dịch vụ') }}
+{{ __('Văn bản liên quan') }}
 @endsection
 @section('page-action')
 @permission('product&service create')
@@ -17,9 +17,9 @@
 
         <a href="{{ route('category.index') }}"data-size="md"  class="btn btn-sm btn-primary" data-bs-toggle="tooltip"data-title="{{__('Setup')}}" title="{{__('Setup')}}"><i class="ti ti-settings"></i></a>
 
-        <a href="{{ route('productstock.index') }}"data-size="md"  class="btn btn-sm btn-primary" data-bs-toggle="tooltip"data-title="{{__(' Product Stock')}}" title="{{__('Product Stock')}}"><i class="ti ti-shopping-cart"></i></a>
+        {{-- <a href="{{ route('productstock.index') }}"data-size="md"  class="btn btn-sm btn-primary" data-bs-toggle="tooltip"data-title="{{__(' Product Stock')}}" title="{{__('Product Stock')}}"><i class="ti ti-shopping-cart"></i></a> --}}
 
-        <a  class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{__('Create')}}" data-ajax-popup="true" data-size="lg" data-title="{{ __('Create New Product') }}" data-url="{{ route('product-service.create') }}">
+        <a  class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{__('Create')}}" data-ajax-popup="true" data-size="lg" data-title="{{ __('Tạo văn bản liên quan') }}" data-url="{{ route('product-service.create') }}">
             <i class="ti ti-plus"></i>
         </a>
 
@@ -66,16 +66,17 @@
                     <table class="table mb-0 pc-dt-simple" id="products">
                         <thead>
                         <tr>
-                            <th >{{__('Image')}}</th>
+                            <th >{{__('File')}}</th>
                             <th >{{__('Name')}}</th>
-                            <th >{{__('Sku')}}</th>
-                            <th>{{__('Giá bán')}}</th>
+                            <th >{{__('Đơn vị trình ký')}}</th>
+                            <th>{{__('Loại văn bản')}}</th>
+                            {{--<th>{{__('Giá bán')}}</th>
                             <th>{{__('Giá mua')}}</th>
-                            <th>{{__('Tax')}}</th>
-                            <th>{{__('Category')}}</th>
+                            <th>{{__('Tax')}}</th> 
+                           
                             <th>{{__('Unit')}}</th>
-                            <th>{{__('Quantity')}}</th>
-                            <th>{{__('Type')}}</th>
+                            {{-- <th>{{__('Quantity')}}</th> --}}
+                            {{-- <th>{{__('Type')}}</th> --}}
                             @if (Laratrust::hasPermission('product&service delete') || Laratrust::hasPermission('product&service edit'))
                                 <th>{{__('Action')}}</th>
                             @endif
@@ -96,21 +97,21 @@
                                         <img src=" {{ $path }} " class="wid-75 rounded me-3">
                                     </a>
                                 </td>
-                                <td class="text-center">{{ $productService->name}}</td>
-                                <td class="text-center">{{ $productService->sku }}</td>
-                                <td>{{ currency_format_with_sym($productService->sale_price) }}</td>
+                                <td>{{ $productService->name}}</td>
+                                <td class="">{{ $productService->sku }}</td>
+                                {{--  <td>{{ currency_format_with_sym($productService->sale_price) }}</td>
                                 <td>{{ currency_format_with_sym($productService->purchase_price )}}</td>
                                 <td>
                                     {!! str_replace(',', ',<br>', $productService->tax_names) !!}
-                                </td>
+                                </td> --}}
                                 <td>{{ optional($productService->categorys)->name?? '' }}</td>
-                                <td>{{ optional($productService->units)->name ??'' }}</td>
-                                @if($productService->type == 'product')
+                                {{-- <td>{{ optional($productService->units)->name ??'' }}</td> --}}
+                                {{-- @if($productService->type == 'product')
                                         <td>{{$productService->quantity}}</td>
                                     @else
                                         <td>-</td>
-                                    @endif
-                                <td>{{ $productService->type }}</td>
+                                    @endif --}}
+                                {{-- <td>{{ $productService->type }}</td> --}}
                                 @if (Laratrust::hasPermission('product&service delete') || Laratrust::hasPermission('product&service edit'))
                                    <td class="Action">
                                     @if(module_is_active('Pos'))

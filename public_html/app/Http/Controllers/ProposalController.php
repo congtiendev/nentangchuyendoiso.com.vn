@@ -225,10 +225,10 @@ class ProposalController extends Controller
                     $proposalProduct->proposal_id   = $proposal->id;
                     $proposalProduct->product_type  = $products[$i]['product_type'];
                     $proposalProduct->product_id    = $products[$i]['item'];
-                    $proposalProduct->quantity      = $products[$i]['quantity'];
-                    $proposalProduct->tax           = $products[$i]['tax'];
+                    $proposalProduct->quantity      = $products[$i]['quantity'] ?? 0;
+                    $proposalProduct->tax           = $products[$i]['tax'] ?? 0;
                     $proposalProduct->discount      = isset($products[$i]['discount']) ? $products[$i]['discount'] : 0;
-                    $proposalProduct->price         = $products[$i]['price'];
+                    $proposalProduct->price         = $products[$i]['price'] ?? 0;
                     $proposalProduct->description   = str_replace(array('\'', '"', '`', '{', "\n"), ' ', $products[$i]['description']);
                     $proposalProduct->save();
                 }
@@ -303,10 +303,10 @@ class ProposalController extends Controller
                     $proposalProduct               = new ProposalProduct();
                     $proposalProduct->proposal_id  = $proposal->id;
                     $proposalProduct->product_id   = $products[$i]['item'];
-                    $proposalProduct->quantity     = 1;
-                    $proposalProduct->tax          = $project_tax;
+                    $proposalProduct->quantity     = 1 ?? null;
+                    $proposalProduct->tax          = $project_tax ?? null;
                     $proposalProduct->discount     = isset($products[$i]['discount']) ? $products[$i]['discount'] : 0;
-                    $proposalProduct->price        = $products[$i]['price'];
+                    $proposalProduct->price        = $products[$i]['price'] ?? null;
                     $proposalProduct->description  = $products[$i]['description'];
                     $proposalProduct->save();
                 }

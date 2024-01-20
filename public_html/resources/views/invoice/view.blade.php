@@ -262,7 +262,38 @@
                                                 </div>
                                                 <div>
                                                     <small>
-                                                        <strong>{{ __('Due Date') }} :</strong><br>
+                                                        <strong>  {{-- <td>{{ $iteam->quantity }}</td> --}}
+                                                            {{-- <td>{{ currency_format_with_sym($iteam->price) }}</td> --}}
+                                                            {{-- <td>
+                                                                {{ currency_format_with_sym($iteam->discount) }}
+                                                            </td> --}}
+                                                            {{-- <td>
+
+                                                                @if (!empty($iteam->tax))
+                                                                    <table>
+                                                                        @php
+                                                                            $totalTaxRate = 0;
+                                                                            $data = 0;
+                                                                        @endphp
+                                                                        @foreach ($taxes as $tax)
+                                                                            @php
+                                                                                $taxPrice = \App\Models\Invoice::taxRate($tax->rate, $iteam->price, $iteam->quantity, $iteam->discount);
+                                                                                $totalTaxPrice += $taxPrice;
+                                                                                $data += $taxPrice;
+                                                                            @endphp
+                                                                            <tr>
+                                                                                <td>{{ $tax->name . ' (' . $tax->rate . '%)' }}</td>
+                                                                                <td>{{ currency_format_with_sym($taxPrice) }}</td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                        @php
+                                                                            array_push($TaxPrice_array, $data);
+                                                                        @endphp
+                                                                    </table>
+                                                                @else
+                                                                    -
+                                                                @endif
+                                                            </td> --}}{{ __('Due Date') }} :</strong><br>
                                                         {{ company_date_formate($invoice->due_date) }}<br><br>
                                                     </small>
                                                 </div>
@@ -371,6 +402,7 @@
                                             @endforeach
                                         @endif
                                     </div>
+
                                     <div class="row mt-4">
                                         <div class="col-md-12">
                                             <div class="font-weight-bold">{{ __('Item Summary') }}</div>
@@ -380,21 +412,21 @@
                                                     <tr>
                                                         <th data-width="40" class="text-dark">#</th>
                                                         @if ($invoice->invoice_module == 'account')
-                                                            <th class="text-dark">{{ __('Item Type') }}</th>
-                                                            <th class="text-dark">{{ __('Item') }}</th>
+                                                            <th class="text-dark">{{ __('Loại văn bản') }}</th>
+                                                            <th class="text-dark">{{ __('Văn bản') }}</th>
                                                         @elseif($invoice->invoice_module == 'taskly')
                                                             <th class="text-dark">{{ __('Project') }}</th>
                                                         @endif
 
-                                                        <th class="text-dark">{{ __('Quantity') }}</th>
+                                                        {{-- <th class="text-dark">{{ __('Quantity') }}</th>
                                                         <th class="text-dark">{{ __('Rate') }}</th>
                                                         <th class="text-dark">{{ __('Discount') }}</th>
-                                                        <th class="text-dark">{{ __('Tax') }}</th>
-                                                        <th class="text-dark">{{ __('Description') }}</th>
-                                                        <th class="text-right text-dark" width="12%">{{ __('Price') }}<br>
+                                                        <th class="text-dark">{{ __('Tax') }}</th> --}}
+                                                        <th class="text-dark">{{ __('Ý kiến của lãnh đạo trình ký') }}</th>
+                                                        {{-- <th class="text-right text-dark" width="12%">{{ __('Price') }}<br>
                                                             <small
                                                                 class="text-danger font-weight-bold">{{ __('After discount & tax') }}</small>
-                                                        </th>
+                                                        </th> --}}
                                                     </tr>
                                                     @php
                                                         $totalQuantity = 0;
@@ -430,12 +462,12 @@
                                                             @elseif($invoice->invoice_module == 'taskly')
                                                                 <td>{{ !empty($iteam->product()) ? $iteam->product()->title : '' }}</td>
                                                             @endif
-                                                            <td>{{ $iteam->quantity }}</td>
-                                                            <td>{{ currency_format_with_sym($iteam->price) }}</td>
-                                                            <td>
+                                                            {{-- <td>{{ $iteam->quantity }}</td> --}}
+                                                            {{-- <td>{{ currency_format_with_sym($iteam->price) }}</td> --}}
+                                                            {{-- <td>
                                                                 {{ currency_format_with_sym($iteam->discount) }}
-                                                            </td>
-                                                            <td>
+                                                            </td> --}}
+                                                            {{-- <td>
 
                                                                 @if (!empty($iteam->tax))
                                                                     <table>
@@ -461,19 +493,19 @@
                                                                 @else
                                                                     -
                                                                 @endif
-                                                            </td>
+                                                            </td> --}}
 
                                                             <td style="white-space: break-spaces;">
                                                                 {{ !empty($iteam->description) ? $iteam->description : '-' }}</td>
-                                                            @php
+                                                            {{-- @php
                                                                 $tr_tex = array_key_exists($key, $TaxPrice_array) == true ? $TaxPrice_array[$key] : 0;
                                                             @endphp
                                                             <td class="">
                                                                 {{ currency_format_with_sym($iteam->price * $iteam->quantity - $iteam->discount + $tr_tex) }}
-                                                            </td>
+                                                            </td> --}}
                                                         </tr>
                                                     @endforeach
-                                                    <tfoot>
+                                                    {{-- <tfoot>
                                                         <tr>
                                                             <td></td>
                                                             @if ($invoice->invoice_module == 'account')
@@ -540,7 +572,7 @@
                                                             <td class="text-right">{{ currency_format_with_sym($invoice->getDue()) }}
                                                             </td>
                                                         </tr>
-                                                    </tfoot>
+                                                    </tfoot> --}}
                                                 </table>
                                             </div>
                                         </div>

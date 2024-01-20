@@ -297,13 +297,13 @@
                         <tr>
                             <th>{{ __('Item Type') }}</th>
                             <th>{{ __('Items') }}</th>
-                            <th>{{ __('Quantity') }}</th>
+                            {{-- <th>{{ __('Quantity') }}</th>
                             <th>{{ __('Price') }} </th>
                             <th>{{ __('Discount') }}</th>
                             <th>{{ __('Tax') }} (%)</th>
                             <th class="text-end">{{ __('Amount') }} <br><small
                                     class="text-danger font-weight-bold">{{ __('After discount & tax') }}</small></th>
-                            <th></th>
+                            <th></th> --}}
                         </tr>
                     </thead>
 
@@ -326,7 +326,7 @@
                                     </div>
                                 @endif
                             </td>
-                            <td>
+                            {{-- <td>
                                 <div class="form-group price-input input-group search-form">
                                     {{ Form::text('quantity', '', ['class' => 'form-control quantity', 'required' => 'required', 'placeholder' => __('Qty'), 'required' => 'required']) }}
                                     <span class="unit input-group-text bg-transparent"></span>
@@ -363,7 +363,7 @@
                                         <i class="ti ti-trash text-white text-white"></i>
                                     </div>
                                 </a>
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -374,7 +374,7 @@
                             <td colspan="5"></td>
                         </tr>
                     </tbody>
-                    <tfoot>
+                    {{-- <tfoot>
                         <tr>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
@@ -421,7 +421,7 @@
                             <td class="text-end totalAmount blue-text">0.00</td>
                             <td></td>
                         </tr>
-                    </tfoot>
+                    </tfoot> --}}
                 </table>
             </div>
         </div>
