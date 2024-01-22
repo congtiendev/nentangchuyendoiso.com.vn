@@ -26,6 +26,7 @@ use App\Http\Controllers\SuperAdmin\SettingsController as SuperAdminSettingsCont
 use App\Http\Controllers\TechnicalSupport;
 use App\Http\Controllers\WorkSpaceController;
 use App\Http\Controllers\CustomNotificationController;
+use App\Http\Controllers\RedirectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,9 @@ use App\Http\Controllers\CustomNotificationController;
 
 // Auth::routes();
 require __DIR__.'/auth.php';
+
+Route::get('/redirect/helpdesk/textbook', [RedirectController::class, 'helpdesk'])->name('redirect.helpdesk');
+Route::get('/redirect/helpdesk/related-document', [RedirectController::class, 'helpdesk'])->name('redirect.helpdesk.related.documents');
 
     Route::get('/register/{lang?}', [RegisteredUserController::class, 'create'])->name('register');
     Route::get('/login/{lang?}', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -205,6 +209,8 @@ Route::middleware(['auth','verified'])->group(function () {
 
     // helpdesk
     Route::resource('helpdesk', HelpdeskTicketController::class);
+    Route::get('helpdesk/texbook', [HelpdeskTicketController::class, 'texbook'])->name('helpdesk.texbook');
+    Route::get('hepldesk/reports', [HelpdeskTicketController::class, 'reports'])->name('helpdesk.reports');
     Route::resource('helpdeskticket-category', HelpdeskTicketCategoryController::class);
     Route::get('helpdesk-tickets/search/{status?}', [HelpdeskTicketController::class, 'index'])->name('helpdesk-tickets.search');
     Route::post('helpdesk-ticket/getUser', [HelpdeskTicketController::class, 'getUser'])->name('helpdesk-tickets.getuser');

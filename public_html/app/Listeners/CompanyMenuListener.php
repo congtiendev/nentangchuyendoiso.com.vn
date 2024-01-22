@@ -227,7 +227,7 @@ class CompanyMenuListener
             'order' => 602,
             'ignore_if' => [],
             'depend_on' => [],
-            'route' => 'helpdesk.index',
+            'route' => 'redirect.helpdesk',
             'module' => $module,
             'permission' => 'helpdesk ticket manage'
         ]);
@@ -239,7 +239,7 @@ class CompanyMenuListener
             'order' => 603,
             'ignore_if' => [],
             'depend_on' => [],
-            'route' => 'helpdesk.index',
+            'route' => 'redirect.helpdesk.related.documents',
             'module' => $module,
             'permission' => 'helpdesk ticket manage'
         ]);
@@ -252,6 +252,18 @@ class CompanyMenuListener
             'ignore_if' => [],
             'depend_on' => [],
             'route' => 'helpdesk.index',
+            'module' => $module,
+            'permission' => 'helpdesk ticket manage'
+        ]);
+        $menu->add([
+            'title' => __('Báo cáo'),
+            'icon' => '',
+            'name' => 'document book arrives',
+            'parent' => 'text warehouse',
+            'order' => 608,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'helpdesk.reports',
             'module' => $module,
             'permission' => 'helpdesk ticket manage'
         ]);

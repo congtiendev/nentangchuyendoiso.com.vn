@@ -51,6 +51,10 @@ class HelpdeskTicketController extends Controller
         }
     }
 
+    public function reports(){
+        return view('helpdesk_ticket.reports');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
