@@ -12,16 +12,19 @@ Ca làm việc
         data-toggle="modal" data-target="#createWorkShiftModal">
         <i class="ti ti-plus"></i>
     </button>
+    <button id="showCreateWorkShiftGroupModal" data-title="{{ __('Create New Work Shift') }}" class="btn btn-sm btn-primary"
+    data-toggle="modal" data-target="#createWorkShiftGroupModal">
+    <i class="ti ti-user"></i>
+</button>
     <a href="{{ route('workshift.approval.list') }}" class="btn btn-primary btn-sm">Danh sách ca chờ duyệt</a>
     @else
-    <button id="showEmployeeCreateWorkShiftModal"
-        class="btn btn-sm btn-primary">
+    <button id="showEmployeeCreateWorkShiftModal" class="btn btn-sm btn-primary">
         <i class="ti ti-plus"></i>
     </button>
-    <button id="showEmployeeEditWorkShiftModal"
-        class="btn btn-sm btn-primary">
+    <button id="showEmployeeEditWorkShiftModal" class="btn btn-sm btn-primary">
         <i class="ti ti-pencil"></i>
     </button>
+    <a href="{{ route('workshift.approval.list.by.user',['id'=>Auth::user()->id]) }}" class="btn btn-primary btn-sm">Danh sách ca chờ duyệt</a>
     @endif
 </div>
 @endsection
@@ -34,62 +37,57 @@ Ca làm việc
                     <table class="table mb-0 pc-dt-simple" id="assets">
                         <thead>
                             <tr>
+                                @if(Auth::user()->type == 'company' || Auth::user()->type == 'hr')
                                 <th>Tên nhân viên</th>
+                                <th>Phòng ban</th>
+                                @endif
                                 @foreach(dateOfWeek() as $day => $date)
                                 <th>{{ ucfirst($day) }}</th>
                                 @endforeach
+                                @if(Auth::user()->type == 'company' || Auth::user()->type == 'hr')
                                 <th>
                                     Thao tác
                                 </th>
+                                @endif
                             </tr>
 
                         </thead>
                         <tbody>
                             @foreach($workShifts as $workShift)
                             <tr>
+                                @if(Auth::user()->type == 'company' || Auth::user()->type == 'hr')
                                 <td>{{ $workShift->user_name }}</td>
+                                <td>{{ getDepartmentNameByUserId($workShift->user_id)}}</td>
+                                @endif
                                 @foreach(dateOfWeek() as $day => $date)
                                 <td>
                                     @if(Auth::user()->type == 'company' || Auth::user()->type == 'hr')
                                     <select class="form-select shift" name="{{ $day }}[{{ $workShift->user_id }}]"
                                         data-user-id="{{  $workShift->user_id }}" data-date="{{ $date }}">
-                                        <option value="none" @if(optional($workShift->firstWhere(['date' => $date,
-                                            'user_id' => $workShift->user_id]))->shift == '') selected @endif>Trống
-                                        </option>
-                                        <option value="morning" @if(optional($workShift->firstWhere(['date' => $date,
-                                            'user_id' => $workShift->user_id]))->shift == 'morning') selected @endif>Ca
-                                            sáng
-                                        </option>
-                                        <option value="afternoon" @if(optional($workShift->firstWhere(['date' => $date,
-                                            'user_id' => $workShift->user_id]))->shift == 'afternoon') selected
-                                            @endif>Ca chiều
-                                        </option>
-                                        <option value="full" @if(optional($workShift->firstWhere(['date' => $date,
-                                            'user_id' => $workShift->user_id]))->shift == 'full') selected @endif>Ca
-                                            ngày</option>
-                                        <option value="off" @if(optional($workShift->firstWhere(['date' => $date,
-                                            'user_id' => $workShift->user_id]))->shift == 'off') selected @endif>Nghỉ
-                                        </option>
+                                        <option value="">Trống</option>
+                                        @foreach($workShiftTypes as $key => $shiftType)
+                                        <option value="{{ $shiftType->id }}" @if(optional($workShift->firstWhere(['date'
+                                            => $date,
+                                            'user_id' => $workShift->user_id]))->shift == $shiftType->id) selected
+                                            @endif>{{ $shiftType->name }}</option>
+                                        @endforeach
                                     </select>
                                     @else
                                     @if(optional($workShift->firstWhere(['date' => $date,
-                                    'user_id' => $workShift->user_id]))->shift == 'morning')
-                                    <span class="btn btn-outline-info">Ca sáng</span>
-                                    @elseif(optional($workShift->firstWhere(['date' => $date,
-                                    'user_id' => $workShift->user_id]))->shift == 'afternoon')
-                                    <span class="btn btn-outline-warning">Ca chiều</span>
-                                    @elseif(optional($workShift->firstWhere(['date' => $date,
-                                    'user_id' => $workShift->user_id]))->shift == 'full')
-                                    <span class="btn btn-outline-primary">Cả ngày</span>
-                                    @elseif(optional($workShift->firstWhere(['date' => $date,
-                                    'user_id' => $workShift->user_id]))->shift == 'off')
-                                    <span class="btn btn-outline-primary">Nghỉ</span>
+                                    'user_id' => $workShift->user_id]))->shift != null)
+                                    <span class="btn btn-outline-success">
+                                        {{ getWorkshiftTypeName($workShift->firstWhere(['date' => $date
+                                        ,'user_id' => $workShift->user_id])->shift) }}
+                                    </span>
                                     @else
-                                    <span class="btn btn-outline-secondary">Trống</span>
+                                    <span class="btn btn-outline-secondary">
+                                        Trống
+                                    </span>
                                     @endif
                                     @endif
                                 </td>
                                 @endforeach
+                                @if(Auth::user()->type == 'company' || Auth::user()->type == 'hr')
                                 <td>
                                     <div class="action-btn bg-danger ms-2">
                                         <form method="POST"
@@ -107,6 +105,7 @@ Ca làm việc
                                         </form>
                                     </div>
                                 </td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>
@@ -120,7 +119,7 @@ Ca làm việc
 
 <div class="modal fade" id="createWorkShiftModal" tabindex="-1" role="dialog" aria-labelledby="createWorkShiftModal"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div id="create-workshift-modal-content" class="modal-dialog" role="document">
         <form class="modal-content" method="POST" action="{{ route('workshift.addEmployee') }}">
             @csrf
             <div class="modal-header">
@@ -178,10 +177,9 @@ Ca làm việc
                             <label class="col-form-label">Ca làm việc</label>
                             <select class="form-control" required="required" name="shift" id="shift">
                                 <option value="">Chọn ca làm việc</option>
-                                <option value="morning">Ca sáng</option>
-                                <option value="afternoon">Ca chiều</option>
-                                <option value="full">Cả ngày</option>
-                                <option value="off">Nghỉ</option>
+                                @foreach ($workShiftTypes as $key => $shiftType)
+                                <option value="{{ $shiftType->id }}">{{ $shiftType->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -203,28 +201,36 @@ Ca làm việc
     </div>
 </div>
 
+
+
 <script>
     $(document).ready(function () {
         $('#showCreateWorkShiftModal').click(function () {
             $('#createWorkShiftModal').modal('show');
          });
-         $('.btn-close-modal').click(function () {
-            $('#createWorkShiftModal').modal('hide');
-            $('#employeeCreateWorkShiftModal').modal('hide');
-            $('#employeeEditWorkShiftModal').modal('hide');
-         });
 
-        $('#showEmployeeCreateWorkShiftModal').click(function () {
+         $('#showEmployeeCreateWorkShiftModal').click(function () {
             $("#employeeCreateWorkShiftModalLabel").text('Đăng ký ca làm việc');
             $('#reason').show();
             $('#employeeCreateWorkShiftModal').modal('show');
         });
+
         $('#showEmployeeEditWorkShiftModal').click(function () {
             $("#employeeCreateWorkShiftModalLabel").text('Cập nhật ca làm việc');
             $('#reason').hide();
             $('#employeeCreateWorkShiftModal').modal('show');
         });
 
+        $('#showCreateWorkShiftGroupModal').click(function () {
+            $('#createWorkShiftModal').modal('show');
+         });
+
+         $('.btn-close-modal').click(function () {
+            $('#createWorkShiftModal').modal('hide');
+            $('#employeeCreateWorkShiftModal').modal('hide');
+            $('#employeeEditWorkShiftModal').modal('hide');
+         });
+     
 
         $(document).on('change', '.shift', function () {
                 var userId = $(this).data('user-id');
@@ -255,5 +261,7 @@ Ca làm việc
                 });
             });
         });
+
+     
 </script>
 @endsection

@@ -27,9 +27,13 @@ use App\Models\UserNotifications;
 
 use Modules\Hrm\Entities\Designation;
 use Modules\Hrm\Entities\Department;
+use Modules\Hrm\Entities\Branch;
+use Modules\Hrm\Entities\Employee;
 
 use Modules\Taskly\Entities\Project;
 use Modules\Taskly\Entities\Task;
+
+use App\Models\WorkshiftTypes;
 if (!function_exists('getMenu')) {
     function getMenu()
     {
@@ -1948,6 +1952,39 @@ if(! function_exists('AnnualLeaveCycle'))
         function getUserById($id)
         {
             return User::find($id);
+        }
+    }
+
+    if(!function_exists('getWorkshiftTypeName')) {
+        function getWorkshiftTypeName($id)
+        {
+          return WorkshiftTypes::find($id)->name;
+        }
+    }
+
+    if(!function_exists('getBranchNameById')) {
+        function getBranchNameById($id)
+        {
+            $branch = Branch::find($id);
+            if($branch){
+                return $branch->name;
+            }
+            return '';
+        }
+    }
+
+    //getDepartmentNameByUserId
+    if(!function_exists('getDepartmentNameByUserId')) {
+        function getDepartmentNameByUserId($id)
+        {
+            $employee = Employee::where('user_id', $id)->first();
+            if($employee){
+                $department = Department::find($employee->department_id);
+                if($department){
+                    return $department->name;
+                }
+            }
+            return 'Chưa có phòng ban';
         }
     }
 }

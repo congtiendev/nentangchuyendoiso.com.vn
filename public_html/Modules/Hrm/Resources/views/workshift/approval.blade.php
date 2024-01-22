@@ -34,9 +34,9 @@ Ca làm việc
                             @foreach($workshiftApprovals as $workshift)
                             <tr>
                                 <td>{{ $workshift->user_name }}</td>
-                                <td>@if($workshift->shift == 'morning') {{ 'Ca sáng' }} @elseif($workshift->shift ==
-                                    'afternoon') {{ 'Ca chiều' }} @elseif($workshift->shift == 'full') {{ 'Cả ngày' }}
-                                    @else {{ 'Nghỉ' }} @endif</td>
+                                <td>
+                                    {{ getWorkshiftTypeName($workshift->shift) }} 
+                                </td>
                                 <td>{{ date('d-m-Y', strtotime($workshift->date)) }}</td>
                                 <td>
                                     @if($workshift->status == 0)

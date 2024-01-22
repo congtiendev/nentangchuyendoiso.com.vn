@@ -1,3 +1,4 @@
-/opt/lampp/htdocs/chuyendoisodoanhnghiep.com/public_html/Modules/Hrm/Http/Controllers/EmployeeController.php (function store)
-/opt/lampp/htdocs/chuyendoisodoanhnghiep.com/public_html/Modules/Hrm/Entities/Employee.php
-/opt/lampp/htdocs/chuyendoisodoanhnghiep.com/public_html/Modules/Hrm/Resources/views/employee/create.blade.php
+/opt/lampp/htdocs/nentangchuyendoiso.com.vn/public_html/Modules/Hrm/Listeners/CompanyMenuListener.php
+/opt/lampp/htdocs/nentangchuyendoiso.com.vn/public_html/Modules/Hrm/Http/Controllers/WorkShiftTypesController.php
+table : workshift_types
+/opt/lampp/htdocs/nentangchuyendoiso.com.vn/public_html/app/Helper/helper.php
