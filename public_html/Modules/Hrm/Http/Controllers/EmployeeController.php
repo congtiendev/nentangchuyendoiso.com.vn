@@ -26,6 +26,7 @@ use Modules\Hrm\Events\UpdateEmployee;
 use App\Models\CustomNotification;
 use App\Models\UserNotifications;
 use App\Models\ActivityLogEmployee;
+use App\Models\ActivityLogAppoint;
 
 class EmployeeController extends Controller
 {
@@ -63,12 +64,21 @@ class EmployeeController extends Controller
 
     public function activityLog()
     {
-        if(Auth::user()->isAbleTo('employee manage')){
-            
-            $activityLogs = ActivityLogEmployee::latest()->get();
-            
-            return view('hrm::employee.activityLog', compact('activityLogs'));
+        if (Auth::user()->isAbleTo('employee manage')) {
 
+            $activityLogs = ActivityLogEmployee::latest()->get();
+
+            return view('hrm::appoint.activityLog', compact('activityLogs'));
+        }
+    }
+
+    public function activityLogAppoint()
+    {
+        if (Auth::user()->isAbleTo('employee manage')) {
+
+            $activityLogs = ActivityLogAppoint::latest()->get();
+
+            return view('hrm::employee.activityLog', compact('activityLogs'));
         }
     }
 
@@ -130,7 +140,7 @@ class EmployeeController extends Controller
      * @param Request $request
      * @return Renderable
      */
-  public function store(Request $request)
+    public function store(Request $request)
     {
 
         $canUse =  PlanCheck('User', Auth::user()->id);
@@ -537,7 +547,7 @@ class EmployeeController extends Controller
                 $user->save();
             }
             $employee = Employee::findOrFail($id);
-            $action = 'Cập nhật nhân viên có email '. ' ' . " $employee->email ";
+            $action = 'Cập nhật nhân viên có email ' . ' ' . " $employee->email ";
 
             $originalData = $employee->getOriginal();
 
@@ -665,25 +675,59 @@ class EmployeeController extends Controller
     private function getChanges($originalData, $newData)
     {
         $changes = [];
-
+    
         foreach ($originalData as $key => $value) {
-            if ($key === 'updated_at') {
+            if ($key === 'updated_at' || $key === 'created_at') {
                 continue;
             }
-            if ($originalData[$key] != $newData[$key]) {
+    
+            $oldValue = $originalData[$key];
+            $newValue = $newData[$key];
+    
+            // Check if it's a select field
+            if ($this->isSelectField($key)) {
+                $oldName = $this->getNameFromDatabase($key, $oldValue);
+                $newName = $this->getNameFromDatabase($key, $newValue);
+            } else {
+                $oldName = $oldValue;
+                $newName = $newValue;
+            }
+    
+            if ($oldName !== $newName) {
                 $changes[$key] = [
-                    'old' => $originalData[$key],
-                    'new' => $newData[$key],
+                    'old' => $oldName,
+                    'new' => $newName,
                     'changed_by' => Auth::user()->name,
                     'changed_at' => now()->format('H:i:s d-m-Y'),
                 ];
             }
         }
-
+    
         return $changes;
     }
+    
 
-    private function saveLog($user, $employee, $changes,$action)
+    private function isSelectField($key)
+    {
+        $selectFields = ['branch_id', 'department_id', 'designation_id'];
+        return in_array($key, $selectFields);
+    }
+
+    private function getNameFromDatabase($key, $id)
+    {
+        switch ($key) {
+            case 'branch_id':
+                return Branch::find($id)->name;
+            case 'department_id':
+                return Department::find($id)->name;
+            case 'designation_id':
+                return Designation::find($id)->name;
+            default:
+                return $id;
+        }
+    }
+
+    private function saveLog($user, $employee, $changes, $action)
     {
         $logData = [
             'user_id' => $user->id,
@@ -700,21 +744,9 @@ class EmployeeController extends Controller
     public function update2(Request $request, $id)
     {
         if (Auth::user()->isAbleTo('employee edit')) {
-            // $validator = \Validator::make(
-            //     $request->all(),
-            //     [
-            //         'dob' => 'required',
-            //         'gender' => 'required',
-            //         'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:9',
-            //         'address' => 'required',
-            //     ]
-            // );
-            // if ($validator->fails()) {
-            //     $messages = $validator->getMessageBag();
 
-            //     return redirect()->back()->with('error', $messages->first());
-            // }
             $user = User::where('id', $request->user_id)->first();
+
             if (empty($user)) {
                 return redirect()->back()->with('error', __('Something went wrong please try again.'));
             }
@@ -723,6 +755,10 @@ class EmployeeController extends Controller
                 $user->save();
             }
             $employee = Employee::findOrFail($id);
+            $action = 'Bổ nhiệm nhân viên có email ' . ' ' . " $employee->email ";
+
+            $originalData = $employee->getOriginal();
+
             if ($request->document) {
                 foreach ($request->document as $key => $document) {
                     if (!empty($document)) {
@@ -758,17 +794,103 @@ class EmployeeController extends Controller
                 }
             }
             $input    = $request->all();
+            if ($request->hasFile('certificate')) {
+                $filenameWithExt = $request->file('certificate')->getClientOriginalName();
+                $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension       = $request->file('certificate')->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+                try {
+                    $uploadCertificate = multi_upload_file($request->file('certificate'), 'document', $fileNameToStore, 'emp_document');
+                    $input['certificate'] = !empty($uploadCertificate['url']) ? $uploadCertificate['url'] : '';
+                    if (!empty($employee->certificate)) {
+                        delete_file($employee->certificate);
+                    }
+                } catch (\Exception $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+            }
+
+            //military_politics
+            if ($request->hasFile('military_politics')) {
+                $filenameWithExt = $request->file('military_politics')->getClientOriginalName();
+                $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension       = $request->file('military_politics')->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+                try {
+                    $uploadMilitary = multi_upload_file($request->file('military_politics'), 'document', $fileNameToStore, 'emp_document');
+                    $input['military_politics'] = !empty($uploadMilitary['url']) ? $uploadMilitary['url'] : '';
+                    if (!empty($employee->military_politics)) {
+                        delete_file($employee->military_politics);
+                    }
+                } catch (\Exception $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+            }
+
+            //health file
+            if ($request->hasFile('health')) {
+                $filenameWithExt = $request->file('health')->getClientOriginalName();
+                $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension       = $request->file('health')->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+                try {
+                    $uploadHealth = multi_upload_file($request->file('health'), 'document', $fileNameToStore, 'emp_document');
+                    $input['health'] = !empty($uploadHealth['url']) ? $uploadHealth['url'] : '';
+                    if (!empty($employee->health)) {
+                        delete_file($employee->health);
+                    }
+                } catch (\Exception $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+            }
             $employee->fill($input)->save();
             if (module_is_active('CustomField')) {
                 \Modules\CustomField\Entities\CustomField::saveData($employee, $request->customField);
             }
+            $newData = $employee->fresh()->getAttributes();
+            $changes = $this->getChanges($originalData, $newData);
+
+            $this->saveLogAppoint($user, $employee, $changes, $action);
 
             event(new UpdateEmployee($request, $employee));
-
-            return redirect()->route('appoint.appoint')->with('success', 'Cập nhật nhân viên thành công');
+            try {
+                $notification = CustomNotification::create(
+                    [
+                        'title' => 'Cập nhật tài khoản',
+                        'content' => 'Tài khoản của bạn đã được cập nhật bởi ' . Auth::user()->name,
+                        'link' => route('employee.show', Crypt::encrypt($user->id)),
+                        'from' => $user->created_by,
+                        'send_to' => json_encode([$user->id], JSON_NUMERIC_CHECK),
+                        'type' => 'update_account',
+                    ]
+                );
+                UserNotifications::create(
+                    [
+                        'user_id' => $user->id,
+                        'notification_id' => $notification->id,
+                        'is_read' => 0,
+                    ]
+                );
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', __('Something went wrong please try again.'));
+            }
+            return redirect()->route('employee.index')->with('success', 'Cập nhật nhân viên thành công');
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+    }
+
+    private function saveLogAppoint($user, $employee, $changes, $action)
+    {
+        $logData = [
+            'user_id' => $user->id,
+            'user_type' => get_class($user),
+            'employee_id' => $employee->id,
+            'log_type' => $action,
+            'remark' => json_encode(['changes' => $changes]),
+        ];
+
+        ActivityLogAppoint::create($logData);
     }
 
     /**
@@ -1247,6 +1369,4 @@ class EmployeeController extends Controller
             return redirect()->back()->with('error', 'permission Denied');
         }
     }
-
-    
 }

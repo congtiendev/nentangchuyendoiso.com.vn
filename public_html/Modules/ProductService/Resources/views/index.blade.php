@@ -118,7 +118,7 @@
                                     @if(module_is_active('Pos'))
                                         <div class="action-btn bg-warning ms-2">
                                             <a  class="mx-3 btn btn-sm align-items-center" data-url="{{ route('productservice.detail',$productService->id) }}"
-                                            data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Chi tiêt kho hàng')}}" data-title="{{__('Chi tiết kho hàng')}}">
+                                            data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Chi tiêt văn bản')}}" data-title="{{__('Chi tiết văn bản')}}">
                                                 <i class="ti ti-eye text-white"></i>
                                             </a>
                                         </div>

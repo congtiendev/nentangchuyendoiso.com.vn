@@ -18,6 +18,13 @@
                 data-bs-toggle="tooltip"title="{{ __('Grid View') }}">
                 <i class="ti ti-layout-grid text-white"></i>
             </a> -->
+
+            @permission('employee create')
+            <a href="{{ route('activityLog.appoint') }}" data-title="{{ __('Lịch sử chỉnh sửa') }}" data-bs-toggle="tooltip"
+                title="" class="btn btn-sm btn-primary">
+                Lịch sử chỉnh sửa
+            </a>
+            @endpermission
     </div>
 @endsection
 @php
