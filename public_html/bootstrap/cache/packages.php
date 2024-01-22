@@ -21,6 +21,18 @@
       'NoCaptcha' => 'Anhskohbo\\NoCaptcha\\Facades\\NoCaptcha',
     ),
   ),
+  'barryvdh/laravel-dompdf' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\DomPDF\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Pdf' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
+      'PDF' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
+    ),
+  ),
   'dcblogdev/laravel-box' => 
   array (
     'providers' => 

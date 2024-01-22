@@ -204,6 +204,7 @@ Route::middleware(['auth','verified'])->group(function () {
     // End Email Templates
 
     // helpdesk
+    Route::get('helpdesk/pdf/{id}', [HelpdeskTicketController::class, 'download_pdf'])->name('helpdesk.pdf');
     Route::get('helpdesk/export', [HelpdeskTicketController::class, 'export'])->name('helpdesk.export');
     Route::resource('helpdesk', HelpdeskTicketController::class);
     Route::resource('helpdeskticket-category', HelpdeskTicketCategoryController::class);

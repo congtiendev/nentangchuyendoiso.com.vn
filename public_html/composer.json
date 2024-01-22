@@ -12,6 +12,7 @@
         "anandsiddharth/laravel-paytm-wallet": "^2.0",
         "anhskohbo/no-captcha": "^3.5",
         "bacon/bacon-qr-code": "^2.0",
+        "barryvdh/laravel-dompdf": "^2.0",
         "coingate/coingate-php": "^4.1",
         "dcblogdev/laravel-box": "^2.1",
         "dcblogdev/laravel-dropbox": "^3.0",
