@@ -17,10 +17,13 @@
             <option value="{{route('helpdesk-tickets.search', 'closed')}}" @if($status == 'closed') selected @endif>{{__('Closed')}}</option>
         </select>
     </div>
-    <div class="col-auto ps-3 mt-1">
+    <div class="col-2 mt-1">
         @permission('helpdesk ticket create')
                 <a href="{{route('helpdesk.create')}}" class="btn btn-sm btn-primary btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="{{__('Create')}}"><i class="ti ti-plus text-white"></i></a>
         @endpermission
+    </div>
+    <div class="col-auto me-1 mt-1">
+                <a href="{{route('helpdesk.export')}}" class="btn btn-sm btn-primary btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="{{__('Create')}}"><i class="ti ti-download text-white"></i></a>
     </div>
 
 @endsection
