@@ -117,7 +117,7 @@
                                     <h6 class="text-primary my-3">{{__('Tạo văn bản')}}</h6>
                                     <p class="text-muted text-sm mb-3"><i class="ti ti-clock mr-2"></i>{{__('Created on ')}}{{ company_date_formate($proposal->issue_date)}}</p>
                                     @permission('proposal edit')
-                                        <a href="{{ route('proposal.edit',\Crypt::encrypt($proposal->id)) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="ti ti-pencil mr-2"></i>{{__('Edit')}}</a>
+                                        {{-- <a href="{{ route('proposal.edit',\Crypt::encrypt($proposal->id)) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="ti ti-pencil mr-2"></i>{{__('Edit')}}</a> --}}
                                     @endpermission
                                 </div>
                                 <div class="col-md-6 col-lg-4 col-xl-4">
@@ -125,7 +125,7 @@
                                         <i class="ti ti-mail text-warning"></i>
                                     </div>
                                     <h6 class="text-warning my-3">{{__('Gửi văn bản')}}</h6>
-                                    <p class="text-muted text-sm mb-3">
+                                    {{-- <p class="text-muted text-sm mb-3">
                                         @if($proposal->status!=0)
                                             <i class="ti ti-clock mr-2"></i>{{__('Sent on')}} {{ company_date_formate($proposal->send_date)}}
                                         @else
@@ -133,12 +133,12 @@
                                                 <small>{{__('Status')}} : {{__('Not Sent')}}</small>
                                             @endpermission
                                         @endif
-                                    </p>
-                                    @if($proposal->status==0)
+                                    </p> --}}
+                                    {{-- @if($proposal->status==0)
                                         @permission('proposal send')
                                             <a href="{{ route('proposal.sent',$proposal->id) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" data-original-title="{{__('Mark Sent')}}"><i class="ti ti-send mr-2"></i>{{__('Send')}}</a>
                                         @endpermission
-                                    @endif
+                                    @endif --}}
                                 </div>
                                 <div class="col-md-6 col-lg-4 col-xl-4">
                                     <div class="timeline-icons"><span class="timeline-dots"></span>
@@ -194,7 +194,7 @@
                     <div class="all-button-box mx-2">
                         <select class="form-control status_change pe-5" name="status" data-url="{{route('proposal.status.change',$proposal->id)}}">
                             @foreach($status as $k=>$val)
-                                <option value="{{$k}}" {{($proposal->status==$k)?'selected':''}}>{{$val}}</option>
+                                <option value="{{$k}}" {{($proposal->status==$k)?'selected':''}}>{{__($val)}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -320,23 +320,25 @@
                                             <div class="font-weight-bold">{{__('Item Summary')}}</div>
                                             <small>{{__('All items here cannot be deleted.')}}</small>
                                             <div class="table-responsive mt-2">
+
                                                 <table class="table mb-0 table-striped">
+                                                    
                                                     <tr>
                                                         <th class="text-dark" data-width="40">#</th>
                                                         @if($proposal->proposal_module == "account")
-                                                            <th class="text-dark">{{__('Item Type')}}</th>
-                                                            <th class="text-dark">{{__('Item')}}</th>
+                                                            <th class="text-dark">{{__('Loại văn bản')}}</th>
+                                                            <th class="text-dark">{{__('Văn bản')}}</th>
                                                         @elseif($proposal->proposal_module == "taskly")
                                                         <th class="text-dark">{{__('Project')}}</th>
                                                         @endif
-                                                        <th class="text-dark">{{__('Quantity')}}</th>
+                                                        {{-- <th class="text-dark">{{__('Quantity')}}</th>
                                                         <th class="text-dark">{{__('Rate')}}</th>
                                                         <th class="text-dark">{{__('Discount')}}</th>
-                                                        <th class="text-dark">{{__('Tax')}}</th>
-                                                        <th class="text-dark">{{__('Description')}}</th>
-                                                        <th class="text-end text-dark" width="12%">{{__('Price')}}<br>
+                                                        <th class="text-dark">{{__('Tax')}}</th> --}}
+                                                        <th class="text-dark">{{__('Ý kiến của lãnh đạo ký trình')}}</th>
+                                                        {{-- <th class="text-end text-dark" width="12%">{{__('Price')}}<br>
                                                             <small class="text-danger font-weight-bold">{{__('After discount & tax')}}</small>
-                                                        </th>
+                                                        </th> --}}
                                                     </tr>
                                                     @php
                                                         $totalQuantity=0;
@@ -375,7 +377,7 @@
                                                             @elseif($proposal->proposal_module == "taskly")
                                                                 <td>{{!empty($iteam->product())?$iteam->product()->title:''}}</td>
                                                             @endif
-                                                            <td>{{$iteam->quantity}}</td>
+                                                            {{-- <td>{{$iteam->quantity}}</td>
                                                             <td>{{ currency_format_with_sym($iteam->price)}}</td>
                                                             <td>
                                                                     {{ currency_format_with_sym($iteam->discount)}}
@@ -405,60 +407,60 @@
                                                                 @else
                                                                     -
                                                                 @endif
-                                                            </td>
+                                                            </td> --}}
                                                             @php
                                                                 $tr_tex = (array_key_exists($key,$TaxPrice_array) == true) ? $TaxPrice_array[$key] : 0;
                                                             @endphp
                                                             <td style="white-space: break-spaces;">{{!empty($iteam->description)?$iteam->description:'-'}}</td>
-                                                            <td class="text-end">{{ currency_format_with_sym(($iteam->price*$iteam->quantity) -$iteam->discount + $tr_tex )}}</td>
+                                                            {{-- <td class="text-end">{{ currency_format_with_sym(($iteam->price*$iteam->quantity) -$iteam->discount + $tr_tex )}}</td> --}}
                                                         </tr>
                                                     @endforeach
-                                                    <tfoot>
-                                                    <tr>
-                                                        <td></td>
-                                                        @if($proposal->proposal_module == "account")
+                                                    {{-- <tfoot>
+                                                        <tr>
                                                             <td></td>
-                                                        @endif
-                                                        <td><b>{{__('Total')}}</b></td>
-                                                        <td><b>{{$totalQuantity}}</b></td>
-                                                        <td><b>{{ currency_format_with_sym ($totalRate)}}</b></td>
-                                                        <td><b>{{ currency_format_with_sym ($totalDiscount)}}</b></td>
-                                                        <td><b>{{ currency_format_with_sym ($totalTaxPrice)}}</b></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                    @php
-                                                        $colspan = 6;
-                                                        if($proposal->proposal_module == "account"){
-                                                            $colspan = 7;
-                                                        }
-                                                    @endphp
-                                                    <tr>
-                                                        <td colspan="{{$colspan}}"></td>
-                                                        <td class="text-end"><b>{{__('Sub Total')}}</b></td>
-                                                        <td class="text-end">{{ currency_format_with_sym   ($proposal->getSubTotal())}}</td>
-                                                    </tr>
-                                                    <tr>
+                                                            @if($proposal->proposal_module == "account")
+                                                                <td></td>
+                                                            @endif
+                                                            <td><b>{{__('Total')}}</b></td>
+                                                            <td><b>{{$totalQuantity}}</b></td>
+                                                            <td><b>{{ currency_format_with_sym ($totalRate)}}</b></td>
+                                                            <td><b>{{ currency_format_with_sym ($totalDiscount)}}</b></td>
+                                                            <td><b>{{ currency_format_with_sym ($totalTaxPrice)}}</b></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        @php
+                                                            $colspan = 6;
+                                                            if($proposal->proposal_module == "account"){
+                                                                $colspan = 7;
+                                                            }
+                                                        @endphp
+                                                        <tr>
+                                                            <td colspan="{{$colspan}}"></td>
+                                                            <td class="text-end"><b>{{__('Sub Total')}}</b></td>
+                                                            <td class="text-end">{{ currency_format_with_sym   ($proposal->getSubTotal())}}</td>
+                                                        </tr>
+                                                        <tr>
 
-                                                        <td colspan="{{$colspan}}"></td>
-                                                        <td class="text-end"><b>{{__('Discount')}}</b></td>
-                                                        <td class="text-end">{{ currency_format_with_sym   ($proposal->getTotalDiscount())}}</td>
-                                                    </tr>
-                                                    @if(!empty($taxesData))
-                                                        @foreach($taxesData as $taxName => $taxPrice)
-                                                            <tr>
-                                                                <td colspan="{{$colspan}}"></td>
-                                                                <td class="text-end"><b>{{$taxName}}</b></td>
-                                                                <td class="text-end">{{  currency_format_with_sym  ($taxPrice) }}</td>
-                                                            </tr>
-                                                        @endforeach
-                                                    @endif
-                                                    <tr>
-                                                        <td colspan="{{$colspan}}"></td>
-                                                        <td class="blue-text text-end"><b>{{__('Total')}}</b></td>
-                                                        <td class="blue-text text-end">{{ currency_format_with_sym ($proposal->getTotal())}}</td>
-                                                    </tr>
-                                                    </tfoot>
+                                                            <td colspan="{{$colspan}}"></td>
+                                                            <td class="text-end"><b>{{__('Discount')}}</b></td>
+                                                            <td class="text-end">{{ currency_format_with_sym   ($proposal->getTotalDiscount())}}</td>
+                                                        </tr>
+                                                        @if(!empty($taxesData))
+                                                            @foreach($taxesData as $taxName => $taxPrice)
+                                                                <tr>
+                                                                    <td colspan="{{$colspan}}"></td>
+                                                                    <td class="text-end"><b>{{$taxName}}</b></td>
+                                                                    <td class="text-end">{{  currency_format_with_sym  ($taxPrice) }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endif
+                                                        <tr>
+                                                            <td colspan="{{$colspan}}"></td>
+                                                            <td class="blue-text text-end"><b>{{__('Total')}}</b></td>
+                                                            <td class="blue-text text-end">{{ currency_format_with_sym ($proposal->getTotal())}}</td>
+                                                        </tr>
+                                                    </tfoot> --}}
                                                 </table>
                                             </div>
                                         </div>

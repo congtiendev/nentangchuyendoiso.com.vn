@@ -15,9 +15,9 @@
         @endif
         @if ((module_is_active('ProductService') && module_is_active('Account')) || module_is_active('Taskly'))
             @permission('proposal manage')
-                <a href="{{ route('proposal.grid.view') }}"  data-bs-toggle="tooltip" data-bs-original-title="{{__('Grid View')}}" class="btn btn-sm btn-primary btn-icon">
+                {{-- <a href="{{ route('proposal.grid.view') }}"  data-bs-toggle="tooltip" data-bs-original-title="{{__('Grid View')}}" class="btn btn-sm btn-primary btn-icon">
                     <i class="ti ti-layout-grid"></i>
-                </a>
+                </a> --}}
             @endpermission
             @permission('proposal create')
                 <a href="{{ route('proposal.create', 0) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
@@ -135,17 +135,28 @@
                                                                     'route' => ['proposal.convert', $proposal->id],
                                                                     'id' => 'proposal-form-' . $proposal->id,
                                                                 ]) !!}
+                                                              
                                                                 <a href="#"
                                                                     class="mx-3 btn btn-sm  align-items-center bs-pass-para show_confirm"
                                                                     data-bs-toggle="tooltip" title=""
-                                                                    data-bs-original-title="{{ __('Chuyển đổi văn bản') }}"
+                                                                    data-bs-original-title="{{ __('Trình ký') }}"
                                                                     aria-label="Delete"
                                                                     data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
                                                                     data-confirm-yes="proposal-form-{{ $proposal->id }}">
                                                                     <i class="ti ti-exchange text-white"></i>
                                                                 </a>
                                                                 {{ Form::close() }}
+
+
                                                             </div>
+                                                            <div class="action-btn bg-success ms-2">
+                                                                <a class="btn btn-sm btn-primary btn-icon m-1" data-url="{{ route('signature', $proposal->id) }}"
+                                                                    data-ajax-popup="true" data-title="{{ __('Signature') }}" data-size="md" title="{{ __('Signature') }}"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top">
+                                                                    <i class="ti ti-pencil"></i>
+                                                                </a>
+                                                            </div>
+
                                                         @endpermission
                                                     @elseif($proposal->is_convert ==1)
 

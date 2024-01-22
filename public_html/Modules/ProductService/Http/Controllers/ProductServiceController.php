@@ -90,12 +90,12 @@ class ProductServiceController extends Controller
             $rules = [
                 'name' => 'required',
                 'sku' => 'required',
-                'sale_price' => 'required|numeric',
-                'purchase_price' => 'required|numeric',
+                // 'sale_price' => 'required|numeric',
+                // 'purchase_price' => 'required|numeric',
                 'category_id' => 'required',
-                'unit_id' => 'required',
-                'type' => 'required',
-                'tax_id' => 'required',
+                // 'unit_id' => 'required',
+                // 'type' => 'required',
+                // 'tax_id' => 'required',
             ];
 
             $validator = \Validator::make($request->all(), $rules);
@@ -116,10 +116,10 @@ class ProductServiceController extends Controller
                 $productService->image          = empty($path) ? null : $path['url'];
             }
 
-            $productService->sale_price     = $request->sale_price;
-            $productService->purchase_price = $request->purchase_price;
-            $productService->tax_id         = !empty($request->tax_id) ? implode(',', $request->tax_id) : '';
-            $productService->unit_id        = $request->unit_id;
+            // $productService->sale_price     = $request->sale_price;
+            // $productService->purchase_price = $request->purchase_price;
+            // $productService->tax_id         = !empty($request->tax_id) ? implode(',', $request->tax_id) : '';
+            // $productService->unit_id        = $request->unit_id;
             if(!empty($request->quantity))
             {
                 $productService->quantity        = $request->quantity;
@@ -138,7 +138,7 @@ class ProductServiceController extends Controller
             {
                 \Modules\CustomField\Entities\CustomField::saveData($productService, $request->customField);
             }
-            return redirect()->back()->with('success', __('Product successfully created.'));
+            return redirect()->back()->with('success', __('Thêm văn bản thành công.'));
         }
         else
         {
@@ -201,12 +201,12 @@ class ProductServiceController extends Controller
             $rules = [
                 'name' => 'required',
                 'sku' => 'required',
-                'sale_price' => 'required|numeric',
-                'purchase_price' => 'required|numeric',
+                // 'sale_price' => 'required|numeric',
+                // 'purchase_price' => 'required|numeric',
                 'category_id' => 'required',
-                'unit_id' => 'required',
-                'type' => 'required',
-                'tax_id' => 'required',
+                // 'unit_id' => 'required',
+                // 'type' => 'required',
+                // 'tax_id' => 'required',
 
             ];
 
@@ -248,7 +248,7 @@ class ProductServiceController extends Controller
             {
                 \Modules\CustomField\Entities\CustomField::saveData($productService, $request->customField);
             }
-            return redirect()->back()->with('success', __('Product successfully updated.'));
+            return redirect()->back()->with('success', __('Cập nhật văn bản thành công.'));
         }
         else
         {
@@ -307,7 +307,7 @@ class ProductServiceController extends Controller
             }
             event(new DestroyProduct($productService));
             $productService->delete();
-            return redirect()->back()->with('success', __('Product successfully deleted.'));
+            return redirect()->back()->with('success', __('Xóa văn bản thành công.'));
         }else{
 
             return redirect()->back()->with('error', __('Please delete'.(!empty($invoice_product) ? ' Invoice ' : '').(!empty($proposal_product) ? ' and Proposal ' : '').'related record of this Product.'));
