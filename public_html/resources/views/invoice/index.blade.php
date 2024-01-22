@@ -53,12 +53,12 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                        {{-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                             <div class="btn-box">
                                 {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
                                 {{ Form::select('status', ['' => 'Chọn trạng thái'] + array_map('__', $status), isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control select']) }}
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-auto float-end ms-2 mt-4">
 
                             <a href="#" class="btn btn-sm btn-primary"
@@ -80,7 +80,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body table-border-style">
-                    <div class="table-responsive">
+                    <div class="table-responsive">Column not found: 1054 Unknown column 'project' in 'field list'
                         <table class="table mb-0 pc-dt-simple" id="assets">
                             <thead>
                                 <tr>
@@ -123,19 +123,19 @@
                                         <td>
                                             @if ($invoice->status == 0)
                                                 <span
-                                                    class="badge fix_badges bg-primary p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[$invoice->status]) }}</span>
+                                                    class="badge fix_badges bg-primary p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[4]) }}</span>
                                             @elseif($invoice->status == 1)
                                                 <span
-                                                    class="badge fix_badges bg-info p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[$invoice->status]) }}</span>
+                                                    class="badge fix_badges bg-info p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[4]) }}</span>
                                             @elseif($invoice->status == 2)
                                                 <span
-                                                    class="badge fix_badges bg-secondary p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[$invoice->status]) }}</span>
+                                                    class="badge fix_badges bg-secondary p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[4]) }}</span>
                                             @elseif($invoice->status == 3)
                                                 <span
-                                                    class="badge fix_badges bg-warning p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[$invoice->status]) }}</span>
+                                                    class="badge fix_badges bg-warning p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[4]) }}</span>
                                             @elseif($invoice->status == 4)
                                                 <span
-                                                    class="badge fix_badges bg-danger p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[$invoice->status]) }}</span>
+                                                    class="badge fix_badges bg-warning p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[4]) }}</span>
                                             @endif
                                         </td>
 

@@ -278,7 +278,7 @@
     $company_settings = getCompanyAllSetting();
 @endphp
 @if ($type == 'product')
-    <h5 class="h4 d-inline-block font-weight-400 mb-4">{{ __('Items') }}</h5>
+    <h5 class="h4 d-inline-block font-weight-400 mb-4">{{ __('Văn bản') }}</h5>
     <div class="card repeater" @if ($acction == 'edit') data-value='{!! json_encode($invoice->items) !!}' @endif>
         <div class="item-section py-4">
             <div class="row justify-content-between align-items-center">

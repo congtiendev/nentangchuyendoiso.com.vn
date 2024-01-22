@@ -280,6 +280,7 @@ class ContractController extends Controller
     {
         if(Auth::user()->isAbleTo('contract edit'))
         {
+            // dd($request);
             if($contract->created_by == creatorId() && $contract->workspace == getActiveWorkSpace())
             {
                 $validator = \Validator::make(
@@ -307,13 +308,12 @@ class ContractController extends Controller
                     $notification_content[] = "Đã thay đổi người phụ trách từ ".$contract->user->name." sang ".$newUser->name;
                     $send_to[] = $contract->user_id;
                 }
-
                 if( $contract->project_id != $request->project_id){
                     $contract->project = \Modules\Taskly\Entities\Project::find($contract->project_id);
                     $newProject = \Modules\Taskly\Entities\Project::find($request->project_id);
-                    $notification_content[] = "Đã thay đổi dự án từ ".$contract->project->name." sang ".$newProject->name;
+                    $notification_content[] = "Đã thay đổi dự án từ "." sang ".$newProject->name;
                 }
-
+                //$contract->project->name. lấy ra tạm thời
                 if( $contract->subject != $request->subject){
                     $notification_content[] = "Đã thay đổi tiêu đề từ ".$contract->subject." sang ".$request->subject;
                 }

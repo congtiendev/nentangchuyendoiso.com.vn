@@ -138,7 +138,7 @@ class ProductServiceController extends Controller
             {
                 \Modules\CustomField\Entities\CustomField::saveData($productService, $request->customField);
             }
-            return redirect()->back()->with('success', __('Product successfully created.'));
+            return redirect()->back()->with('success', __('Thêm văn bản thành công.'));
         }
         else
         {
@@ -248,7 +248,7 @@ class ProductServiceController extends Controller
             {
                 \Modules\CustomField\Entities\CustomField::saveData($productService, $request->customField);
             }
-            return redirect()->back()->with('success', __('Product successfully updated.'));
+            return redirect()->back()->with('success', __('Cập nhật văn bản thành công.'));
         }
         else
         {
@@ -307,7 +307,7 @@ class ProductServiceController extends Controller
             }
             event(new DestroyProduct($productService));
             $productService->delete();
-            return redirect()->back()->with('success', __('Product successfully deleted.'));
+            return redirect()->back()->with('success', __('Xóa văn bản thành công.'));
         }else{
 
             return redirect()->back()->with('error', __('Please delete'.(!empty($invoice_product) ? ' Invoice ' : '').(!empty($proposal_product) ? ' and Proposal ' : '').'related record of this Product.'));
