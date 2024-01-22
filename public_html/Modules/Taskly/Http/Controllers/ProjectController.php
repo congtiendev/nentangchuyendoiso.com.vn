@@ -88,7 +88,7 @@ class ProjectController extends Controller
             if (Auth::user()->hasRole('client')) {
                 $projects = Project::select('projects.*')->join('client_projects', 'projects.id', '=', 'client_projects.project_id')->projectonly()->where('client_projects.client_id', '=', Auth::user()->id)->where('projects.workspace', '=', getActiveWorkSpace())->where('projects.status', '=', 'Disapproved')->get();
             } else {
-                $projects = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->projectonly()->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', getActiveWorkSpace())->where('projects.status', '=', 'Disapproved')->get();
+                $projects = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->projectonly()->where('projects.workspace', '=', getActiveWorkSpace())->where('projects.status', '=', 'Disapproved')->distinct()->get();   
             }
             return view('taskly::projects.list_disapproved', compact('projects'));
         } else {
