@@ -41,6 +41,7 @@ use Modules\Hrm\Http\Controllers\TravelController;
 use Modules\Hrm\Http\Controllers\WarningController;
 use Modules\Hrm\Http\Controllers\WorkShiftController;
 use Modules\Hrm\Http\Controllers\InsuranceController;
+use Modules\Hrm\Http\Controllers\ProcedureController;   
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -87,6 +88,52 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
     );
 
     Route::resource('workshift', WorkShiftController::class)->middleware(
+        [
+            'auth',
+        ]
+    );
+
+    Route::get('procedures', [ProcedureController::class,'index'])->name('procedures.index')->middleware(
+        [
+            'auth',
+        ]
+    );
+    // Route::get('procedures/{id}', [ProcedureController::class, 'show'])->name('procedures.show')->middleware(
+    //     [
+    //         'auth',
+    //     ]
+    // );
+    Route::get('procedures/create', [ProcedureController::class, 'create'])->name('procedures.create')->middleware(
+        [
+            'auth',
+        ]
+    );
+    Route::post('procedures/store', [ProcedureController::class, 'store'])->name('procedures.store')->middleware(
+        [
+            'auth',
+        ]
+    );
+    Route::post('procedures_type/store', [ProcedureController::class, 'store_type'])->name('procedures_type.store')->middleware(
+        [
+            'auth',
+        ]
+    );
+    Route::get('procedures_type/create', [ProcedureController::class, 'create_type'])->name('procedures_type.create')->middleware(
+        [
+            'auth',
+        ]
+    );
+    Route::get('procedures/{id}/edit', [ProcedureController::class, 'edit'])->name('procedures.edit')->middleware(
+        [
+            'auth',
+        ]
+    );
+    Route::put('procedures/{id}', [ProcedureController::class, 'update'])->name('procedures.update')->middleware(
+        [
+            'auth',
+        ]
+    );
+    Route::DELETE('procedures/destroy/{id}', [ProcedureController::class, 'destroy'])->name('procedures.destroy')->middleware(
         [
             'auth',
         ]
