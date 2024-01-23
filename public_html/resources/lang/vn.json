@@ -161,7 +161,7 @@
     "Proposal Edit": "\u0110\u1ec1 xu\u1ea5t Ch\u1ec9nh s\u1eeda",
     "something went wrong please try again": "\u0110\u00e3 x\u1ea3y ra l\u1ed7i. Vui l\u00f2ng th\u1eed l\u1ea1i",
     "Category": "Danh m\u1ee5c",
-    "Project": "Công việc",
+    "Project": "D\u1ef1 \u00e1n",
     "Customer": "Kh\u00e1ch h\u00e0ng",
     "Type": "Th\u1ec3 lo\u1ea1i",
     "Item Wise": "S\u1ea3n ph\u1ea9m",
@@ -922,27 +922,17 @@
     "Medium Priority" : "Ưu tiên trung bình",
     "Low Priority" : "Ưu tiên thấp",
     "Components" : "Loại yêu cầu",
-    "Work Order Detail" : "Chi tiết yêu cầu",
-    "Work Order deatils" : "Chi tiết yêu cầu",
-    "Task Complete" : "Đồng ý yêu cầu",
-    "Minute" : "Phút",
-    "Enter Hours" : "Nhập giờ",
-    "Enter Minute" : "Nhập phút",
-    "Reopen Task" : "Mở lại yêu cầu",
-    "Planning" : "Lập kế hoạch",
-    "Scheduling" : "Lên lịch",
-    "Suspended" : "Cấm",
-    "WOs Name" : "Tên yêu cầu",
-    "Low" : "Thấp", 
-    "SUPPLIER NAME" : "Tên đệm",
-    "PURCHASE ORDER DATE" : "Ngày đặt mua",
-    "EXPECTED DELIVERY DATE" : "Ngày giao hàng dự kiến",
-    "Purchase Parts" : "Mua phụ tùng",
-    "Manage Supplier" : "Quản lí đối tượng liên kết",
-    "Supplier" : "Đối tượng liên kết",
-    "Create New Supplier" : "Tạo mới đối tượng liên kết",
-    "Profile Image" : "Hình ảnh hồ sơ cá nhân",
-    "Phone No." : "Số điện thoại",
+
+
+
+
+
+
+
+
+
+
+
     "Account Settings" : "Cài đặt tài khoản",
     "Bill Print Settings" : "Cài đặt in hóa đơn",
     "Quote Print Settings" : "Cài đặt in báo giá",
@@ -1024,8 +1014,7 @@
     "Select Customer" : "Chọn khách hàng",
     "Company Date Of Joining" : "Ngày vào làm",
     "Select Chi nhánh" : "Chọn chi nhánh",
-   
-    
+
 
 
 
@@ -1052,7 +1041,7 @@
     "Sunday" : "Chủ nhật",
 
 
-    "Select Project" : "Chọn công việc",
+    "Select Project" : "Chọn dự án",
     
 
     "Enter Name" : "Nhập tên",
@@ -1063,57 +1052,9 @@
     "Enter Branch" : "Nhập chi nhánh",
     "Enter Purchase Cost" : "Nhập chi phí mua hàng",
     "Enter Description" : "Nhập mô tả",
-    "Supplier Detail" : "Chi tiết đối tượng liên kết",
-    "Supplier Details" : "Chi tiết đối tượng liên kết",
-    "Parts" : "Các bộ phận",
-    "PARTS THUMBNAIL." : "Ảnh",
-    "Pending" : "Xét duyệt", 
-    "Manage Preventive Maintenance" : "Quản lí nhóm công việc",
-    "Pms" : "Nhóm",
-    "Create New Pms" : "Tạo nhóm mới",
-    "Award" : "Khen thưởng",
-    "Manage Award" : "Quản lí khen thưởng", 
-    "Award Type" : "Loại khen thưởng",
-    "Create New Award" : "Tạo khen thưởng",
-    "Select Award Type" : "Chọn loại khen thưởng",
-    "Manage Promotion" : "Quản lí phúc lợi",
-    "Promotion" : "Phúc lợi",
-    "Promotion Date" : "Ngày tháng", 
-    "Create New Promotion" : "Tạo mới phúc lợi",
-    "Assets" : "Trang thiết bị",
-    "Manage Assets" : "Quản lí trang thiết bị", 
-    "Create New Assets" : "Tạo mới trang thiết bị",
-    "Asset" : "Trang thiết bị",
-    "Manage Insurance" : "Quản lí bảo hiểm",
-    "Insurance" : "Bảo hiểm",
-    "Manage Training": "Quản lí đào tạo",
-    "Training List": "Danh sách đào tạo",
-    "Training Duration": "Thời gian đào tạo",
-    "Trainer": "Người đào tạo",
-    "Trainig Details": "Chi tiết đào tạo",
-    "Training Employee": "Nhân viên đào tạo",
-    "Training Cost": "Chi phí đào tạo",
-    "Update Status": "Cập nhật trạng thái",
-    "Performance": "Hiệu xuất",
-    "Select Performance": "Chọn hiệu suất",
-    "Started": "Đã bắt đầu",
-    "Terminated": "Đã hoàn thành",
-    "Not Concluded": "Chưa kết luận",
-    "Satisfactory": "Đạt yêu cầu",
-    "Average": "Trung bình",
-    "Poor": "Thấp",
-    "Excellent": "Xuất sắc",
-    "Edit Training" : "Chỉnh sửa đào tạo",
-    "Create New Training" : "Tạo mới",
-    "Select Branch" : "Chọn chi nhánh",
-    "Select Trainer Option" : "Chọn huấn luyện viên",
-    "Select Training Type" : "Loại hình đào tạo",
-    "Select Trainer" : "Chọn huấn luyện viên",
-    "Trainer Option" : "Tùy chọn huấn luyện viên",
-    "New Employee" : "Nhân viên mới",
-    "Enter employee Name" : "Nhập tên nhân viên",
-    "Manage Location" : "Quản lí vị trí",
-    
+
+
+
     "Have a nice day! Did you know that you can quickly add your favorite product or category to the store?" : "Chúc một ngày tốt lành! Bạn có biết rằng bạn có thể nhanh chóng thêm sản phẩm hoặc danh mục yêu thích của mình vào cửa hàng không?",
     "Total Open Work Order" : "Tổng số yêu cầu",
     "Complete Work Order" : "Công việc hoàn thành",
@@ -1128,21 +1069,71 @@
     "Work Request" : "Yêu cầu công việc",
     "Title of work request" : "Tiêu đề yêu cầu công việc",
     "Your Name" : "Nhập tên",
-    "Your Email" : "Nhập Eamil",
+    "Your Email" : "Nhập Eamil",    
     "Problem" : "Loại yêu cầu",
     "Add Picture and Document" : "Thêm hình ảnh và tài liệu",
+    
 
-    "Manage Projects" : "Quản lí công việc",
-    "Project Name" : "Tên Công việc",
-    "Project Details" : "Chi tiết công việc",
-    "Total Project" : "Tổng công việc",
 
-    "Tags" : "Thẻ",
-    "Instruction" : "Người hướng dẫn",
-    "Log Time" : "Thời gian đăng nhập",
+    "PMs" : "Nhóm",
+    "Location Link" : "Sao chép link",
+    "Update Người dùng" : "Cập nhật người dùng",
+    "Enter Title" : "Nhập tiêu đề",
+    "Enter Amount" : "Nhập số lượng",
+    "Select Allowance Option" : "Tùy chọn loại phụ cấp",
+    "Select Loan Option" : "Chọn loại khoản ứng",
+    "Select Deduction Option" : "Chọn loại khấu trừ",
+    "fixed" : "Số tiền",
+    "Percentage" : "Tỷ lệ phần trăm",
+    "Enter Number of days" : "Nhập số ngày",
+    "Enter Hours" : "Nhập giờ",
+    "Enter Rate" : "Nhập tỷ lệ",
+
+
+
+    "All" : "Tất cả",
+    "Select Employee" : "Chọn nhân viên",
+
+
+
+
+    "Select Chọn chi nhánh" : "Chọn chi nhánh",
+    "Select Bộ phận" : "Chọn bộ phận",
+    "Manage Trainer" : "Quản lý người đào tạo",
+    "Create New Trainer" : "Tạo mới người đào tạo",
+    "First Name" : "Tên",
+    "Last Name" : "Họ",
+    "Expertise" : "Chuyên môn",
+
+
     
-    "client" : "Khách hàng"
-    
-    
+    "Enter Complaint Title" : "Nhập tiêu đề",
+
+
+    "Enter Occasion" : "Tiêu đề",
+
+
+    "Create New Training Type" : "Loại đạo tạo mới",
+    "Enter Traning Type Name" : "Nhập tên loại đào tạo",
+    "Manage Training Type" : "Quản lý loại đào tạo",
+
+
+    "Create New Location" : "Tạo vị trí mới",
+    "Create New Work Order" : "Tạo mới yêu cầu công việc",
+    "Manage Parts" : "Quản lý bộ phận",
+    "Parts Thumbnail" : "Hình ảnh",
+    "Create New Part" : "Tạo mới bộ phận",
+
+
+
+    "Manage Purchase Orders" : "Quản lý luồng yêu cầu mẫu",
+    "Create Purchase Orders" : "Tạo thông tin cơ bản",
+    "Parts & Services" : "Tạo luồng yêu cầu",
+    "Purchase Order Date" : "Ngày bắt đầu",
+    "Expected Delivery Date" : "Ngày kết thúc",
+    "POs" : "Luồng yêu cầu",
+    "Supplier Name" : "Tên luồng"
+
+ 
 
 }
