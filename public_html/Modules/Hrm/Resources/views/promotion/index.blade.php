@@ -7,7 +7,7 @@
 @endsection
 @section('page-action')
 <div>
-    @permission('promotion create')
+    @permission('    create')
         <a  class="btn btn-sm btn-primary" data-ajax-popup="true" data-size="md" data-title="{{ __('Create New Promotion') }}" data-url="{{route('promotion.create')}}" data-toggle="tooltip" title="{{ __('Create') }}">
             <i class="ti ti-plus"></i>
         </a>
@@ -81,7 +81,16 @@
                                                     {{Form::close()}}
                                                 </div>
                                             @endpermission
-
+                                            @if(auth()->user()->id ==  $promotion->user_id && $promotion->status == 0)
+                                            <div class="action-btn bg-success ms-2">
+                                                {{Form::open(array('route'=>array('promotion.accept', $promotion->id),'class' => 'm-0'))}}
+                                                    <a class="mx-3 btn btn-sm  align-items-center bs-pass-para show_confirm"
+                                                        data-bs-toggle="tooltip" title="" data-bs-original-title="Xác nhận"
+                                                        aria-label="Xác nhận" data-confirm="{{__('Are You Sure?')}}" data-text="{{__('Xác nhận tham gia phúc lợi này')}}"  data-confirm-yes="delete-form-{{$promotion->id}}"><i
+                                                            class="ti ti-user-check text-white text-white"></i></a>
+                                                {{Form::close()}}
+                                            </div>
+                                            @endif
                                         </span>
                                     </td>
                                 @endif

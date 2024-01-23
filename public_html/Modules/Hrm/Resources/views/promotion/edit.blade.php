@@ -10,18 +10,18 @@
         @endif
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('employee_id', __('Employee'), ['class' => 'col-form-label']) }}
-                {{ Form::select('employee_id', $employees, !empty($promotion->user_id) ? $promotion->user_id : null, ['class' => 'form-control ', 'placeholder' => __('Select Employee'), 'required' => 'required']) }}
+                {{ Form::select('employee_id', $employees, !empty($promotion->user_id) ? $promotion->user_id : null, ['class' => 'form-control ', 'placeholder' => __('Select Employee'),'required' => 'required']) }}
             </div>
         </div>
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('designation_id', !empty($company_settings['hrm_designation_name']) ? $company_settings['hrm_designation_name'] : __('Designation'), ['class' => 'col-form-label']) }}
                 {{ Form::select('designation_id', $designations, null, ['class' => 'form-control ', 'placeholder' => __('Select '.(!empty($company_settings['hrm_designation_name']) ? $company_settings['hrm_designation_name'] : __('Designation'))), 'required' => 'required']) }}
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('promotion_title', __('Promotion Title'), ['class' => 'col-form-label']) }}

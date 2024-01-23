@@ -26,29 +26,7 @@ class HomeController extends Controller
         }
         else
         {
-            if(!file_exists(storage_path() . "/installed"))
-            {
-                header('location:install');
-                die;
-            }
-            else
-            {
-                if(admin_setting('landing_page') == 'on')
-                {
-                    if(module_is_active('LandingPage'))
-                    {
-                        return view('landingpage::layouts.landingpage');
-                    }
-                    else
-                    {
-                        return view('marketplace.landing');
-                    }
-                }
-                else
-                {
-                    return redirect('login');
-                }
-            }
+            return redirect('login');
         }
     }
 

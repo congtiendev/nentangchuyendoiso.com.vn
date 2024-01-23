@@ -7,6 +7,7 @@ namespace App\Models;
     use Maatwebsite\Excel\Concerns\WithHeadings;
     use Illuminate\Support\Str;
     use Illuminate\Support\HtmlString;
+    use App\Models\HelpdeskTicket;
 
 
 class HelpdeskExport implements FromCollection,WithHeadings,WithMapping
@@ -16,8 +17,21 @@ class HelpdeskExport implements FromCollection,WithHeadings,WithMapping
     */
     public function collection()
     {
-        // Lấy  dữ liệu từ session export_tickets xuống
-        $data = session()->get('export_tickets');
+        // Lấy  dữ liệu từ session export_data xuống
+        $data = HelpdeskTicket::select(
+            [
+                'helpdesk_tickets.*',
+                'helpdesk_ticket_categories.name as category_name',
+                'helpdesk_ticket_categories.color',
+            ]
+        )->join('helpdesk_ticket_categories', 'helpdesk_ticket_categories.id', '=', 'helpdesk_tickets.category');
+
+        if (auth()->user()->type == 'super admin') {
+            $data = $data->orderBy('id', 'desc')->get();
+        } else {
+            $data = $data->where('workspace', getActiveWorkSpace())->orderBy('id', 'desc')->get();
+        }
+
         return $data;
     }
     /**

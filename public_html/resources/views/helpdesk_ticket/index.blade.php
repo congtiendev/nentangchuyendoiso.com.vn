@@ -6,14 +6,13 @@
 @section('page-breadcrumb')
 {{ __('Văn bản') }}
 @endsection
-
 @section('page-action')
     <div class="col-auto pe-0">
         <select class="form-select" id="projects" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" style="width: 150px;">
             <option value="{{route('helpdesk-tickets.search')}}">{{__('Trạng thái')}}</option>
-            <option value="{{route('helpdesk-tickets.search', 'in-progress')}}" @if($status == 'in-progress') selected @endif>{{__('In Progress')}}</option>
+            <option value="{{route('helpdesk-tickets.search', 'in-progress')}}" @if($status == 'in-progress') selected @endif>Chưa đọc</option>
             <option value="{{route('helpdesk-tickets.search', 'on-hold')}}" @if($status == 'on-hold') selected @endif>{{__('On Hold')}}</option>
-            <option value="{{route('helpdesk-tickets.search', 'closed')}}" @if($status == 'closed') selected @endif>{{__('Closed')}}</option>
+            <option value="{{route('helpdesk-tickets.search', 'closed')}}" @if($status == 'closed') selected @endif>Đóng</option>
         </select>
     </div>
     <div class="col-2 mt-1">

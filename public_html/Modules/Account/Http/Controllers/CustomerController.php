@@ -454,7 +454,6 @@ class CustomerController extends Controller
                 $extension = end($file_array);
                 if ($extension == 'csv') {
                     $file_data = fopen($request->file->getRealPath(), 'r');
-
                     $file_header = fgetcsv($file_data);
                     $html .= '<table class="table table-bordered"><tr>';
 
@@ -546,16 +545,12 @@ class CustomerController extends Controller
             $flag = 0;
             $html .= '<table class="table table-bordered"><tr>';
             $file_data = $_SESSION['file_data'];
-
-            unset($_SESSION['file_data']);
-
+            // unset($_SESSION['file_data']);
             $user = \Auth::user();
 
             $roles            = Role::where('created_by',creatorId())->where('name','client')->first();
             foreach ($file_data as $row) {
-
                 $customer = Customer::where('created_by',creatorId())->where('workspace',getActiveWorkSpace())->Where('email', 'like',$row[$request->email])->get();
-
                 if($customer->isEmpty()){
                     try {
                         $user = User::create(
@@ -573,13 +568,12 @@ class CustomerController extends Controller
                                 ]
                             );
                             $user->addRole($roles->id);
-
                         Customer::create([
                             'customer_id' => $this->customerNumber(),
                             'user_id' => $user->id,
                             'name' => $row[$request->name],
                             'email' => $row[$request->email],
-                            'password' => $row[$request->password],
+                            'password' => Hash::make($row[$request->password]),
                             'contact' => $row[$request->contact],
                             'billing_name' => $row[$request->billing_name],
                             'billing_country' => $row[$request->billing_country],
@@ -598,10 +592,7 @@ class CustomerController extends Controller
                             'created_by' => creatorId(),
                             'workspace' => getActiveWorkSpace(),
                         ]);
-
-
-
-                    }
+                     }
                     catch (\Exception $e)
                     {
                         $flag = 1;

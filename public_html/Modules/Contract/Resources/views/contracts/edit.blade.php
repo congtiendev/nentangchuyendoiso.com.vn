@@ -45,6 +45,16 @@
                 {!!Form::date('end_date', null,array('class' => 'form-control','required'=>'required','placeholder' => 'End Date')) !!}
             </div>
         </div>
+        {{--  <div class="col-6">
+            <div class="form-group">
+                <label for="status" class="col-form-label">Trạng thái</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="accept" {{ $contract->status == 'accept' ? 'selected' : '' }}>{{  __('Accept')  }}</option>
+                    <option value="pending" {{ $contract->status == 'pending' ? 'selected' : '' }}>{{  __('Pending')  }}</option>
+                    <option value="decline" {{ $contract->status == 'decline' ? 'selected' : '' }}>{{  __('Decline')  }}</option>
+                </select>
+            </div>
+        </div>  --}}
         <div class="col-md-12 form-group">
             {{ Form::label('notes', __('Descripation'),['class'=>'col-form-label']) }}
             {{ Form::textarea('notes', null, array('class' => 'form-control')) }}

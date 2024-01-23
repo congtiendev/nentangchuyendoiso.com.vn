@@ -367,6 +367,19 @@ class CompanyMenuListener
             'permission' => 'helpdesk ticket manage'
         ]);
 
+        $menu->add([
+            'title' => 'Trình ký mẫu',
+            'icon' => '',
+            'name' => 'signature-sample',
+            'parent' => 'work assigned',
+            'order' => 662,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'signature-sample.index',
+            'module' => $module,
+            'permission' => 'helpdesk ticket manage'
+        ]);
+
         //Quản lí công việc
         $menu->add([
             'title' => __('Quản lí công việc'),

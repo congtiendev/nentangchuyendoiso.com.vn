@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 use Modules\Contract\Http\Controllers\ContractController;
 use Modules\Contract\Http\Controllers\ContractTypeController;
 
+Route::get('contract/samples', [ContractController::class,'samples'])->name('contract.samples')->middleware(['auth']);
+Route::post('contract/samples/store', [ContractController::class,'samplesStore'])->name('contract.samples.store')->middleware(['auth']);
+Route::get('contract/samples/show/{id}', [ContractController::class,'detailSampleStore'])->name('contract.samples.show')->middleware(['auth']);
+Route::DELETE('contract/samples/destroy/{id}', [ContractController::class,'destroySample'])->name('contract.samples.destroy')->middleware(['auth']);
+Route::post('contract/samples/update/{id}', [ContractController::class,'updateSample'])->name('contract.samples.update')->middleware(['auth']);
+
+Route::get('contract/accept/{id}', [ContractController::class,'accept'])->name('contract.accept')->middleware(['auth']);
+Route::get('contract/decline{id}', [ContractController::class,'decline'])->name('contract.decline')->middleware(['auth']);
 Route::group(['middleware' => 'PlanModuleCheck:Contract'], function ()
 {
     Route::resource('contract_type', ContractTypeController::class)->middleware(['auth']);
