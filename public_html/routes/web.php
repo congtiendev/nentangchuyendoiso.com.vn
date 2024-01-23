@@ -27,6 +27,7 @@ use App\Http\Controllers\SuperAdmin\SettingsController as SuperAdminSettingsCont
 use App\Http\Controllers\TechnicalSupport;
 use App\Http\Controllers\WorkSpaceController;
 use App\Http\Controllers\CustomNotificationController;
+use App\Http\Controllers\HelpdeskTicketCategoryController;
 use App\Http\Controllers\SignatureSampleController;
 
 /*
