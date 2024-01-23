@@ -17,6 +17,7 @@ use Modules\Hrm\Events\DestroyTransfer;
 use Modules\Hrm\Events\UpdateTransfer;
 use App\Models\CustomNotification;
 use App\Models\UserNotifications;
+use App\Models\ActivityLogTransfer;
 class TransferController extends Controller
 {
     /**
@@ -34,6 +35,16 @@ class TransferController extends Controller
             return view('hrm::transfer.index', compact('transfers'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+    
+    public function activityLogTransfer()
+    {
+        if (Auth::user()->isAbleTo('transfer manage')) {
+
+            $transfers = ActivityLogTransfer::latest()->get();
+
+            return view('hrm::transfer.activityLog', compact('transfers'));
         }
     }
 
@@ -91,6 +102,25 @@ class TransferController extends Controller
             $transfer->workspace     = getActiveWorkSpace();
             $transfer->created_by    = creatorId();
             $transfer->save();
+
+            $action = 'Tạo điều chuyển';
+            $typeAction = 'store';
+            $branchName = Branch::find($transfer->branch_id)->name;
+            $departmentName = Department::find($transfer->department_id)->name;
+            $userName = User::find($transfer->user_id)->name;
+            $changes = [
+                'user_id'          => $request->employee_id,
+                'name'             =>$userName,
+                'branchName' => $branchName,
+                'departmentName'      => $departmentName,
+                'workspace'        => getActiveWorkSpace(),
+                'changed_by' => Auth::user()->name,
+                'changed_at' => now()->format('H:i:s d-m-Y'),
+            ];
+            $user = User::find($transfer->user_id);
+            $this->saveLog($user, $transfer, $changes, $action,$typeAction);
+
+
             event(new CreateTransfer($request, $transfer));
 
             $branch  = Branch::find($transfer->branch_id);
@@ -204,6 +234,7 @@ class TransferController extends Controller
                     return redirect()->back()->with('error', $messages->first());
                 }
                 $employee = Employee::where('user_id', '=', $request->employee_id)->first();
+                $originalData = $transfer->getOriginal();
                 if (!empty($employee)) {
                     $transfer->employee_id = $employee->id;
                 }
@@ -213,6 +244,16 @@ class TransferController extends Controller
                 $transfer->transfer_date = $request->transfer_date;
                 $transfer->description   = $request->description;
                 $transfer->save();
+
+
+                $action = 'Cập nhật điều chuyển';
+                $typeAction = 'update';
+                $user = User::find($transfer->user_id);
+                $newData = $transfer->fresh()->getAttributes();
+                $changes = $this->getChanges($originalData, $newData);
+
+                $this->saveLog($user, $transfer, $changes, $action,$typeAction);
+
 
                 event(new UpdateTransfer($request, $transfer));
                 $branch  = Branch::find($transfer->branch_id);
@@ -256,6 +297,17 @@ class TransferController extends Controller
     {
         if (Auth::user()->isAbleTo('transfer delete')) {
             if ($transfer->created_by == creatorId() && $transfer->workspace == getActiveWorkSpace()) {
+                 
+                $action = 'Xóa điều chuyển';
+                $typeAction = 'delete';
+                $userName = User::find($transfer->user_id)->name;
+                $user = User::find($transfer->user_id);
+                $changes = [
+                    'name'             =>$userName,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+                $this->saveLog($user, $transfer, $changes, $action,$typeAction);
 
                 event(new DestroyTransfer($transfer));
 
@@ -268,5 +320,70 @@ class TransferController extends Controller
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+    }
+
+    private function getChanges($originalData = null, $newData = null)
+    {
+        $changes = [];
+    
+        foreach ($originalData as $key => $value) {
+            if ($key === 'updated_at' || $key === 'created_at') {
+                continue;
+            }
+    
+            $oldValue = $originalData[$key];
+            $newValue = $newData[$key];
+    
+            // Check if it's a select field
+            if ($this->isSelectField($key)) {
+                $oldName = $this->getNameFromDatabase($key, $oldValue);
+                $newName = $this->getNameFromDatabase($key, $newValue);
+            } else {
+                $oldName = $oldValue;
+                $newName = $newValue;
+            }
+    
+            if ($oldName !== $newName) {
+                $changes[$key] = [
+                    'old' => $oldName,
+                    'new' => $newName,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+            }
+        }
+    
+        return $changes;
+    }
+    private function isSelectField($key)
+    {
+        $selectFields = ['termination_type', 'user_id'];
+        return in_array($key, $selectFields);
+    }
+
+    private function getNameFromDatabase($key, $id)
+    {
+        switch ($key) {
+            case 'branch_id':
+                return Branch::find($id)->name;
+            case 'department_id':
+                return Department::find($id)->name;
+            case 'user_id':
+                return User::find($id)->name;
+            default:
+                return $id;
+        }
+    }
+    private function saveLog($user, $transfer, $changes, $action, $typeAction)
+    {
+        $logData = [
+            'action_type' => $typeAction,
+            'user_id' => $user->id,
+            'user_type' => get_class($user),
+            'employee_id' => $transfer->id,
+            'log_type' => $action,
+            'remark' => json_encode(['changes' => $changes]),
+        ];
+        ActivityLogTransfer::create($logData);
     }
 }

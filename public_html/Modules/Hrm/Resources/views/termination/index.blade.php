@@ -12,8 +12,14 @@
             <i class="ti ti-plus"></i>
         </a>
     @endpermission
+    @permission('employee create')
+        <a href="{{ route('activityLog.termination') }}" data-title="{{ __('Lịch sử chỉnh sửa') }}" data-bs-toggle="tooltip"
+            title="" class="btn btn-sm btn-primary">
+            Lịch sử chỉnh sửa
+        </a>
+    @endpermission
 </div>
-@endsection
+@endsection 
 @section('content')
 <div class="row">
     <div class="col-sm-12">

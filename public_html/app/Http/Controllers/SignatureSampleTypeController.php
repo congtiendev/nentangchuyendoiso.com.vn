@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityLogAppoint;
 use Illuminate\Http\Request;
 
-class ActivityLogAppointController extends Controller
+class SignatureSampleTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +33,7 @@ class ActivityLogAppointController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ActivityLogAppoint $activityLogAppoint)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +41,7 @@ class ActivityLogAppointController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ActivityLogAppoint $activityLogAppoint)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +49,7 @@ class ActivityLogAppointController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ActivityLogAppoint $activityLogAppoint)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +57,7 @@ class ActivityLogAppointController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ActivityLogAppoint $activityLogAppoint)
+    public function destroy(string $id)
     {
         //
     }

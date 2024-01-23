@@ -19,14 +19,14 @@
                     <div class="card-body">
                         <div class="row">
                             @php
-                                $name = (\Auth::user()->type== 'company') ? 'Admin' : 'Customers';
+                                $name = (\Auth::user()->type == 'company') ? 'Admin' : 'Customers';
                             @endphp
                             <div class="form-group col-md-6" id="customname">
                                 <label class="require form-label">{{ $name}}</label>
                                 <select  class="form-control select_person_email" name="name"  {{ !empty($errors->first('name')) ? 'is-invalid' : '' }} required="">
                                     @if(Auth::user()->type != 'company')
                                         <option value="">{{ __('Select User') }}</option>
-                                        @foreach ($users as $key=>$value)
+                                        @foreach ($users as $key => $value)
                                             <option value="{{ $key }}">{{ $value }}</option>
                                         @endforeach
                                     @else
