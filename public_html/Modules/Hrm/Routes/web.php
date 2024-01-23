@@ -184,7 +184,13 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
         ]
     );
     // Attendance
-    Route::resource('attendance', AttendanceController::class)->middleware(
+   
+    Route::post('attendance/update_status/{id}', [AttendanceController::class, 'update_status'])->name('attendance.update_status')->middleware(
+        [
+            'auth',
+        ]
+    );
+    Route::get('attendance/pending', [AttendanceController::class, 'list_pending'])->name('attendance.pending')->middleware(
         [
             'auth',
         ]
@@ -204,7 +210,11 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
             'auth',
         ]
     );
-
+    Route::resource('attendance', AttendanceController::class)->middleware(
+        [
+            'auth',
+        ]
+    );
     // Attendance import
 
     Route::get('attendance/import/export', [AttendanceController::class, 'fileImportExport'])->name('attendance.file.import');

@@ -10,11 +10,12 @@
 @endphp
 @section('page-action')
     <div>
-        @if (auth()->user()->type == 'company' || auth()->user()->type == 'super admin')
-            <a href="{{ route('attendance.pending') }}" class="btn btn-sm btn-primary" data-title="{{ __('Chờ duyệt') }}"
-                data-toggle="tooltip" title="{{ __('Chờ duyệt') }}"><i class="ti ti-list"></i>
+        @permission('attendance import')
+            <a href="{{ route('attendance.index') }}" class="btn btn-sm btn-primary" data-title="{{ __('Danh sách') }}"
+               data-toggle="tooltip" title="{{ __('Danh sách') }}"><i
+                    class="ti ti-list"></i>
             </a>
-        @endif
+        @endpermission
         @permission('attendance import')
             <a href="#" class="btn btn-sm btn-primary" data-ajax-popup="true" data-title="{{ __('Import') }}"
                 data-url="{{ route('attendance.file.import') }}" data-toggle="tooltip" title="{{ __('Import') }}"><i
@@ -30,87 +31,6 @@
     </div>
 @endsection
 @section('content')
-    <div class="row">
-        <div class=" mt-2 " id="multiCollapseExample1">
-            <div class="card">
-                <div class="card-body">
-                    {{ Form::open(['route' => ['attendance.index'], 'method' => 'get', 'id' => 'attendance_filter']) }}
-                    <div class="row align-items-center justify-content-end">
-                        <div class="col-xl-10">
-                            <div class="row">
-                                <div class="col-3">
-                                    <label class="form-label">{{ __('Type') }}</label> <br>
-                                    <div class="form-check form-check-inline form-group">
-                                        <input type="radio" id="monthly" value="monthly" name="type"
-                                            class="form-check-input"
-                                            {{ isset($_GET['type']) && $_GET['type'] == 'monthly' ? 'checked' : 'checked' }}>
-                                        <label class="form-check-label" for="monthly">{{ __('Monthly') }}</label>
-                                    </div>
-                                    <div class="form-check form-check-inline form-group">
-                                        <input type="radio" id="daily" value="daily" name="type"
-                                            class="form-check-input"
-                                            {{ isset($_GET['type']) && $_GET['type'] == 'daily' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="daily">{{ __('Daily') }}</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 month">
-                                    <div class="btn-box">
-                                        {{ Form::label('month', __('Month'), ['class' => 'form-label']) }}
-                                        {{ Form::month('month', isset($_GET['month']) ? $_GET['month'] : date('Y-m'), ['class' => 'month-btn form-control month-btn']) }}
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 date">
-                                    <div class="btn-box">
-                                        {{ Form::label('date', __('Date'), ['class' => 'form-label']) }}
-                                        {!! Form::date('date', isset($_GET['date']) ? $_GET['date'] : null, [
-                                            'class' => 'form-control ',
-                                            'placeholder' => 'Select Date',
-                                        ]) !!}
-                                    </div>
-                                </div>
-                                @if (in_array(Auth::user()->type, Auth::user()->not_emp_type))
-                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
-                                        <div class="btn-box">
-                                            {{ Form::label('branch', !empty($company_settings['hrm_branch_name']) ? $company_settings['hrm_branch_name'] : __('Branch'), ['class' => 'form-label']) }}
-                                            {{ Form::select('branch', $branch, isset($_GET['branch']) ? $_GET['branch'] : '', ['class' => 'form-control']) }}
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
-                                        <div class="btn-box">
-                                            {{ Form::label('department', !empty($company_settings['hrm_department_name']) ? $company_settings['hrm_department_name'] : __('Department'), ['class' => 'form-label']) }}
-                                            {{ Form::select('department', $department, isset($_GET['department']) ? $_GET['department'] : '', ['class' => 'form-control select']) }}
-                                        </div>
-                                    </div>
-                                @endif
-
-                            </div>
-                        </div>
-                        <div class="col-auto mt-4">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <a class="btn btn-sm btn-primary"
-                                        onclick="document.getElementById('attendance_filter').submit(); return false;"
-                                        data-bs-toggle="tooltip" title="{{ __('Apply') }}"
-                                        data-original-title="{{ __('apply') }}">
-                                        <span class="btn-inner--icon"><i class="ti ti-search"></i></span>
-                                    </a>
-
-                                    <a href="{{ route('attendance.index') }}" class="btn btn-sm btn-danger "
-                                        data-bs-toggle="tooltip" title="{{ __('Reset') }}"
-                                        data-original-title="{{ __('Reset') }}">
-                                        <span class="btn-inner--icon"><i class="ti ti-trash-off text-white-off "></i></span>
-                                    </a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {{ Form::close() }}
-            </div>
-        </div>
-    </div>
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body table-border-style">
@@ -152,14 +72,17 @@
                                         @if (Laratrust::hasPermission('attendance edit') || Laratrust::hasPermission('attendance delete'))
                                             <span>
                                                 @permission('attendance edit')
-                                                    <div class="action-btn bg-info ms-2">
-                                                        <a class="mx-3 btn btn-sm  align-items-center"
-                                                            data-url="{{ URL::to('attendance/' . $attendance->id . '/edit') }}"
-                                                            data-ajax-popup="true" data-size="md" data-bs-toggle="tooltip"
-                                                            title="" data-title="{{ __('Edit Attendance') }}"
-                                                            data-bs-original-title="{{ __('Edit') }}">
-                                                            <i class="ti ti-pencil text-white"></i>
-                                                        </a>
+                                                    <div class="action-btn bg-success ms-2">
+                                                        {{ Form::open(['route' => ['attendance.update_status', $attendance->id], 'class' => 'm-0']) }}
+                                                        @method('POST')
+                                                        <a class="mx-3 btn btn-sm  align-items-center bs-pass-para show_confirm"
+                                                            data-bs-toggle="tooltip" title=""
+                                                            data-bs-original-title="Duyệt" aria-label="Duyệt"
+                                                            data-confirm="{{ __('Are You Sure?') }}"
+                                                            data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                                            data-confirm-yes="delete-form-{{ $attendance->id }}"><i
+                                                                class="ti ti-check text-white text-white"></i></a>
+                                                        {{ Form::close() }}
                                                     </div>
                                                 @endpermission
 
@@ -182,8 +105,6 @@
                                     </td>
                                 </tr>
                             @endforeach
-
-
                         </tbody>
                     </table>
                 </div>
