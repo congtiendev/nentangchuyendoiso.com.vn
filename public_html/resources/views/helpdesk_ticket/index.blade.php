@@ -6,7 +6,6 @@
 @section('page-breadcrumb')
 {{ __('Văn bản') }}
 @endsection
-
 @section('page-action')
     <div class="col-auto pe-0">
         <select class="form-select" id="projects" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" style="width: 150px;">

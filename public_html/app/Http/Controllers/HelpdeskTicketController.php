@@ -34,6 +34,7 @@ class HelpdeskTicketController extends Controller
                     'helpdesk_ticket_categories.color',
                 ]
             )->join('helpdesk_ticket_categories', 'helpdesk_ticket_categories.id', '=', 'helpdesk_tickets.category');
+            
             if ($status == 'in-progress') {
                 $tickets->where('status', '=', 'In Progress');
             } elseif ($status == 'on-hold') {
@@ -48,8 +49,6 @@ class HelpdeskTicketController extends Controller
             {
                 $tickets = $tickets->where('workspace',getActiveWorkSpace())->orderBy('id', 'desc')->get();
             }
-            // Lưu vào session để export
-            Session::put('export_tickets', $tickets);
             return view('helpdesk_ticket.index', compact('tickets', 'status'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -68,7 +67,7 @@ class HelpdeskTicketController extends Controller
             if(Auth::user()->type =='super admin')
             {
                 $users = User::where('type', 'company')->get()->pluck('name', 'id');
-            }
+            }    
             else
             {
                 $users = User::where('type', 'super admin')->first();
@@ -428,6 +427,7 @@ class HelpdeskTicketController extends Controller
         try {
             return Excel::download(new HelpdeskExport, 'helpdesk.xlsx');
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('error', __('Something is wrong'));
         }
     }
