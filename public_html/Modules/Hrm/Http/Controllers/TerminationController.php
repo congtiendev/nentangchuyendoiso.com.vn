@@ -16,6 +16,7 @@ use Modules\Hrm\Events\DestroyTermination;
 use Modules\Hrm\Events\UpdateTermination;
 use App\Models\CustomNotification;
 use App\Models\UserNotifications;
+use App\Models\ActivityLogTermination;
 
 class TerminationController extends Controller
 {
@@ -34,6 +35,16 @@ class TerminationController extends Controller
             return view('hrm::termination.index', compact('terminations'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function activityLogTermination()
+    {
+        if (Auth::user()->isAbleTo('termination manage')) {
+
+            $terminations = ActivityLogTermination::latest()->get();
+
+            return view('hrm::termination.activityLog', compact('terminations'));
         }
     }
 
@@ -93,6 +104,26 @@ class TerminationController extends Controller
             $termination->workspace        = getActiveWorkSpace();
             $termination->created_by       = creatorId();
             $termination->save();
+            $action = 'Tạo mới miễn nhiệm';
+
+            $typeAction = 'store';
+            
+            $nameType = TerminationType::find($request->termination_type)->name;
+            $userName = User::find($termination->user_id)->name;
+            
+            $changes = [
+                'user_id'          => $request->employee_id,
+                'name'             =>$userName,
+                'termination_type' => $nameType,
+                'notice_date'      => $request->notice_date,
+                'termination_date' => $request->termination_date,
+                'description'      => $request->description,
+                'workspace'        => getActiveWorkSpace(),
+                'changed_by' => Auth::user()->name,
+                'changed_at' => now()->format('H:i:s d-m-Y'),
+            ];
+            $user = User::find($termination->user_id);
+            $this->saveLog($user, $termination, $changes, $action,$typeAction);
 
             event(new CreateTermination($request, $termination));
             try {
@@ -201,6 +232,8 @@ class TerminationController extends Controller
                 }
 
                 $employee = Employee::where('user_id', '=', $request->employee_id)->first();
+                $originalData = $termination->getOriginal();
+
                 if (!empty($employee)) {
                     $termination->employee_id = $employee->id;
                 }
@@ -243,6 +276,15 @@ class TerminationController extends Controller
                 $termination->termination_date = $request->termination_date;
                 $termination->description      = $request->description;
                 $termination->save();
+                $action = 'Cập nhật miễn nhiệm';
+                $typeAction = 'update';
+                $user = User::find($termination->user_id);
+                $newData = $termination->fresh()->getAttributes();
+                $changes = $this->getChanges($originalData, $newData);
+
+                $this->saveLog($user, $termination, $changes, $action,$typeAction);
+
+
 
                 event(new UpdateTermination($request, $termination));
 
@@ -265,10 +307,20 @@ class TerminationController extends Controller
         if (Auth::user()->isAbleTo('termination delete')) {
             if ($termination->created_by == creatorId() && $termination->workspace == getActiveWorkSpace()) {
 
-                event(new DestroyTermination($termination));
-
+                $action = 'Xóa miễn nhiệm';
+                $typeAction = 'delete';
+                $nameType = TerminationType::find($termination->termination_type)->name;
+                $userName = User::find($termination->user_id)->name;
+                $user = User::find($termination->user_id);
+                $changes = [
+                    'name'             =>$userName,
+                    'termination_type' => $nameType,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+                $this->saveLog($user, $termination, $changes, $action,$typeAction);
                 $termination->delete();
-
+                event(new DestroyTermination($termination));
                 return redirect()->route('termination.index')->with('success', __('Termination successfully deleted.'));
             } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
@@ -286,5 +338,69 @@ class TerminationController extends Controller
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
+    }
+
+
+    private function getChanges($originalData = null, $newData = null)
+    {
+        $changes = [];
+    
+        foreach ($originalData as $key => $value) {
+            if ($key === 'updated_at' || $key === 'created_at') {
+                continue;
+            }
+    
+            $oldValue = $originalData[$key];
+            $newValue = $newData[$key];
+    
+            // Check if it's a select field
+            if ($this->isSelectField($key)) {
+                $oldName = $this->getNameFromDatabase($key, $oldValue);
+                $newName = $this->getNameFromDatabase($key, $newValue);
+            } else {
+                $oldName = $oldValue;
+                $newName = $newValue;
+            }
+    
+            if ($oldName !== $newName) {
+                $changes[$key] = [
+                    'old' => $oldName,
+                    'new' => $newName,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+            }
+        }
+    
+        return $changes;
+    }
+    private function isSelectField($key)
+    {
+        $selectFields = ['termination_type', 'user_id'];
+        return in_array($key, $selectFields);
+    }
+
+    private function getNameFromDatabase($key, $id)
+    {
+        switch ($key) {
+            case 'termination_type':
+                return TerminationType::find($id)->name;
+            case 'user_id':
+                return User::find($id)->name;
+            default:
+                return $id;
+        }
+    }
+    private function saveLog($user, $employee, $changes, $action, $typeAction)
+    {
+        $logData = [
+            'action_type' => $typeAction,
+            'user_id' => $user->id,
+            'user_type' => get_class($user),
+            'employee_id' => $employee->id,
+            'log_type' => $action,
+            'remark' => json_encode(['changes' => $changes]),
+        ];
+        ActivityLogTermination::create($logData);
     }
 }
