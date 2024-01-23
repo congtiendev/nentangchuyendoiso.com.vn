@@ -49,5 +49,18 @@ class CompanyMenuListener
             'module' => $module,
             'permission' => 'contracttype manage'
         ]);
+
+        $menu->add([
+            'title' => "Hợp đồng mẫu",
+            'icon' => '',
+            'name' => 'contract-sample',
+            'parent' => 'contract',
+            'order' => 15,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'contract.samples',
+            'module' => $module,
+            'permission' => 'contracttype manage'
+        ]);
     }
 }
