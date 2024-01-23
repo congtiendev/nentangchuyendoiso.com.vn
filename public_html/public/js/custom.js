@@ -955,3 +955,23 @@ function SetData(params,count = 0)
         toastrs('Success', '{{ __("Something went wrong please try again!") }}', 'success');
     }
 }
+
+(function($) {
+
+	"use strict";
+
+	 $('.label.ui.dropdown')
+  .dropdown();
+
+		$('.no.label.ui.dropdown')
+		  .dropdown({
+		  useLabels: false
+		});
+
+		$('.ui.button').on('click', function () {
+		  $('.ui.dropdown')
+		    .dropdown('restore defaults')
+		})
+
+	 
+})(jQuery);

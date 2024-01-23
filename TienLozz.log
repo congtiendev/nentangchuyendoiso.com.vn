@@ -1,22 +1,25 @@
-Thêm thuộc tính Disapproved,Rejected vào cột status của bảng Projects
-SET Default lại cho cột status thành Disapproved
-`status` enum('Rejected','Disapproved','Ongoing','Finished','OnHold') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Disapproved',
+  Thêm thuộc tính Disapproved,Rejected vào cột status của bảng Projects
+  SET Default lại cho cột status thành Disapproved
+  'status' enum('Rejected','Disapproved','Ongoing','Finished','OnHold') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Disapproved',
 
-Tạo bảng procedures với các cột sau:
-CREATE TABLE `procedures` (
-  `id` int(11) NOT NULL,
-  `name` varchar(1000) NOT NULL,
-  `procedure_type` int(11) DEFAULT NULL,
-  `description` longtext NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  Tạo bảng procedures với các cột sau:
+  CREATE TABLE 'procedures' (
+    'id' int(11) NOT NULL,
+    'name' varchar(1000) NOT NULL,
+    'procedure_type' int(11) DEFAULT NULL,
+    'description' longtext NOT NULL,
+    'created_at' timestamp NOT NULL DEFAULT current_timestamp(),
+    'updated_at' timestamp NOT NULL DEFAULT current_timestamp()
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-Tạo bảng procedures_type với các cột sau:
-CREATE TABLE `procedures_type` (
-  `id` int(11) NOT NULL,
-  `name` varchar(1000) NOT NULL,
-  `description` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  Tạo bảng procedures_type với các cột sau:
+  CREATE TABLE 'procedures_type' (
+    'id' int(11) NOT NULL,    
+    'name' varchar(1000) NOT NULL,
+    'description' text NOT NULL,
+    'created_at' timestamp NOT NULL DEFAULT current_timestamp(),
+    'updated_at' timestamp NOT NULL DEFAULT current_timestamp()
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+  Chuyển trường 'designation_id' từ bảng 'promotions' thành nullable
+  Thêm cột 'status' vào bảng 'promotions' với giá trị mặc định là '0' 
