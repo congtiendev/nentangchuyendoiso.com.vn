@@ -12,6 +12,12 @@
             <i class="ti ti-plus"></i>
         </a>
     @endpermission
+    @permission('transfer create')
+    <a href="{{ route('activityLog.transfer') }}" data-title="{{ __('Lịch sử chỉnh sửa') }}" data-bs-toggle="tooltip"
+        title="" class="btn btn-sm btn-primary">
+        Lịch sử chỉnh sửa
+    </a>
+    @endpermission
 </div>
 @endsection
 @php
