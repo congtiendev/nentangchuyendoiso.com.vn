@@ -6,12 +6,16 @@ use App\Models\EmailTemplate;
 use App\Models\HelpdeskConversion;
 use App\Models\HelpdeskTicket;
 use App\Models\HelpdeskTicketCategory;
-use App\Models\User;
+use App\Models\User;    
+use App\Models\HelpdeskExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;    
+use Barryvdh\DomPDF\Facade\Pdf;
+use Google\Service\Compute\Help;
 
 class HelpdeskTicketController extends Controller
 {
@@ -44,7 +48,8 @@ class HelpdeskTicketController extends Controller
             {
                 $tickets = $tickets->where('workspace',getActiveWorkSpace())->orderBy('id', 'desc')->get();
             }
-
+            // Lưu vào session để export
+            Session::put('export_tickets', $tickets);
             return view('helpdesk_ticket.index', compact('tickets', 'status'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -417,5 +422,20 @@ class HelpdeskTicketController extends Controller
         } else {
             return redirect()->back()->with('error', __('Something is wrong'));
         }
+    }
+
+    public function export(){
+        try {
+            return Excel::download(new HelpdeskExport, 'helpdesk.xlsx');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('Something is wrong'));
+        }
+    }
+
+    public function download_pdf($id){
+        $ticket = HelpdeskTicket::find($id);
+        $data = HelpdeskConversion::where('ticket_id',$id)->get();
+    	$pdf = PDF::loadView('helpdesk_ticket.helpdesk_pdf',compact('data','ticket'));
+    	return $pdf->download('helpdesk_ticket.pdf');
     }
 }

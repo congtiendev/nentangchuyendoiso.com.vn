@@ -8,7 +8,6 @@
 @endsection
 
 @section('page-action')
-
     <div class="col-auto pe-0">
         <select class="form-select" id="projects" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" style="width: 150px;">
             <option value="{{route('helpdesk-tickets.search')}}">{{__('Trạng thái')}}</option>
@@ -17,12 +16,14 @@
             <option value="{{route('helpdesk-tickets.search', 'closed')}}" @if($status == 'closed') selected @endif>{{__('Closed')}}</option>
         </select>
     </div>
-    <div class="col-auto ps-3 mt-1">
+    <div class="col-2 mt-1">
         @permission('helpdesk ticket create')
                 <a href="{{route('helpdesk.create')}}" class="btn btn-sm btn-primary btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="{{__('Create')}}"><i class="ti ti-plus text-white"></i></a>
         @endpermission
     </div>
-
+    <div class="col-auto me-1 mt-1">
+        <a href="{{route('helpdesk.export')}}" class="btn btn-sm btn-primary btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="{{__('Xuất Excel')}}"><i class="ti ti-download text-white"></i></a>
+    </div>
 @endsection
 
 @section('content')
@@ -82,6 +83,10 @@
 
                                     <td class="text-end">
                                         @permission('helpdesk ticket show')
+                                        <div class="action-btn bg-primary ms-2">
+                                            <a href="{{ route('helpdesk.pdf', $ticket->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center" data-bs-toggle="tooltip" title="{{ __('Xuất PDF') }}"> <span class="text-white"> <i class="ti ti-download"></i></span></a>
+                                        </div>
+
                                             <div class="action-btn bg-info ms-2">
                                                 <a href="{{ route('helpdesk.edit', $ticket->id) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center" data-bs-toggle="tooltip" title="{{ __('Edit & Reply') }}"> <span class="text-white"> <i class="ti ti-corner-up-left"></i></span></a>
                                             </div>

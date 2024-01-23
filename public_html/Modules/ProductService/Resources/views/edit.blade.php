@@ -16,17 +16,17 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                {{ Form::label('sku', __('SKU'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
+                {{ Form::label('sku', __('Đơn vị trình ký'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
                 <div class="form-icon-user">
                     {{ Form::text('sku', null, ['class' => 'form-control', 'required' => 'required']) }}
                 </div>
             </div>
         </div>
         <div class="form-group  col-md-12">
-            {{ Form::label('description', __('Description'), ['class' => 'form-label']) }}
+            {{ Form::label('description', __('Ý kiến của lãnh đạo trình ký'), ['class' => 'form-label']) }}
             {!! Form::textarea('description', null, ['class' => 'form-control', 'rows' => '2']) !!}
         </div>
-        <div class="col-md-6">
+        <div hidden class="col-md-6">
             <div class="form-group">
                 {{ Form::label('sale_price', __('Sale Price'), ['class' => 'form-label']) }}<span
                     class="text-danger">*</span>
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div hidden class="col-md-6">
             <div class="form-group">
                 {{ Form::label('purchase_price', __('Purchase Price'), ['class' => 'form-label']) }}<span
                     class="text-danger">*</span>
@@ -44,9 +44,9 @@
                 </div>
             </div>
         </div>
-        @stack('add_column_in_productservice')
+        {{-- @stack('add_column_in_productservice') --}}
 
-        <div class="form-group  col-md-6">
+        <div hidden class="form-group  col-md-6">
             {{ Form::label('tax_id', __('Tax'), ['class' => 'form-label']) }}
             {{ Form::select('tax_id[]', $tax, null, ['class' => 'form-control choices tax_data', 'id' => 'choices-multiple1', 'multiple' => '']) }}
             <p class="text-danger d-none" id="tax_validation">{{ __('Tax filed is required.') }}</p>
@@ -57,31 +57,36 @@
                 class="text-danger">*</span>
             {{ Form::select('category_id', $category, null, ['class' => 'form-control', 'required' => 'required']) }}
         </div>
-        <div class="form-group col-md-6">
+        <div hidden class="form-group col-md-6">
             {{ Form::label('unit_id', __('Unit'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
             {{ Form::select('unit_id', $unit, null, ['class' => 'form-control', 'required' => 'required']) }}
         </div>
         <div class="col-6 form-group">
-            {{ Form::label('image', __('Image'), ['class' => 'col-form-label']) }}
+            {{ Form::label('image', __('Tải tệp'), ['class' => 'col-form-label']) }}
             <div class="choose-files ">
                 <label for="image">
 
                     <input type="file" class="form-control file" name="image" id="image"
                         data-filename="image_update"
                         onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
+                        <i class="fas fa-upload upload-icon fa-2x mr-1"></i>
+
                     @php
                         if (check_file($productService->image) == false) {
                             $path = asset('Modules/ProductService/Resources/assets/image/img01.jpg');
+                            
                         } else {
                             $path = get_file($productService->image);
                         }
                     @endphp
-                    <img id="blah" src="{{ $path }}" alt="your image" width="100" height="100" />
+                    <a  href="{{ $path }}" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Tệp của bạn</span>
+                    </a>
                 </label>
             </div>
         </div>
-
-        <div class="col-md-6">
+        <div hidden class="col-md-6">
             <div class="form-group">
                 <label class="d-block form-label">{{ __('Type') }}</label>
                 <div class="row">
@@ -106,7 +111,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group col-md-6 quantity">
+        <div hidden class="form-group col-md-6 quantity">
             {{ Form::label('quantity', __('Quantity'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
             {{ Form::text('quantity', null, ['class' => 'form-control', 'required' => 'required']) }}
         </div>
@@ -144,13 +149,5 @@
             $('.quantity').removeClass('d-block');
         }
     });
-    $("#submit").click(function() {
-        var skill = $('.tax_data').val();
-        if (skill == '') {
-            $('#tax_validation').removeClass('d-none')
-            return false;
-        } else {
-            $('#tax_validation').addClass('d-none')
-        }
-    });
+   z
 </script>

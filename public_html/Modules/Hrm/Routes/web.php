@@ -222,6 +222,7 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
     );
 
     Route::get('log-employee', [EmployeeController::class, 'activityLog'])->name('activityLog.employee')->middleware(['auth']);
+    Route::get('log-employee-appoint', [EmployeeController::class, 'activityLogAppoint'])->name('activityLog.appoint')->middleware(['auth']);
 
     //
        Route::get('appoint', [EmployeeController::class, 'appoint'])->name('appoint.appoint')->middleware(['auth']);

@@ -17,16 +17,16 @@
             @endif
         @if ((module_is_active('ProductService') && module_is_active('Account')) || module_is_active('Taskly'))
             @permission('invoice manage')
-                <a href="{{ route('invoice.grid.view') }}"  data-bs-toggle="tooltip" data-bs-original-title="{{__('Grid View')}}" class="btn btn-sm btn-primary btn-icon">
+                {{-- <a href="{{ route('invoice.grid.view') }}"  data-bs-toggle="tooltip" data-bs-original-title="{{__('Grid View')}}" class="btn btn-sm btn-primary btn-icon">
                     <i class="ti ti-layout-grid"></i>
-                </a>
+                </a> --}}
             @endpermission
 
             @permission('invoice create')
-                <a href="{{ route('invoice.create', 0) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                {{-- <a href="{{ route('invoice.create', 0) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
                     data-bs-original-title="{{ __('Tạo văn bản') }}">
                     <i class="ti ti-plus"></i>
-                </a>
+                </a> --}}
             @endpermission
         @endif
     </div>
@@ -53,12 +53,12 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                        {{-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                             <div class="btn-box">
                                 {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
-                                {{ Form::select('status', ['' => 'Chọn trạng thái'] + $status, isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control select']) }}
+                                {{ Form::select('status', ['' => 'Chọn trạng thái'] + array_map('__', $status), isset($_GET['status']) ? $_GET['status'] : '', ['class' => 'form-control select']) }}
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-auto float-end ms-2 mt-4">
 
                             <a href="#" class="btn btn-sm btn-primary"
@@ -80,7 +80,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body table-border-style">
-                    <div class="table-responsive">
+                    <div class="table-responsive">Column not found: 1054 Unknown column 'project' in 'field list'
                         <table class="table mb-0 pc-dt-simple" id="assets">
                             <thead>
                                 <tr>
@@ -90,7 +90,7 @@
                                     @endif
                                     <th>{{ __('Issue Date') }}</th>
                                     <th>{{ __('Due Date') }}</th>
-                                    <th>{{ __('Due Amount') }}</th>
+                                    {{-- <th>{{ __('Due Amount') }}</th> --}}
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
@@ -119,45 +119,45 @@
                                                 {{ company_date_formate($invoice->due_date) }}
                                             @endif
                                         </td>
-                                        <td>{{ currency_format_with_sym($invoice->getDue()) }}</td>
+                                        {{-- <td>{{ currency_format_with_sym($invoice->getDue()) }}</td> --}}
                                         <td>
                                             @if ($invoice->status == 0)
                                                 <span
-                                                    class="badge fix_badges bg-primary p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[$invoice->status]) }}</span>
+                                                    class="badge fix_badges bg-primary p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[4]) }}</span>
                                             @elseif($invoice->status == 1)
                                                 <span
-                                                    class="badge fix_badges bg-info p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[$invoice->status]) }}</span>
+                                                    class="badge fix_badges bg-info p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[4]) }}</span>
                                             @elseif($invoice->status == 2)
                                                 <span
-                                                    class="badge fix_badges bg-secondary p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[$invoice->status]) }}</span>
+                                                    class="badge fix_badges bg-secondary p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[4]) }}</span>
                                             @elseif($invoice->status == 3)
                                                 <span
-                                                    class="badge fix_badges bg-warning p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[$invoice->status]) }}</span>
+                                                    class="badge fix_badges bg-warning p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[4]) }}</span>
                                             @elseif($invoice->status == 4)
                                                 <span
-                                                    class="badge fix_badges bg-danger p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[$invoice->status]) }}</span>
+                                                    class="badge fix_badges bg-warning p-2 px-3 rounded">{{ __('status.' .App\Models\Invoice::$statues[4]) }}</span>
                                             @endif
                                         </td>
 
                                             <td class="Action">
                                                 <span>
-                                                    <div class="action-btn bg-primary ms-2">
+                                                    {{-- <div class="action-btn bg-primary ms-2">
                                                         <a href="#" class="btn btn-sm  align-items-center cp_link" data-link="{{route('pay.invoice',\Illuminate\Support\Facades\Crypt::encrypt($invoice->id))}}" data-bs-toggle="tooltip" title="{{__('Copy')}}" data-original-title="{{__('Click to copy invoice link')}}">
                                                             <i class="ti ti-file text-white"></i>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
                                                     @if(module_is_active('EInvoice'))
                                                         @permission('download invoice')
                                                             @include('einvoice::download.generate_invoice',['invoice_id'=>$invoice->id])
                                                         @endpermission
                                                     @endif
-                                                    <div class="action-btn bg-info ms-2">
+                                                    {{-- <div class="action-btn bg-info ms-2">
                                                         <a href="#" class="btn btn-sm  align-items-center" data-url="{{route('delivery-form.pdf',\Crypt::encrypt($invoice->id))}}" data-ajax-popup="true" data-size="lg" data-bs-toggle="tooltip" title="{{__('Mẫu gửi văn bản')}}" data-title="{{ __('Invoice Delivery Form') }}">
                                                             <i class="ti ti-clipboard-list text-white"></i>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
                                                     @permission('invoice duplicate')
-                                                        <div class="action-btn bg-secondary ms-2">
+                                                        {{-- <div class="action-btn bg-secondary ms-2">
                                                             {!! Form::open([
                                                                 'method' => 'get',
                                                                 'route' => ['invoice.duplicate', $invoice->id],
@@ -173,7 +173,7 @@
                                                                 <i class="ti ti-copy  text-white"></i>
                                                             </a>
                                                             {{ Form::close() }}
-                                                        </div>
+                                                        </div> --}}
                                                     @endpermission
                                                     @permission('invoice show')
                                                         <div class="action-btn bg-warning ms-2">
@@ -184,7 +184,7 @@
                                                             </a>
                                                         </div>
                                                     @endpermission
-                                                    @if (module_is_active('ProductService') && $invoice->invoice_module == 'taskly' ? module_is_active('Taskly') : module_is_active('Account'))
+                                                    {{-- @if (module_is_active('ProductService') && $invoice->invoice_module == 'taskly' ? module_is_active('Taskly') : module_is_active('Account'))
                                                         @permission('invoice edit')
                                                             <div class="action-btn bg-info ms-2">
                                                                 <a href="{{ route('invoice.edit', \Crypt::encrypt($invoice->id)) }}"
@@ -211,7 +211,7 @@
                                                             </a>
                                                             {{ Form::close() }}
                                                         </div>
-                                                    @endpermission
+                                                    @endpermission --}}
                                                 </span>
                                             </td>
                                     </tr>

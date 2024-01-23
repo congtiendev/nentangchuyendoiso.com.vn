@@ -1,9 +1,9 @@
 @extends('layouts.main')
 @section('page-title')
-    {{ __('Project Report') }}
+    {{ __('Báo cáo công việc') }}
 @endsection
 @section('page-breadcrumb')
-    {{ __('Project Report') }}
+    {{ __('Báo cáo công việc') }}
 @endsection
 @section('page-action')
     <div>
@@ -21,7 +21,6 @@
     {{ Form::open(['route' => ['project_report.index'], 'method' => 'GET', 'id' => 'product_service']) }}
 
     <div class="row pt-4 display-none" id="show_filter">
-
         @if (Auth::user()->hasRole('company') || Auth::user()->hasRole('client'))
             <div class="col-2">
                 <select class="select2 form-select" name="all_users" id="all_users">
@@ -78,12 +77,12 @@
                             <thead>
                                 <tr>
                                     <th> {{ __('#') }}</th>
-                                    <th> {{ __('Project Name') }}</th>
+                                    <th> {{ __('Tên công việc') }}</th>
                                     <th> {{ __('Start Date') }}</th>
                                     <th> {{ __('Due Date') }}</th>
-                                    <th> {{ __('Project Member') }}</th>
+                                    <th> {{ __('Thành viên trong dự án') }}</th>
                                     <th> {{ __('Progress') }}</th>
-                                    <th>{{ __('Project Status') }}</th>
+                                    <th>{{ __('Trạng thái công việc') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>

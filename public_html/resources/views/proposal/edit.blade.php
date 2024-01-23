@@ -558,7 +558,7 @@
                         <div class="col-md-6">
                             <div class="row">
                                 @if(module_is_active('Account') && module_is_active('Taskly'))
-                                    <div class="col-md-12">
+                                    <div hidden class="col-md-12">
                                         <div class="form-group">
                                             {{ Form::label('type', __('Type'),['class'=>'form-label']) }}
                                             <div class="d-flex radio-check">

@@ -215,7 +215,7 @@
                     </div>
                 </li>
 
-                <li class="dropdown dash-h-item drp-language">
+                {{-- <li class="dropdown dash-h-item drp-language">
                     <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" aria-expanded="false">
                         <i class="ti ti-world nocolor"></i>
@@ -246,7 +246,7 @@
                         @endpermission
                         @endif
                     </div>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>
