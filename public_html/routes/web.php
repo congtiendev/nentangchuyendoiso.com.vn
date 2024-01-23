@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BanktransferController;
+use App\Http\Controllers\ManagerFileControler;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
@@ -296,3 +297,11 @@ Route::post('/bank/transfer/invoice', [BanktransferController::class, 'invoicePa
 // proposal
 Route::get('/proposal/pay/{proposal}', [ProposalController::class, 'payproposal'])->name('pay.proposalpay');
 Route::get('proposal/pdf/{id}', [ProposalController::class, 'proposal'])->name('proposal.pdf');
+// danh sách mượn
+Route::get('/manager-file', [ManagerFileControler::class, 'index'])->name('manager-file.index');
+Route::get('/manager-file/create', [ManagerFileControler::class, 'create'])->name('manager-file.create');
+Route::post('/manager-file/store', [ManagerFileControler::class, 'store'])->name('manager-file.store');
+Route::get('/manager-file/edit/{id}', [ManagerFileControler::class, 'edit'])->name('manager-file.edit');
+Route::post('/manager-file/update/{id}', [ManagerFileControler::class, 'update'])->name('manager-file.update');
+Route::delete('/manager-file/destroy/{id}', [ManagerFileControler::class, 'destroy'])->name('manager-file.destroy');
+
