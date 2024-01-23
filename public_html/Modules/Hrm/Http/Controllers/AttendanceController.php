@@ -33,7 +33,7 @@ class AttendanceController extends Controller
             $department->prepend('All', '');
 
             if (!in_array(Auth::user()->type, Auth::user()->not_emp_type)) {
-                $attendances = Attendance::where('employee_id', Auth::user()->id)->where('workspace', getActiveWorkSpace());
+                $attendances = Attendance::where('employee_id', Auth::user()->id)->where('status','Present')->where('workspace', getActiveWorkSpace());
                 if ($request->type == 'monthly' && !empty($request->month)) {
                     $month = date('m', strtotime($request->month));
                     $year  = date('Y', strtotime($request->month));
@@ -79,7 +79,7 @@ class AttendanceController extends Controller
                 }
                 $employee = $employee->get()->pluck('id');
 
-                $attendances = Attendance::whereIn('employee_id', $employee)->where('workspace', getActiveWorkSpace())->with('employees');
+                $attendances = Attendance::whereIn('employee_id', $employee)->where('workspace', getActiveWorkSpace())->where('status','Present')->with('employees');
 
                 if ($request->type == 'monthly' && !empty($request->month)) {
                     $month = date('m', strtotime($request->month));
@@ -204,7 +204,11 @@ class AttendanceController extends Controller
                 $employeeAttendance                = new Attendance();
                 $employeeAttendance->employee_id   = $request->employee_id;
                 $employeeAttendance->date          = $request->date;
-                $employeeAttendance->status        = 'Present';
+                if(Auth::user()->type == "company" || Auth::user()->type == "super admin"){
+                    $employeeAttendance->status        = 'Present';
+                }else{
+                    $employeeAttendance->status        = 'Pending';
+                }
                 $employeeAttendance->clock_in      = $request->clock_in . ':00';
                 $employeeAttendance->clock_out     = $request->clock_out . ':00';
                 $employeeAttendance->late          = $late;
@@ -224,6 +228,18 @@ class AttendanceController extends Controller
         }
     }
 
+    public function list_pending(){
+        $currentWorkspace = getActiveWorkSpace();
+        $attendances = Attendance::where('status', 'Pending')->where('workspace', $currentWorkspace)->get();
+        return view('hrm::attendance.pending', compact('attendances'));             
+    }
+
+    public function update_status($id){
+        $attendance = Attendance::find($id);
+        $attendance->status = "Present";
+        $attendance->save();
+        return redirect()->back()->with('success', __('Employee attendance successfully updated.'));    
+    }
     /**
      * Show the specified resource.
      * @param int $id
