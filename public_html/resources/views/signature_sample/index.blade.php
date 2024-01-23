@@ -1,10 +1,10 @@
 @extends('layouts.main')
 @section('page-title')
-Quản lý hợp đồng mẫu
+Quản lý trình ký mẫu
 @endsection
 
 @section('page-breadcrumb')
-Quản lý hợp đồng mẫu
+Quản lý trình ký mẫu
 @endsection
 
 @push('css')
@@ -19,12 +19,10 @@ Quản lý hợp đồng mẫu
 @section('page-action')
 <div>
     @stack('addButtonHook')
-    @permission('contract create')
-    <button data-action="{{ route('contract.samples.store') }}" id="showAddContractSampleModal" class="btn btn-sm btn-primary">
+    <button data-action="{{ route('signature-sample.store') }}" id="showAddsignatureSampleModal" class="btn btn-sm"
+        style="background-color: #0CAF60;">
         <i class="ti ti-plus"></i>
     </button>
-
-    @endpermission
 </div>
 @endsection
 
@@ -37,24 +35,19 @@ Quản lý hợp đồng mẫu
                     <table class="table mb-0 pc-dt-simple" id="assets">
                         <thead>
                             <tr>
-                                <th>Tên hợp đồng</th>
+                                <th>Tên trình ký</th>
                                 <th>Đối tượng</th>
-                                <th>Loại hợp đồng</th>
+                                <th>Loại trình ký</th>
                                 <th>Người có thẩm quyền</th>
-                                <th>Nội dung hợp đồng</th>
+                                <th>Nội dung trình ký</th>
                                 <th>Mô tả</th>
                                 <th> Người tạo</th>
                                 <th> Ngày tạo</th>
-
-                                @if (Laratrust::hasPermission('contract create') || Laratrust::hasPermission('contract
-                                show') || Laratrust::hasPermission('contract edit') ||
-                                Laratrust::hasPermission('contract delete'))
                                 <th>{{ __('Action') }}</th>
-                                @endif
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($contracts as $contract)
+                            @foreach ($signatureSamples as $contract)
                             <tr>
                                 <td class="Id">
                                     @permission('contract show')
@@ -68,17 +61,20 @@ Quản lý hợp đồng mẫu
                                     @endif
                                 </td>
                                 <td>
-                                    {{ getUserById($contract->contract_object)->name }}
+                                    {{ getUserById($contract->signature_object)->name }}
                                 </td>
                                 <td>
-                                    {{ getContractTypeById($contract->contract_type)->name }}
+                                    {{ getSignatureTypeById($contract->signature_type)->name}}
                                 </td>
                                 <td>
-                                    {{ getUserById($contract->competent_person)->name }}
+                                    {{ getUserById($contract->approver)->name }}
                                 </td>
-                                <td class="text-center">
-                                    <a href="{{ url($contract->content)}}" target="_blank">
-                                      <img src="{{ url($contract->content)}}" alt="" width="50px" height="50px">
+                                <td >
+                                    <a href="{{ url($contract->content)}}" class="btn btn-outline-primary" download>
+                                        <i class="fa fa-download" style="font-size: 20px;"></i>
+                                    </a>
+                                    <a class="btn btn-outline-primary" href="{{ url($contract->content)}}" target="_blank">
+                                        <i class="fa fa-file" style="font-size: 20px;"></i>
                                     </a>
                                 </td>
                                 <td>
@@ -97,30 +93,27 @@ Quản lý hợp đồng mẫu
                                 <td class="Action">
                                     <span>
                                 
-                                        @permission('contract show')
                                         <div class="action-btn bg-warning ms-2">
-                                            <a href="{{ route('contract.samples.show', $contract->id) }}"
+                                            <a href="{{ route('signature-sample.show', $contract->id) }}"
                                                 class="mx-3 btn btn-sm d-inline-flex align-items-center"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="{{ __('View') }}"><i class="ti ti-eye text-white"></i></a>
                                         </div>
-                                        @endpermission
-                                        @permission('contract edit')
                                         <div class="action-btn bg-info ms-2">
                                             <button
-                                                data-action="{{route('contract.samples.update', $contract->id)}}"
-                                                data-name="{{$contract->name}}" data-contract_type="{{$contract->contract_type}}"
-                                                data-competent_person="{{$contract->competent_person}}"
-                                                data-contract_object="{{$contract->contract_object}}"
-                                                data-description="{{$contract->description}}"
-                                                class="mx-3 btn btn-sm d-inline-flex align-items-center btn-update-contract-sample"
+                                                data-action="{{route('signature-sample.update', $contract->id)}}"
+                                                data-name="{{ $contract->name }}"
+                                                data-signature_type="{{ $contract->signature_type }}"
+                                                data-approver="{{ $contract->approver }}"
+                                                data-signature_object="{{ $contract->signature_object }}"
+                                                data-description="{{ $contract->description }}"
+                                                data-content="{{ $contract->content }}"
+                                                class="mx-3 btn btn-sm  btn-update-signature-sample"
                                                 title="{{ __('Edit') }}"><i class="ti ti-pencil text-white"></i></button>
                                         </div>
-                                        @endpermission
-                                        @permission('contract delete')
                                         <div class="action-btn bg-danger ms-2">
                                             <form method="POST"
-                                                action="{{ route('contract.samples.destroy',['id' => $contract->id]) }}"
+                                                action="{{ route('signature-sample.destroy',['id' => $contract->id]) }}"
                                                 accept-charset="UTF-8" class="m-0">
                                                 @csrf
                                                 <input type="hidden" name="_method" value="DELETE"> <a
@@ -133,7 +126,6 @@ Quản lý hợp đồng mẫu
                                                 </a>
                                             </form>
                                         </div>
-                                        @endpermission
                                     </span>
                                 </td>
                                 @endif
@@ -148,31 +140,30 @@ Quản lý hợp đồng mẫu
 </div>
 
 
-<div class="modal fade" id="createContractSampleModal" tabindex="-2" role="dialog"
+<div class="modal fade" id="createsignatureSampleModal" tabindex="-2" role="dialog"
     aria-labelledby="employeeCreateWorkShiftModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form class="modal-content" method="POST" enctype="multipart/form-data"
-            action="{{ route('contract.samples.store') }}">
+        <form class="modal-content" method="POST" enctype="multipart/form-data" action="">
             @csrf
             <div class="modal-header">
-                <h5 class="modal-title">Thêm hợp đồng mẫu</h5>
+                <h5 class="modal-title">Thêm trình ký mẫu</h5>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label"> Tên hợp đồng </label>
-                            <input type="text" class="form-control" name="name" id="name" required>
+                            <label class="col-form-label"> Tên trình ký </label>
+                            <input type="text" class="form-control" name="name" id="name" required placeholder="Tên trình ký">
                         </div>
                     </div>
 
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label"> Loại hợp đồng</label>
-                            <select class="form-control" name="contract_type" id="contract_type" required>
-                                <option value=""> Chọn loại hợp đồng </option>
-                                @foreach(getContractType() as $key => $value)
-                                <option value="{{ $key }}"> {{ $value }} </option>
+                            <label class="col-form-label"> Loại trình ký</label>
+                            <select class="form-control" name="signature_type" id="signature_type" required>
+                                <option value=""> Chọn loại trình ký </option>
+                                @foreach($signatureTypes as $key => $value)
+                                <option value="{{ $value->id }}"> {{ $value->name }} </option>
                                 @endforeach
                             </select>
                         </div>
@@ -181,7 +172,8 @@ Quản lý hợp đồng mẫu
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label"> Người có thẩm quyền </label>
-                            <select class="form-control" name="competent_person" id="competent_person" required>
+                            <select class="form-control" name="approver" id="approver" required>
+                                <option value=""> Chọn người có thẩm quyền </option>
                                 @foreach(getUserWorkSpace() as $key => $value)
                                 <option value="{{ $key }}"> {{ $value }} </option>
                                 @endforeach
@@ -192,7 +184,8 @@ Quản lý hợp đồng mẫu
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label"> Đối tượng </label>
-                            <select class="form-control" name="competent_person" id="competent_person" required>
+                            <select class="form-control" name="signature_object" id="signature_object" required>
+                                <option value=""> Chọn đối tượng </option>
                                 @foreach(getUserWorkSpace() as $key => $value)
                                 <option value="{{ $key }}"> {{ $value }} </option>
                                 @endforeach
@@ -201,9 +194,10 @@ Quản lý hợp đồng mẫu
                     </div>
 
                     <div class="col-12">
-                        <div class="form-group">
+                        <div class="form-group" id="content__group">
                             <label class="col-form-label"> Nội dung </label>
                             <input type="file" class="form-control" name="content" id="content" required>
+
                         </div>
                     </div>
 
@@ -229,26 +223,26 @@ Quản lý hợp đồng mẫu
 @push('scripts')
 <script>
     $(document).ready(function () {
-        $('#showAddContractSampleModal').click(function () {
-            $('#createContractSampleModal').modal('show');
-            $('#createContractSampleModal').find('#updateContractSampleForm').attr('action', $(this).data('action'));
-            $('#createContractSampleModal').find('#name').val('');
-            $('#createContractSampleModal').find('#contract_type').val('');
-            $('#createContractSampleModal').find('#competent_person').val('');
-            $('#createContractSampleModal').find('#contract_object').val('');
-            $('#createContractSampleModal').find('#description').val('');
+        $('#showAddsignatureSampleModal').click(function () {
+            $('#createsignatureSampleModal').modal('show');
+            $('#createsignatureSampleModal').find('#updatesignatureSampleForm').attr('action', $(this).data('action'));
+            $('#createsignatureSampleModal').find('#name').val('');
+            $('#createsignatureSampleModal').find('#signature_type').val('');
+            $('#createsignatureSampleModal').find('#approver').val('');
+            $('#createsignatureSampleModal').find('#signature_object').val('');
+            $('#createsignatureSampleModal').find('#description').val('');
          });
-         $(document).on('click', '.btn-update-contract-sample', function () {
-            $('#createContractSampleModal').modal('show');
-            $('#createContractSampleModal').find('#updateContractSampleForm').attr('action', $(this).data('action'));
-            $('#createContractSampleModal').find('#name').val($(this).data('name'));
-            $('#createContractSampleModal').find('#contract_type').val($(this).data('contract_type'));
-            $('#createContractSampleModal').find('#competent_person').val($(this).data('competent_person'));
-            $('#createContractSampleModal').find('#contract_object').val($(this).data('contract_object'));
-            $('#createContractSampleModal').find('#description').val($(this).data('description'));
-         });
+         $(document).on('click', '.btn-update-signature-sample', function () {
+            $('#createsignatureSampleModal').modal('show');
+            $('#createsignatureSampleModal').find('#updatesignatureSampleForm').attr('action', $(this).data('action'));
+            $('#createsignatureSampleModal').find('#name').val($(this).data('name'));
+            $('#createsignatureSampleModal').find('#signature_type').val($(this).data('signature_type'));
+            $('#createsignatureSampleModal').find('#approver').val($(this).data('approver'));
+            $('#createsignatureSampleModal').find('#signature_object').val($(this).data('signature_object'));
+            $('#createsignatureSampleModal').find('#description').val($(this).data('description'));
+            });
          $('.btn-close-modal').click(function () {
-            $('#createContractSampleModal').modal('hide');
+            $('#createsignatureSampleModal').modal('hide');
          });
     });
 </script>

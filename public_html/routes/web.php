@@ -26,6 +26,7 @@ use App\Http\Controllers\SuperAdmin\SettingsController as SuperAdminSettingsCont
 use App\Http\Controllers\TechnicalSupport;
 use App\Http\Controllers\WorkSpaceController;
 use App\Http\Controllers\CustomNotificationController;
+use App\Http\Controllers\SignatureSampleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,55 +41,55 @@ use App\Http\Controllers\CustomNotificationController;
 
 
 // Auth::routes();
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+Route::resource('signature-sample', SignatureSampleController::class);
+Route::get('signature-sample/{id}', [SignatureSampleController::class, 'show'])->name('signature-sample.show');
+Route::DELETE('signature-sample/{id}', [SignatureSampleController::class, 'destroy'])->name('signature-sample.destroy');
 
-    Route::get('/register/{lang?}', [RegisteredUserController::class, 'create'])->name('register');
-    Route::get('/login/{lang?}', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::get('/forgot-password/{lang?}', [PasswordResetLinkController::class, 'create'])->name('password.request');
-    Route::get('/verify-email/{lang?}', [EmailVerificationPromptController::class, '__invoke'])->name('verification.notice');
+Route::get('/register/{lang?}', [RegisteredUserController::class, 'create'])->name('register');
+Route::get('/login/{lang?}', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::get('/forgot-password/{lang?}', [PasswordResetLinkController::class, 'create'])->name('password.request');
+Route::get('/verify-email/{lang?}', [EmailVerificationPromptController::class, '__invoke'])->name('verification.notice');
 
-    Route::get('helpdesk/show-video', [TechnicalSupport::class, 'showVideo'])->name('technical.show-video');
-    Route::get('helpdesk/show-pdf', [TechnicalSupport::class, 'showPdf'])->name('technical.show-pdf');
+Route::get('helpdesk/show-video', [TechnicalSupport::class, 'showVideo'])->name('technical.show-video');
+Route::get('helpdesk/show-pdf', [TechnicalSupport::class, 'showPdf'])->name('technical.show-pdf');
 
-    Route::group(['middleware' => 'auth'], function () {
-        Route::controller(CustomNotificationController::class)->group(function () {
-            Route::get('notification', [CustomNotificationController::class, 'index'])->name('all.notification');
-            Route::post('read-notification', [CustomNotificationController::class, 'readNotification'])->name('read.notification');
-        });
+Route::group(['middleware' => 'auth'], function () {
+    Route::controller(CustomNotificationController::class)->group(function () {
+        Route::get('notification', [CustomNotificationController::class, 'index'])->name('all.notification');
+        Route::post('read-notification', [CustomNotificationController::class, 'readNotification'])->name('read.notification');
     });
+});
 
-    // module page before login
-    Route::get('add-on', [HomeController::class, 'Software'])->name('apps.software');
-    Route::get('add-on/details/{slug}', [HomeController::class, 'SoftwareDetails'])->name('software.details');
-    Route::get('pricing', [HomeController::class, 'Pricing'])->name('apps.pricing');
-    Route::get('/', [HomeController::class, 'index'])->name('start');
-Route::middleware(['auth','verified'])->group(function () {
+// module page before login
+Route::get('add-on', [HomeController::class, 'Software'])->name('apps.software');
+Route::get('add-on/details/{slug}', [HomeController::class, 'SoftwareDetails'])->name('software.details');
+Route::get('pricing', [HomeController::class, 'Pricing'])->name('apps.pricing');
+Route::get('/', [HomeController::class, 'index'])->name('start');
+Route::middleware(['auth', 'verified'])->group(function () {
 
     //Role & Permission
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
 
     //dashbord
-    if(module_is_active('GoogleAuthentication'))
-    {
-        Route::get('/dashboard', [HomeController::class,'Dashboard'])->name('dashboard')->middleware(
+    if (module_is_active('GoogleAuthentication')) {
+        Route::get('/dashboard', [HomeController::class, 'Dashboard'])->name('dashboard')->middleware(
             [
                 '2fa',
             ]
         );
-        Route::get('/home', [HomeController::class,'Dashboard'])->name('home')->middleware(
+        Route::get('/home', [HomeController::class, 'Dashboard'])->name('home')->middleware(
             [
                 '2fa',
             ]
         );
-    }
-    else
-    {
-        Route::get('/dashboard', [HomeController::class,'Dashboard'])->name('dashboard');
-        Route::get('/home', [HomeController::class,'Dashboard'])->name('home');
+    } else {
+        Route::get('/dashboard', [HomeController::class, 'Dashboard'])->name('dashboard');
+        Route::get('/home', [HomeController::class, 'Dashboard'])->name('home');
     }
 
-     // settings
+    // settings
     Route::resource('settings', SettingsController::class);
     Route::post('settings-save', [CompanySettingsController::class, 'store'])->name('settings.save');
     Route::post('company/settings-save', [CompanySettingsController::class, 'store'])->name('company.settings.save');
@@ -108,7 +109,7 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::post('storage-settings-save', [SuperAdminSettingsController::class, 'storageStore'])->name('storage.setting.store');
     Route::post('ai/key/setting/save', [SuperAdminSettingsController::class, 'aiKeySettingSave'])->name('ai.key.setting.save');
 
-    Route::get('/setting/section/{module}/{methord?}', [SettingsController::class,'getSettingSection'])->name('setting.section.get');
+    Route::get('/setting/section/{module}/{methord?}', [SettingsController::class, 'getSettingSection'])->name('setting.section.get');
 
     // bank-transfer
     Route::resource('bank-transfer-request', BanktransferController::class);
@@ -152,7 +153,7 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('langmanage/{lang?}/{module?}', [LanguageController::class, 'index'])->name('lang.index');
     Route::get('create-language', [LanguageController::class, 'create'])->name('create.language');
     Route::post('langs/{lang?}/{module?}', [LanguageController::class, 'storeData'])->name('lang.store.data');
-    Route::post('disable-language',[LanguageController::class,'disableLang'])->name('disablelanguage');
+    Route::post('disable-language', [LanguageController::class, 'disableLang'])->name('disablelanguage');
     Route::any('store-language', [LanguageController::class, 'store'])->name('store.language');
     Route::delete('/lang/{id}', [LanguageController::class, 'destroy'])->name('lang.destroy');
     // End Language
@@ -216,8 +217,7 @@ Route::middleware(['auth','verified'])->group(function () {
     // End helpdesk
 
 
-    Route::group(['middleware' => 'PlanModuleCheck:Account-Taskly'], function ()
-    {
+    Route::group(['middleware' => 'PlanModuleCheck:Account-Taskly'], function () {
         // invoice
         Route::post('invoice/customer', [InvoiceController::class, 'customer'])->name('invoice.customer');
         Route::post('invoice-attechment/{id}', [InvoiceController::class, 'invoiceAttechment'])->name('invoice.file.upload');
@@ -238,7 +238,7 @@ Route::middleware(['auth','verified'])->group(function () {
         Route::post('invoice/{id}/payment', [InvoiceController::class, 'createPayment'])->name('invoice.payment');
         Route::post('invoice/{id}/payment/{pid}/', [InvoiceController::class, 'paymentDestroy'])->name('invoice.payment.destroy');
         Route::get('invoice/{id}/send', [InvoiceController::class, 'customerInvoiceSend'])->name('invoice.send');
-        Route::post('invoice/{id}/send/mail', [InvoiceController::class,'customerInvoiceSendMail'])->name('invoice.send.mail');
+        Route::post('invoice/{id}/send/mail', [InvoiceController::class, 'customerInvoiceSendMail'])->name('invoice.send.mail');
         Route::post('invoice/section/type', [InvoiceController::class, 'InvoiceSectionGet'])->name('invoice.section.type');
         Route::get('delivery-form/pdf/{id}', [InvoiceController::class, 'pdf'])->name('delivery-form.pdf');
 
@@ -274,14 +274,12 @@ Route::get('guest/module/selection', [ModuleController::class, 'GuestModuleSelec
 Route::get('cookie/consent', [SuperAdminSettingsController::class, 'CookieConsent'])->name('cookie.consent');
 
 // cache
-Route::get('/config-cache', function()
-{
+Route::get('/config-cache', function () {
     Artisan::call('cache:clear');
     Artisan::call('route:clear');
     Artisan::call('view:clear');
     Artisan::call('optimize:clear');
     return redirect()->back()->with('success', 'Cache Clear Successfully');
-
 })->name('config.cache');
 
 //helpdesk
