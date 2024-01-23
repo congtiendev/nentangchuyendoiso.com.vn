@@ -264,7 +264,7 @@ class CompanyMenuListener
             'order' => 650,
             'ignore_if' => [],
             'depend_on' => [],
-            'route' => 'helpdesk.index',
+//            'route' => 'helpdesk.index',
             'module' => $module,
             'permission' => 'helpdesk ticket manage'
         ]);
@@ -279,6 +279,19 @@ class CompanyMenuListener
             'route' => 'helpdesk.index',
             'module' => $module,
             'permission' => 'helpdesk ticket manage'
+        ]);
+//        danh sách mượn
+        $menu->add([
+            'title' => __('Danh sách mượn'),
+            'icon' => '',
+            'name' => 'document book arrives',
+            'parent' => 'document management',
+            'order' => 601,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'manager-file.index',
+            'module' => $module,
+//            'permission' => 'helpdesk ticket manage'
         ]);
         $menu->add([
             'title' => __('Danh mục kệ'),
