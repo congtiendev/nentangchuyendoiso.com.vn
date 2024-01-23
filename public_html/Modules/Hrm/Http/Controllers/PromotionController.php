@@ -25,9 +25,9 @@ class PromotionController extends Controller
     {
         if (Auth::user()->isAbleTo('promotion manage')) {
             if (!in_array(Auth::user()->type, Auth::user()->not_emp_type)) {
-                $promotions = Promotion::where('user_id', '=', creatorId())->where('workspace', getActiveWorkSpace())->get();
+                $promotions = Promotion::where('user_id', '=', Auth::user()->id)->where('workspace', getActiveWorkSpace())->get();
             } else {
-                $promotions = Promotion::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->with('designation')->get();
+                $promotions = Promotion::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->where('status','1')->with('designation')->get();
             }
             return view('hrm::promotion.index', compact('promotions'));
         } else {
@@ -64,7 +64,7 @@ class PromotionController extends Controller
                 $request->all(),
                 [
                     'employee_id' => 'required',
-                    'designation_id' => 'required',
+                    // 'designation_id' => 'required',
                     'promotion_title' => 'required',
                     'promotion_date' => 'required|after:yesterday',
                     'description' => 'required',
@@ -77,20 +77,23 @@ class PromotionController extends Controller
                 return redirect()->back()->with('error', $messages->first());
             }
 
-            $promotion                  = new Promotion();
-            $employee = Employee::where('user_id', '=', $request->employee_id)->first();
-            if (!empty($employee)) {
-                $promotion->employee_id = $employee->id;
+            $employee_ids = $request->employee_id;
+            foreach ($employee_ids as $employee_id) {
+                $promotion                  = new Promotion();
+                $employee = Employee::where('user_id', '=', $employee_id)->first();
+                if (!empty($employee)) {
+                    $promotion->employee_id = $employee->id;
+                }
+                $promotion->user_id         = $employee_id;
+                // $promotion->designation_id  = $request->designation_id;
+                $promotion->promotion_title = $request->promotion_title;
+                $promotion->promotion_date  = $request->promotion_date;
+                $promotion->description     = $request->description;
+                $promotion->workspace       = getActiveWorkSpace();
+                $promotion->created_by      = creatorId();
+                $promotion->status          = 0;
+                $promotion->save();
             }
-            $promotion->user_id         = $request->employee_id;
-            $promotion->designation_id  = $request->designation_id;
-            $promotion->promotion_title = $request->promotion_title;
-            $promotion->promotion_date  = $request->promotion_date;
-            $promotion->description     = $request->description;
-            $promotion->workspace       = getActiveWorkSpace();
-            $promotion->created_by      = creatorId();
-            $promotion->save();
-
             event(new CreatePromotion($request, $promotion));
             $company_settings = getCompanyAllSetting();
             if (!empty($company_settings['Employee Promotion']) && $company_settings['Employee Promotion']  == true) {
@@ -220,4 +223,17 @@ class PromotionController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+
+    public function accept($id)
+    {
+            try {
+                $promotion = Promotion::find($id);
+                $promotion->status = 1;
+                $promotion->save();
+                return redirect()->route('promotion.index')->with('success', __('Promotion successfully accepted.'));
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', __('Permission denied.'));
+            }
+    }
+
 }

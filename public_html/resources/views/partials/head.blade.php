@@ -69,4 +69,6 @@
     <link rel='stylesheet' href='https://unpkg.com/nprogress@0.2.0/nprogress.css'/>
     <script src='https://unpkg.com/nprogress@0.2.0/nprogress.js'></script>
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css">
 </head>
