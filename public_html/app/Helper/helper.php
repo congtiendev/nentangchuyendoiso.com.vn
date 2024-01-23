@@ -32,7 +32,8 @@ use Modules\Taskly\Entities\Project;
 use Modules\Taskly\Entities\Task;
 
 use Modules\Contract\Entities\ContractType;
-
+use App\Models\SignatureSample;
+use App\Models\SignatureSampleType;
 if (!function_exists('getMenu')) {
     function getMenu()
     {
@@ -1968,11 +1969,19 @@ if(! function_exists('AnnualLeaveCycle'))
         }
     }
 
-    if (!function_exists('getUserContract')) {
-        function getUserContract()
+    if (!function_exists('getUserWorkSpace')) {
+        function getUserWorkSpace()
         {
             return  User::where('created_by', '=', creatorId())->where('workspace_id', getActiveWorkSpace())->get()->pluck('name', 'id');
 
         }
     }
+
+    if (!function_exists('getSignatureTypeById')) {
+        function getSignatureTypeById($id)
+        {
+            return SignatureSampleType::find($id);
+        }
+    }
+
 }

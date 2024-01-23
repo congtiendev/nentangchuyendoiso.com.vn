@@ -182,7 +182,7 @@ Quản lý hợp đồng mẫu
                         <div class="form-group">
                             <label class="col-form-label"> Người có thẩm quyền </label>
                             <select class="form-control" name="competent_person" id="competent_person" required>
-                                @foreach(getUserContract() as $key => $value)
+                                @foreach(getUserWorkSpace() as $key => $value)
                                 <option value="{{ $key }}"> {{ $value }} </option>
                                 @endforeach
                             </select>
@@ -192,8 +192,10 @@ Quản lý hợp đồng mẫu
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label"> Đối tượng </label>
-                            <select class="form-control" name="contract_object" id="contract_object" required>
-                                <option value="5">Khác</option>
+                            <select class="form-control" name="competent_person" id="competent_person" required>
+                                @foreach(getUserWorkSpace() as $key => $value)
+                                <option value="{{ $key }}"> {{ $value }} </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

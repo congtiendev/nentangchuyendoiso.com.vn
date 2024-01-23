@@ -81,6 +81,28 @@ class ContractController extends Controller
         }
     }
 
+    public function accept(string $id){
+        try{
+            $contract = Contract::findOrFail($id);
+            $contract->status = 'accept';
+            $contract->save();
+            return redirect()->back()->with('success', "Hợp đồng đã được chấp nhận");
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function decline(string $id){
+        try{
+            $contract = Contract::findOrFail($id);
+            $contract->status = 'decline';
+            $contract->save();
+            return redirect()->back()->with('success', "Hợp đồng đã bị từ chối");
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
     public function samples()
     {
         if (Auth::user()->isAbleTo('contract manage')) {
@@ -103,23 +125,25 @@ class ContractController extends Controller
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', $e->getMessage());
             }
-            $data = [
-                'name' => $request->name,
-                'content' => $uploadContent['url'],
-                'contract_object' => $request->contract_object,
-                'competent_person' => $request->competent_person,
-                'description' => $request->description,
-                'created_by' => Auth::user()->id,
-                'contract_type' => $request->contract_type,
-                'workspace' => getActiveWorkSpace(),
-            ];
-            try {
-                ContractSample::create($data);
-                return redirect()->back()->with('success', __('Contract successfully created!'));
-            } catch (\Exception $e) {
-                dd($e->getMessage());
-                return redirect()->back()->with('error', $e->getMessage());
-            }
+        }else{
+            return redirect()->back()->with('error', __('Please upload file'));
+        }
+        $data = [
+            'name' => $request->name,
+            'content' => $uploadContent['url'],
+            'contract_object' => $request->contract_object,
+            'competent_person' => $request->competent_person,
+            'description' => $request->description,
+            'created_by' => Auth::user()->id,
+            'contract_type' => $request->contract_type,
+            'workspace' => getActiveWorkSpace(),
+        ];
+        try {
+            ContractSample::create($data);
+            return redirect()->back()->with('success', __('Contract successfully created!'));
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -131,7 +155,7 @@ class ContractController extends Controller
         $img = (!empty($dark_logo) ? $dark_logo : get_file('uploads/logo/logo_dark.png'));
         $company_id = $contract->created_by;
         $workspace_id = $contract->workspace;
-    return view('contract::contract_sample.detail', compact('contract', 'contract_type', 'img', 'company_id', 'workspace_id'));
+        return view('contract::contract_sample.detail', compact('contract', 'contract_type', 'img', 'company_id', 'workspace_id'));
     }
 
     public function destroySample($id)
@@ -382,15 +406,14 @@ class ContractController extends Controller
                     $notification_content[] = "Đã thay đổi người phụ trách từ " . $contract->user->name . " sang " . $newUser->name;
                     $send_to[] = $contract->user_id;
                 }
-                if( $contract->project_id != $request->project_id){
+                if ($contract->project_id != $request->project_id) {
                     $contract->project = \Modules\Taskly\Entities\Project::find($contract->project_id);
                     $newProject = \Modules\Taskly\Entities\Project::find($request->project_id);
-                    $notification_content[] = "Đã thay đổi dự án từ "." sang ".$newProject->name;
+                    $notification_content[] = "Đã thay đổi dự án từ " . " sang " . $newProject->name;
                 }
                 //$contract->project->name. lấy ra tạm thời
-                if( $contract->subject != $request->subject){
-                    $notification_content[] = "Đã thay đổi tiêu đề từ ".$contract->subject." sang ".$request->subject;
-
+                if ($contract->subject != $request->subject) {
+                    $notification_content[] = "Đã thay đổi tiêu đề từ " . $contract->subject . " sang " . $request->subject;
                 }
 
                 if ($contract->value != $request->value) {
@@ -444,7 +467,6 @@ class ContractController extends Controller
                 $contract->start_date  = $request->start_date;
                 $contract->end_date    = $request->end_date;
                 $contract->notes       = $request->notes;
-                $contract->status      = $request->status;
                 $contract->save();
 
                 if (module_is_active('CustomField')) {
