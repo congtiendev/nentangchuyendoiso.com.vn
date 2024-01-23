@@ -7,12 +7,16 @@ CREATE TABLE `procedures` (
   `id` int(11) NOT NULL,
   `name` varchar(1000) NOT NULL,
   `procedure_type` int(11) DEFAULT NULL,
-  `description` longtext NOT NULL
+  `description` longtext NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 Tạo bảng procedures_type với các cột sau:
 CREATE TABLE `procedures_type` (
   `id` int(11) NOT NULL,
   `name` varchar(1000) NOT NULL,
-  `description` text NOT NULL
+  `description` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
