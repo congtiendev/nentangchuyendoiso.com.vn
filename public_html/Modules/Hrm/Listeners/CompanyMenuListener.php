@@ -395,5 +395,17 @@ class CompanyMenuListener
             'module' => $module,
             'permission' => 'payroll report manage'
         ]);
+        $menu->add([
+            'title' => __('Quản lí quy trình'),
+            'icon' => '',
+            'name' => 'procedures',
+            'parent' => 'hrm',
+            'order' => 100,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'procedures.index',  
+            'module' => $module,
+            'permission' => 'employee manage'
+        ]);
     }
 }
