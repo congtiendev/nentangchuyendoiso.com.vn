@@ -570,7 +570,7 @@ class InvoiceController extends Controller
                      // first parameter request second parameter invoice
                      event(new UpdateInvoice($request ,$invoice));
 
-                    return redirect()->route('invoice.index')->with('success', __('Invoice successfully updated.'));
+                    return redirect()->route('invoice.index')->with('success', __('Cập nhật văn bản thành công.'));
                 }
                 else if($request->invoice_type == "project")
                 {

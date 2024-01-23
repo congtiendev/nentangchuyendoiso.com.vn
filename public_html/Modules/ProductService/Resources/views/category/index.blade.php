@@ -29,7 +29,7 @@
                     <div class="card sticky-top" style="top:30px">
                         <div class="list-group list-group-flush" id="useradd-sidenav">
                             <a href="#product_category-settings" id="product_category-tab"
-                                class="list-group-item list-group-item-action border-0">{{ __('Danh mục sản phẩm & Dịch vụ') }}
+                                class="list-group-item list-group-item-action border-0">{{ __('Danh mục văn bản') }}
                                 <div class="float-end"><i class="ti ti-chevron-right"></i></div>
                             </a>
 
@@ -71,7 +71,7 @@
                                         <div class="row">
                                             <div class="col-11">
                                                 <h5 class="">
-                                                    {{ __('Sản phẩm & Dịch vụ') }}
+                                                    {{ __('Danh mục văn bản') }}
                                                 </h5>
                                             </div>
                                             <div class="col-1 text-end">
@@ -357,7 +357,7 @@
                         </div>
                     </div>
 
-                    <div id="tax-settings" class="">
+                    {{-- <div id="tax-settings" class="">
                         <div class="">
                             <div class="col-md-12">
                                 <div class="card">
@@ -542,7 +542,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <!-- [ sample-page ] end -->
             </div>

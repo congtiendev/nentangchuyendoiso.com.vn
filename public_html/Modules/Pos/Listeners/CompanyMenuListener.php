@@ -13,30 +13,30 @@ class CompanyMenuListener
     {
         $module = 'Pos';
         $menu = $event->menu;
-        $menu->add([
-            'title' => __('POS'),
-            'icon' => '',
-            'name' => 'pos-dashboard',
-            'parent' => 'dashboard',
-            'order' => 40,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => 'pos.dashboard',
-            'module' => $module,
-            'permission' => 'pos dashboard manage'
-        ]);
-        $menu->add([
-            'title' => __('POS'),
-            'icon' => 'grid-dots',
-            'name' => 'pos',
-            'parent' => null,
-            'order' => 475,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => '',
-            'module' => $module,
-            'permission' => 'pos manage'
-        ]);
+        // $menu->add([
+        //     'title' => __('POS'),
+        //     'icon' => '',
+        //     'name' => 'pos-dashboard',
+        //     'parent' => 'dashboard',
+        //     'order' => 40,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => 'pos.dashboard',
+        //     'module' => $module,
+        //     'permission' => 'pos dashboard manage'
+        // ]);
+        // $menu->add([
+        //     'title' => __('POS'),
+        //     'icon' => 'grid-dots',
+        //     'name' => 'pos',
+        //     'parent' => null,
+        //     'order' => 475,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => '',
+        //     'module' => $module,
+        //     'permission' => 'pos manage'
+        // ]);
         $menu->add([
             'title' => __('Warehouse'),
             'icon' => '',

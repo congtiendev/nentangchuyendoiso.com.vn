@@ -33,6 +33,18 @@
             <div class="card">
                 <div class="card-body table-border-style">
                     <div class="table-responsive overflow_hidden">
+                        <form action="{{route('projecttask.list',['id'=>$project->id])}}" method="POST" class="mt-2">
+                            @csrf
+                            <div class="form-group d-flex gap-2 mx-4">
+                                <select name="department_id" id="filterByDepartment" class="form-control" style="width:15%;">
+                                    <option value="all">{{__('Select Department')}}</option>
+                                    @foreach ($departments as $department)
+                                        <option value="{{$department->id}}" >{{$department->name}}</option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn btn-primary">{{__('Lọc')}}</button>
+                            </div>
+                        </form>
                         <table class="table mb-0 pc-dt-simple" id="assets">
                             <thead class="thead-light">
                                 <tr>

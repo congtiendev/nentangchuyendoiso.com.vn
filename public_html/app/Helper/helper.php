@@ -30,6 +30,9 @@ use Modules\Hrm\Entities\Department;
 
 use Modules\Taskly\Entities\Project;
 use Modules\Taskly\Entities\Task;
+
+use Modules\Contract\Entities\ContractType;
+
 if (!function_exists('getMenu')) {
     function getMenu()
     {
@@ -1948,6 +1951,28 @@ if(! function_exists('AnnualLeaveCycle'))
         function getUserById($id)
         {
             return User::find($id);
+        }
+    }
+
+    if (!function_exists('getContractTypeById')) {
+        function getContractTypeById($id)
+        {
+            return ContractType::find($id);
+        }
+    }
+
+    if (!function_exists('getContractType')) {
+        function getContractType()
+        {
+            return ContractType::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->get()->pluck('name', 'id');
+        }
+    }
+
+    if (!function_exists('getUserContract')) {
+        function getUserContract()
+        {
+            return  User::where('created_by', '=', creatorId())->where('workspace_id', getActiveWorkSpace())->get()->pluck('name', 'id');
+
         }
     }
 }

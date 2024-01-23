@@ -13,30 +13,30 @@ class CompanyMenuListener
     {
         $module = 'Sales';
         $menu = $event->menu;
-        $menu->add([
-            'title' => __('Bán hàng'),
-            'icon' => '',
-            'name' => 'sales-dashboard',
-            'parent' => 'dashboard',
-            'order' => 60,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => 'sales.dashboard',
-            'module' => $module,
-            'permission' => 'sales dashboard manage'
-        ]);
-        $menu->add([
-            'title' => __('Sales'),
-            'icon' => 'file-invoice',
-            'name' => 'sales',
-            'parent' => null,
-            'order' => 525,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => '',
-            'module' => $module,
-            'permission' => 'sales manage'
-        ]);
+        // $menu->add([
+        //     'title' => __('Bán hàng'),
+        //     'icon' => '',
+        //     'name' => 'sales-dashboard',
+        //     'parent' => 'dashboard',
+        //     'order' => 60,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => 'sales.dashboard',
+        //     'module' => $module,
+        //     'permission' => 'sales dashboard manage'
+        // ]);
+        // $menu->add([
+        //     'title' => __('Sales'),
+        //     'icon' => 'file-invoice',
+        //     'name' => 'sales',
+        //     'parent' => null,
+        //     'order' => 525,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => '',
+        //     'module' => $module,
+        //     'permission' => 'sales manage'
+        // ]);
         $menu->add([
             'title' => __('Account'),
             'icon' => '',

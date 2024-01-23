@@ -11,7 +11,9 @@
             </div>
             <div class="mt-1 d-flex justify-content-between">
                 <button type="button" class="btn btn-danger" id="clearSig">{{ __('Clear') }}</button>
-                <input type="file" id="addImgSig" value="{{ __('Tải lên') }}"
+                <button type="button" class="btn btn-primary" id="ca__cloud">CA Clould</button>
+                <button type="button" class="btn btn-primary" id="usb_token">USB Token</button>
+                <input style="width:110px;" type="file" id="addImgSig" value="{{ __('Tải lên') }}"
                     class="btn btn-primary btn-sm float-left waves-effect waves-light ">
             </div>
         </div>
@@ -23,7 +25,14 @@
 </form>
 
 <script src="{{ asset('Modules/Contract/Resources/assets/js/signature_pad/signature_pad.min.js') }}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
+    $('#ca__cloud').click(function() {
+       swal("{{ __('Warning') }}", "Vui lòng tích hợp dịch vụ ", "warning");
+    });
+    $('#usb_token').click(function() {
+       swal("{{ __('Warning') }}", "Vui lòng tích hợp dịch vụ ", "warning");
+    });
     var signature = {
         canvas: null,
         clearButton: null,

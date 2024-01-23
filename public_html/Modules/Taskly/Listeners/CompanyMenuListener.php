@@ -14,7 +14,7 @@ class CompanyMenuListener
         $module = 'Taskly';
         $menu = $event->menu;
         $menu->add([
-            'title' => __('Dự án'),
+            'title' => __('Công Việc'),
             'icon' => '',
             'name' => 'taskly-dashboards',
             'parent' => 'dashboard',
@@ -26,7 +26,7 @@ class CompanyMenuListener
             'permission' => 'taskly dashboard manage'
         ]);
         $menu->add([
-            'title' => __('Projects'),
+            'title' => __('Quy trình công việc'),
             'icon' => 'square-check',
             'name' => 'projects',
             'parent' => null,
@@ -38,7 +38,7 @@ class CompanyMenuListener
             'permission' => 'project manage'
         ]);
         $menu->add([
-            'title' => __('Project'),
+            'title' => __('Công việc'),
             'icon' => '',
             'name' => 'project',
             'parent' => 'projects',
@@ -50,7 +50,7 @@ class CompanyMenuListener
             'permission' => 'project manage'
         ]);
         $menu->add([
-            'title' => __('Project Report'),
+            'title' => __('Báo cáo công việc'),
             'icon' => '',
             'name' => 'project-report',
             'parent' => 'projects',

@@ -13,30 +13,30 @@ class CompanyMenuListener
     {
         $module = 'Account';
         $menu = $event->menu;
-        $menu->add([
-            'title' => __('Kế toán'),
-            'icon' => '',
-            'name' => 'account-dashboard',
-            'parent' => 'dashboard',
-            'order' => 20,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => 'dashboard.account',
-            'module' => $module,
-            'permission' => 'account dashboard manage'
-        ]);
-        $menu->add([
-            'title' => __('Accounting'),
-            'icon' => 'layout-grid-add',
-            'name' => 'accounting',
-            'parent' => null,
-            'order' => 400,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => '',
-            'module' => $module,
-            'permission' => 'account manage'
-        ]);
+        // $menu->add([
+        //     'title' => __('Kế toán'),
+        //     'icon' => '',
+        //     'name' => 'account-dashboard',
+        //     'parent' => 'dashboard',
+        //     'order' => 20,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => 'dashboard.account',
+        //     'module' => $module,
+        //     'permission' => 'account dashboard manage'
+        // ]);
+        // $menu->add([
+        //     'title' => __('Accounting'),
+        //     'icon' => 'layout-grid-add',
+        //     'name' => 'accounting',
+        //     'parent' => null,
+        //     'order' => 400,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => '',
+        //     'module' => $module,
+        //     'permission' => 'account manage'
+        // ]);
         $menu->add([
             'title' => __('Customer'),
             'icon' => '',

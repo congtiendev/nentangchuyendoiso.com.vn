@@ -472,6 +472,7 @@
 
 @endpush
 @section('content')
+
     <div class="row">
         {{ Form::open(['url' => 'proposal', 'class' => 'w-100', 'enctype' => 'multipart/form-data']) }}
         <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
@@ -502,7 +503,7 @@
                             <div class="row">
                                 @if (module_is_active('Account') && module_is_active('Taskly'))
                                     <div class="col-md-12">
-                                        <div class="form-group">
+                                        <div hidden class="form-group">
                                             {{ Form::label('type', __('Type'), ['class' => 'form-label']) }}
                                             <div class="d-flex radio-check">
                                                 <div class="form-check form-check-inline form-group col-md-3">
@@ -549,7 +550,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        {{ Form::label('proposal_number', __('Proposal Number'), ['class' => 'form-label']) }}
+                                        {{ Form::label('proposal_number', __('Mã văn bản'), ['class' => 'form-label']) }}
                                         <div class="form-icon-user">
                                             <input type="text" class="form-control" value="{{ $proposal_number }}"
                                                 readonly>

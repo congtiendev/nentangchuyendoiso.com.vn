@@ -225,10 +225,10 @@ class ProposalController extends Controller
                     $proposalProduct->proposal_id   = $proposal->id;
                     $proposalProduct->product_type  = $products[$i]['product_type'];
                     $proposalProduct->product_id    = $products[$i]['item'];
-                    $proposalProduct->quantity      = $products[$i]['quantity'];
-                    $proposalProduct->tax           = $products[$i]['tax'];
+                    $proposalProduct->quantity      = $products[$i]['quantity'] ?? 0;
+                    $proposalProduct->tax           = $products[$i]['tax'] ?? 0;
                     $proposalProduct->discount      = isset($products[$i]['discount']) ? $products[$i]['discount'] : 0;
-                    $proposalProduct->price         = $products[$i]['price'];
+                    $proposalProduct->price         = $products[$i]['price'] ?? 0;
                     $proposalProduct->description   = str_replace(array('\'', '"', '`', '{', "\n"), ' ', $products[$i]['description']);
                     $proposalProduct->save();
                 }
@@ -252,7 +252,7 @@ class ProposalController extends Controller
                 } catch (\Exception $e) {
                     return redirect()->back()->with('error', __('Permission denied : ') . $e->getMessage());
                 }
-                return redirect()->route('proposal.index')->with('success', __('Proposal successfully created.'));
+                return redirect()->route('proposal.index')->with('success', __('Thêm mới văn bản thành công.'));
             } else if ($request->proposal_type == "project") {
                 $validator = \Validator::make(
                     $request->all(),
@@ -303,10 +303,10 @@ class ProposalController extends Controller
                     $proposalProduct               = new ProposalProduct();
                     $proposalProduct->proposal_id  = $proposal->id;
                     $proposalProduct->product_id   = $products[$i]['item'];
-                    $proposalProduct->quantity     = 1;
-                    $proposalProduct->tax          = $project_tax;
+                    $proposalProduct->quantity     = 1 ?? null;
+                    $proposalProduct->tax          = $project_tax ?? null;
                     $proposalProduct->discount     = isset($products[$i]['discount']) ? $products[$i]['discount'] : 0;
-                    $proposalProduct->price        = $products[$i]['price'];
+                    $proposalProduct->price        = $products[$i]['price'] ?? null;
                     $proposalProduct->description  = $products[$i]['description'];
                     $proposalProduct->save();
                 }
@@ -329,7 +329,7 @@ class ProposalController extends Controller
                 } catch (\Exception $e) {
                     return redirect()->back()->with('error', __('Permission denied : ') . $e->getMessage());
                 }
-                return redirect()->route('proposal.index', $proposal->id)->with('success', __('Proposal successfully created.'));
+                return redirect()->route('proposal.index', $proposal->id)->with('success', __('Thêm mới văn bản thành công.'));
             }
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -497,10 +497,10 @@ class ProposalController extends Controller
                             $proposalProduct->product_id    = $products[$i]['item'];
                         }
                         $proposalProduct->product_type      = $products[$i]['product_type'];
-                        $proposalProduct->quantity          = $products[$i]['quantity'];
-                        $proposalProduct->tax               = $products[$i]['tax'];
+                        $proposalProduct->quantity          = $products[$i]['quantity'] ?? 0;
+                        $proposalProduct->tax               = $products[$i]['tax'] ?? 0;
                         $proposalProduct->discount          = isset($products[$i]['discount']) ? $products[$i]['discount'] : 0;
-                        $proposalProduct->price             = $products[$i]['price'];
+                        $proposalProduct->price             = $products[$i]['price'] ?? 0;
                         $proposalProduct->description       = str_replace( array( '\'', '"', '`','{',"\n"), ' ', $products[$i]['description']);
                         $proposalProduct->save();
                     }
@@ -508,7 +508,7 @@ class ProposalController extends Controller
                     // first parameter request second parameter proposal
                     event(new UpdateProposal($request, $proposal));
 
-                    return redirect()->route('proposal.index')->with('success', __('Proposal successfully updated.'));
+                    return redirect()->route('proposal.index')->with('success', __('Cập nhật văn bản thành công.'));
 
                 }
                 else if($request->proposal_type == "project")
@@ -574,7 +574,7 @@ class ProposalController extends Controller
                      // first parameter request second parameter proposal
                      event(new UpdateProposal($request, $proposal));
                 }
-                return redirect()->route('proposal.index')->with('success', __('Proposal successfully updated.'));
+                return redirect()->route('proposal.index')->with('success', __('Cập nhật văn bản thành công.'));
             } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }
@@ -610,7 +610,7 @@ class ProposalController extends Controller
                 event(new DestroyProposal($proposal));
                 $proposal->delete();
 
-                return redirect()->route('proposal.index')->with('success', __('Proposal successfully deleted.'));
+                return redirect()->route('proposal.index')->with('success', __('Xóa văn bản thành công.'));
             }
             else
             {
