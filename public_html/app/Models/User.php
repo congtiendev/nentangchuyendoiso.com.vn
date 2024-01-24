@@ -41,6 +41,7 @@ class User extends Authenticatable implements LaratrustUser,MustVerifyEmail
         'active_status',
         'active_workspace',
         'avatar',
+        'sign_image',
         'dark_mode',
         'requested_plan',
         'messenger_color',
