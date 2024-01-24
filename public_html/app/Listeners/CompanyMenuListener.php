@@ -243,6 +243,7 @@ class CompanyMenuListener
             'module' => $module,
             'permission' => 'helpdesk ticket manage'
         ]);
+       
         $menu->add([
             'title' => __('Thư viện văn bản'),
             'icon' => '',
@@ -254,6 +255,31 @@ class CompanyMenuListener
             'route' => 'helpdesk.index',
             'module' => $module,
             'permission' => 'helpdesk ticket manage'
+        ]);
+
+        $menu->add([
+            'title' => __('Quản lí hồ sơ'),
+            'icon' => 'ti ti-ti ti-file-text',
+            'name' => 'record management',
+            'parent' => '',
+            'order' => 605,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => '',
+            'module' => $module,
+            'permission' => ''
+        ]);
+        $menu->add([
+            'title' => __('Hồ sơ duyệt mượn lao động'),
+            'icon' => '',
+            'name' => 'borrow-employee-records',
+            'parent' => 'record management',
+            'order' => 606,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'borrow-employee-records.index',
+            'module' => $module,
+            'permission' => ''
         ]);
         //
          $menu->add([

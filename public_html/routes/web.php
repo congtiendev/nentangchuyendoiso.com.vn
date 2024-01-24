@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BanktransferController;
+use App\Http\Controllers\BorrowEmployeeRecordController;
 use App\Http\Controllers\ManagerFileControler;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -303,4 +304,9 @@ Route::post('/manager-file/store', [ManagerFileControler::class, 'store'])->name
 Route::get('/manager-file/edit/{id}', [ManagerFileControler::class, 'edit'])->name('manager-file.edit');
 Route::post('/manager-file/update/{id}', [ManagerFileControler::class, 'update'])->name('manager-file.update');
 Route::delete('/manager-file/destroy/{id}', [ManagerFileControler::class, 'destroy'])->name('manager-file.destroy');
+
+//Hồ sơ duyệt mượn lao động
+Route::resource('borrow-employee-records', BorrowEmployeeRecordController::class);
+Route::get('/get-users-by-project/{projectId}', [BorrowEmployeeRecordController::class, 'getUsersByProject']);
+
 
