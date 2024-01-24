@@ -1,25 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <title>Văn bản</title>
-</head>
-
+<style media="all">
+            body{
+		line-height: 1.5;
+		font-family: 'DejaVuSans', 'sans-serif';
+		color: #333542;
+	}
+        .container{
+            margin: 0 auto;
+        }
+        .text-center{
+            text-align: center;
+        }
+        .mt-5{
+            margin-top: 5rem;
+        }
+        .mt-2{
+            margin-top: 2rem;
+        }   
+        .fw-bold{
+            font-weight: bold;
+        }
+        .row{
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .col-md-6{
+            flex: 0 0 50%;
+            max-width: 50%;
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }   
+        .col-12{
+            flex: 0 0 100%;
+            max-width: 100%;
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        .mt-2{
+            margin-top: 2rem;
+        }
+        .gap-2{
+            gap: 2rem;
+        }
+        .table-bordered{
+            border: 1px solid #dee2e6;
+        }
+        .table{
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+        .table-bordered thead th, .table-bordered thead td{
+            border-bottom-width: 2px;
+        }
+        .table-bordered thead th, .table-bordered thead td{
+            border-bottom-width: 2px;
+        }
+        .table-bordered td, .table-bordered th{
+            border: 1px solid #dee2e6;
+        }
+        .mt-5{
+            margin-top: 5rem;
+        }
+        .mt-3{
+            margin-top: 3rem;
+        }
+        h5{
+            margin-block-start: 0.5em;
+            margin-block-end: 0.5em;
+            font-weight: bold;
+        }
+        </style>
 <body>
     <div class="container" style="width: 700px;">
         <div class="text-center mt-5">
             <h1>Văn Bản</h1>
         </div>
         <div class="row mt-5">
-            <h5 class="fw-bold">Mã: {{' '.$ticket->ticket_id}}</h5>
+            <h5 class="fw-bold" >Mã: {{' '.$ticket->ticket_id}}</h5>
         </div>
         <div class="row mt-2">
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col-12">
                         <span class="fw-bold mt-2">Thông tin người gửi</span>
@@ -39,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="col-12">
                     <span class="fw-bold mt-2">Thông tin người nhận</span>
                 </div>
@@ -80,5 +146,3 @@
             </tbody>
         </table>
 </body>
-
-</html>

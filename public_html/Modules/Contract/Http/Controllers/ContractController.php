@@ -735,7 +735,6 @@ class ContractController extends Controller
             } else {
                 $customFields = null;
             }
-
             return view('contract::contracts.copy', compact('contract', 'contractType', 'user', 'customFields'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
