@@ -43,12 +43,12 @@
                         <div class="card-body">
                             @csrf
                             <div class="row">
-                                <div class="col-lg-6 mb-3">
+                                <div class="col-lg-3 mb-3">
                                     <div class="form-group">
                                         <img src="{{!empty($userDetail->avatar) ? get_file($userDetail->avatar) : get_file('uploads/users-avatar/avatar.png')}}" id="myAvatar"  alt="user-image" class="rounded-circle img-thumbnail m-2 w-25">
                                         <div class="choose-files mt-3">
                                             <label for="avatar">
-                                                <div class=" bg-primary "> <i class="ti ti-upload px-1"></i>{{ __('Choose file here') }}</div>
+                                                <div class=" bg-primary "> <i class="ti ti-upload px-1"></i>{{ __('Tải ảnh đại diện') }}</div>
                                                 <input type="file" accept="image/png, image/gif, image/jpeg,  image/jpg"  class="form-control" name="profile" id="avatar" data-filename="avatar-logo">
                                             </label>
                                         </div>
@@ -58,7 +58,24 @@
                                         </span>
                                         @enderror
                                     </div>
-                                    <small class="">{{ __('Please upload a valid image file. Size of image should not be more than 2MB.') }}</small>
+                                    <small class="">{{ __('Kích thước hình ảnh không được quá 2MB!') }}</small>
+                                </div>
+                                <div class="col-lg-3 mb-3">
+                                    <div class="form-group">
+                                        <img src="{{!empty($userDetail->sign_image) ? get_file($userDetail->sign_image) : get_file('uploads/users-avatar/avatar.png')}}" id="mySign"  alt="sign-image" class="img-thumbnail m-2 w-25">
+                                        <div class="choose-files mt-3">
+                                            <label for="sign" class="text-center">
+                                                <div class=" bg-primary "> <i class="ti ti-upload px-1"></i>{{ __('Tải chữ kí') }}</div>
+                                                <input type="file" accept="image/png, image/gif, image/jpeg,  image/jpg"  class="form-control" name="sign_image" id="sign" data-filename="sign-image">
+                                            </label>
+                                        </div>
+                                        @error('avatar')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                    <small class="">{{ __('Kích thước hình ảnh không được quá 2MB!') }}</small>
                                 </div>
                                 <div class="col-lg-6 mb-3">
                                     <div class="form-group">
@@ -158,5 +175,14 @@
     reader.readAsDataURL(this.files[0]);
 
     });
+    $('#sign').change(function(){
+
+let reader = new FileReader();
+reader.onload = (e) => {
+    $('#mySign').attr('src', e.target.result);
+}
+reader.readAsDataURL(this.files[0]);
+
+});
 </script>
 @endpush

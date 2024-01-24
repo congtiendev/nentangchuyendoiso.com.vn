@@ -41,3 +41,5 @@ CREATE TABLE `manager_files` (
 COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB
 ;
+
+Thêm cột 'sign_image' vào bảng 'users' varchar(1000)  nullable

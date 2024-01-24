@@ -22,6 +22,8 @@ Route::post('contract/samples/update/{id}', [ContractController::class,'updateSa
 
 Route::get('contract/accept/{id}', [ContractController::class,'accept'])->name('contract.accept')->middleware(['auth']);
 Route::get('contract/decline{id}', [ContractController::class,'decline'])->name('contract.decline')->middleware(['auth']);
+Route::get('contract/list_liquidation', [ContractController::class,'list_liquidation'])->name('contract.list_liquidation')->middleware(['auth']);
+Route::post('contract/liquidation/{id}', [ContractController::class,'liquidation'])->name('contract.liquidation')->middleware(['auth']);
 Route::group(['middleware' => 'PlanModuleCheck:Contract'], function ()
 {
     Route::resource('contract_type', ContractTypeController::class)->middleware(['auth']);

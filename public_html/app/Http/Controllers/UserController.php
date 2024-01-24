@@ -461,6 +461,28 @@ class UserController extends Controller
             {
                 $user['avatar'] =  $path['url'];
             }
+
+            if ($request->hasFile('sign_image'))
+            {
+                
+                $filenameWithExtSign = $request->file('sign_image')->getClientOriginalName();
+                $filenameSign        = pathinfo($filenameWithExtSign, PATHINFO_FILENAME);
+                $extensionSign       = $request->file('sign_image')->getClientOriginalExtension();
+                $fileNameToStoreSign = $filenameSign . '_' . time() . '.' . $extensionSign;
+
+                $pathSign = upload_file($request,'sign_image',$fileNameToStoreSign,'sign_image');
+                // old img delete
+                if(!empty($userDetail['sign_image']) && strpos($userDetail['sign_image'],'avatar.png') == false && check_file($userDetail['sign_image']))
+                {
+                    delete_file($userDetail['sign_image']);
+                }
+            }
+            // dd($pathSign);
+            if (!empty($request->sign_image) && isset($pathSign['url']))
+            {
+                $user['sign_image'] =  $pathSign['url'];
+            }
+          
             $user['name']  = $request['name'];
             $user['email'] = $request['email'];
             $user->save();

@@ -21,8 +21,8 @@
         <div class="d-flex justify-content-end drp-languages">
             <ul class="list-unstyled mb-0 m-2">
                 <li class="dropdown dash-h-item drp-language">
-                    <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
-                        role="button" aria-haspopup="false" aria-expanded="false">
+                    <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" role="button"
+                        aria-haspopup="false" aria-expanded="false">
                         <span class="drp-text hide-mob text-primary"> {{ __('Joining Letter') }}
                             <i class="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
                     </a>
@@ -39,8 +39,8 @@
             </ul>
             <ul class="list-unstyled mb-0 m-2">
                 <li class="dropdown dash-h-item drp-language">
-                    <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
-                        role="button" aria-haspopup="false" aria-expanded="false">
+                    <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" role="button"
+                        aria-haspopup="false" aria-expanded="false">
                         <span class="drp-text hide-mob text-primary"> {{ __('Experience Certificate') }}
                             <i class="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
                     </a>
@@ -57,8 +57,8 @@
             </ul>
             <ul class="list-unstyled mb-0 m-2">
                 <li class="dropdown dash-h-item drp-language">
-                    <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
-                        role="button" aria-haspopup="false" aria-expanded="false">
+                    <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" role="button"
+                        aria-haspopup="false" aria-expanded="false">
                         <span class="drp-text hide-mob text-primary"> {{ __('NOC') }}
                             <i class="ti ti-chevron-down drp-arrow nocolor hide-mob"></i>
                     </a>
@@ -75,7 +75,7 @@
             </ul>
         </div>
     </div>
-    @if($employee->user->is_disable == 1)
+    @if ($employee->user->is_disable == 1)
         <div class="col-auto pe-0 pt-3">
             @permission('designation create')
                 <a href="{{ route('employee.edit', \Illuminate\Support\Facades\Crypt::encrypt($employee->user_id)) }}"
@@ -201,7 +201,7 @@
                                                     @endif
                                                 </a>
                                             @else
-                                                <span>{{ !empty($employee->customField) ? (isset($employee->customField[$field->id])) ? $employee->customField[$field->id] : '-' : '-' }}</span>
+                                                <span>{{ !empty($employee->customField) ? (isset($employee->customField[$field->id]) ? $employee->customField[$field->id] : '-') : '-' }}</span>
                                             @endif
                                         </div>
                                     @endforeach
@@ -243,7 +243,6 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6">
-
                     <div class="card ">
                         <div class="card-body employee-detail-body fulls-card emp-card">
                             <h5>{{ __('Bank Account Detail') }}</h5>
@@ -292,6 +291,18 @@
                     </div>
                 </div>
             </div>
+            @if (!empty($employee->user->sign_image))
+                <div class="col-12">
+                    <div class="info text-xl">
+                        <strong class="font-bold">{{ __('Chữ ký') }} :</strong>
+                        @if (!auth()->user()->type == 'company')
+                            <img src="{{ get_file($employee->user->sign_image) }}" class="w-40 me-3">
+                        @else
+                            <a href="{{ route('profile') }}" class="text-primary">Thêm chữ ký</a>
+                        @endif
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 @endsection
