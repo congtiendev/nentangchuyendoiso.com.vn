@@ -217,6 +217,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('helpdesk-ticket/{id}/conversion', [HelpdeskConversionController::class, 'store'])->name('helpdesk-ticket.conversion.store');
     Route::post('helpdesk-ticket/{id}/note', [HelpdeskTicketController::class, 'storeNote'])->name('helpdesk-ticket.note.store');
     Route::delete('helpdesk-ticket-attachment/{tid}/destroy/{id}', [HelpdeskTicketController::class, 'attachmentDestroy'])->name('helpdesk-ticket.attachment.destroy');
+    Route::post('helpdesk-ticket/stamp/{id}', [HelpdeskTicketController::class, 'stamp'])->name('helpdesk-ticket.stamp');
     // End helpdesk
 
 

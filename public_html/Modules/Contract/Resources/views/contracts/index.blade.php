@@ -166,14 +166,16 @@
                                         </div>
                                         @endif
                                         @endpermission
-                                        @permission('contract show')
-                                        <div class="action-btn bg-warning">
-                                            <a href="{{ route('contract.show', $contract->id) }}"
-                                                class="btn btn-sm d-inline-flex align-items-center"
-                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="{{ __('View') }}"><i class="ti ti-eye text-white"></i></a>
-                                        </div>
-                                        @endpermission
+                                       @if($contract->status != 'liquidation')
+                                       @permission('contract show')
+                                       <div class="action-btn bg-warning">
+                                           <a href="{{ route('contract.show', $contract->id) }}"
+                                               class="btn btn-sm d-inline-flex align-items-center"
+                                               data-bs-toggle="tooltip" data-bs-placement="top"
+                                               title="{{ __('View') }}"><i class="ti ti-eye text-white"></i></a>
+                                       </div>
+                                       @endpermission
+                                       @endif
                                         @permission('contract edit')
                                         <div class="action-btn bg-info">
                                             <a data-size="lg"

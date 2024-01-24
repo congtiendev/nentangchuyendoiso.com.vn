@@ -173,7 +173,6 @@ class HelpdeskTicketController extends Controller
     {
         $ticket_id = Crypt::decrypt($ticket_id);
         $ticket    = HelpdeskTicket::where('ticket_id', '=', $ticket_id)->first();
-
         if ($ticket) {
             return view('helpdesk_ticket.show', compact('ticket'));
         } else {
@@ -437,5 +436,35 @@ class HelpdeskTicketController extends Controller
         $data = HelpdeskConversion::where('ticket_id',$id)->get();
     	$pdf = PDF::loadView('helpdesk_ticket.helpdesk_pdf',compact('data','ticket'));
     	return $pdf->download('helpdesk_ticket.pdf');
+    }
+
+    public function stamp($id,Request $request){
+       try {
+        $ticket = HelpdeskTicket::find($id);
+        if ($request->hasFile('stamp'))
+        {
+            $filenameWithExt = $request->file('stamp')->getClientOriginalName();
+            $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension       = $request->file('stamp')->getClientOriginalExtension();
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+
+            $path = upload_file($request,'stamp',$fileNameToStore,'stamp-image');
+            // old img delete
+            if(!empty($ticket['stamp']) && strpos($ticket['stamp'],'stamp.png') == false && check_file($ticket['stamp']))
+            {
+                delete_file($ticket['stamp']);
+            }
+        }
+
+        if (!empty($request->stamp) && isset($path['url']))
+        {
+            $ticket['stamp'] =  $path['url'];
+        }
+
+        $ticket->save();
+        return redirect()->back()->with('success', __('Đóng dấu thành công!'));
+       } catch (\Exception $e) {
+           return redirect()->back()->with('error', __('Something is wrong'));
+       }
     }
 }

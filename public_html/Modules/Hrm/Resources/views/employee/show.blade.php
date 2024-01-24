@@ -291,7 +291,6 @@
                     </div>
                 </div>
             </div>
-            @if (!empty($employee->user->sign_image))
                 <div class="col-12">
                     <div class="info text-xl">
                         <strong class="font-bold">{{ __('Chữ ký') }} :</strong>
@@ -302,7 +301,6 @@
                         @endif
                     </div>
                 </div>
-            @endif
         </div>
     </div>
 @endsection
