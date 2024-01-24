@@ -24,6 +24,7 @@ use Modules\Contract\Events\UpdateContract;
 use App\Models\CustomNotification;
 use App\Models\UserNotifications;
 use App\Models\ContractSample;
+use PhpParser\Node\Expr\FuncCall;
 
 class ContractController extends Controller
 {
@@ -35,7 +36,7 @@ class ContractController extends Controller
     {
         if (Auth::user()->isAbleTo('contract manage')) {
             if (Auth::user()->type == 'company') {
-                $contracts = Contract::select('contracts.*', 'contract_types.name as contract_type', 'users.name as user_name', 'projects.name as project_name')->leftJoin('contract_types', 'contracts.type', '=', 'contract_types.id')->leftJoin('users', 'contracts.user_id', '=', 'users.id')->leftJoin('projects', 'contracts.project_id', '=', 'projects.id')->where('contracts.created_by', '=', creatorId())->where('contracts.workspace', getActiveWorkSpace())->get();
+                $contracts = Contract::select('contracts.*', 'contract_types.name as contract_type', 'users.name as user_name', 'projects.name as project_name')->leftJoin('contract_types', 'contracts.type', '=', 'contract_types.id')->leftJoin('users', 'contracts.user_id', '=', 'users.id')->leftJoin('projects', 'contracts.project_id', '=', 'projects.id')->where('contracts.created_by', '=', creatorId())->where('contracts.status','!=','liquidation')->where('contracts.workspace', getActiveWorkSpace())->get();
 
                 $curr_month  = Contract::where('created_by', '=', creatorId())->whereMonth('start_date', '=', date('m'))->get();
                 $curr_week   = Contract::where('created_by', '=', creatorId())->whereBetween(
@@ -56,7 +57,7 @@ class ContractController extends Controller
 
                 return view('contract::contracts.index', compact('contracts', 'cnt_contract'));
             } else {
-                $contracts   = Contract::where('user_id', '=', Auth::user()->id)->get();
+                $contracts   = Contract::where('user_id', '=', Auth::user()->id)->where('status','!=','liquidation')->get();
                 $curr_month  = Contract::where('user_id', '=', Auth::user()->id)->whereMonth('start_date', '=', date('m'))->get();
                 $curr_week   = Contract::where('user_id', '=', Auth::user()->id)->whereBetween(
                     'start_date',
@@ -962,5 +963,17 @@ class ContractController extends Controller
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
+    }
+
+    public function liquidation($id){
+        $contract = Contract::find($id);
+        $contract->status = 'liquidation';
+        $contract->save();
+        return redirect()->back()->with('success', __('Contract status successfully updated!'));
+    }
+
+    public function list_liquidation(){
+        $contracts = Contract::select('contracts.*', 'contract_types.name as contract_type', 'users.name as user_name', 'projects.name as project_name')->leftJoin('contract_types', 'contracts.type', '=', 'contract_types.id')->leftJoin('users', 'contracts.user_id', '=', 'users.id')->leftJoin('projects', 'contracts.project_id', '=', 'projects.id')->where('contracts.created_by', '=', creatorId())->where('contracts.workspace', getActiveWorkSpace())->where('contracts.status','liquidation')->get();
+        return view('contract::contracts.liquidation', compact('contracts'));
     }
 }

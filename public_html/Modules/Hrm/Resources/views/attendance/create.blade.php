@@ -19,7 +19,7 @@
                 {{ Form::time('clock_in', null, ['class' => 'form-control timepicker', 'required' => 'required']) }}
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6">  
             <div class="form-group">
                 {{ Form::label('clock_out', __('Clock Out'), ['class' => 'col-form-label']) }}
                 {{ Form::time('clock_out', null, ['class' => 'form-control timepicker', 'required' => 'required']) }}
