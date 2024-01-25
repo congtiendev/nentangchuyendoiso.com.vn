@@ -283,6 +283,7 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
     Route::get('log-employee-termination', [TerminationController::class, 'activityLogTermination'])->name('activityLog.termination')->middleware(['auth']);
     Route::get('log-employee-transfer', [TransferController::class, 'activityLogTransfer'])->name('activityLog.transfer')->middleware(['auth']);
     Route::get('log-policy', [CompanyPolicyController::class, 'activityLogPolicy'])->name('activityLog.policy')->middleware(['auth']);
+    Route::get('log-award', [AwardController::class, 'activityLogAward'])->name('activityLog.award')->middleware(['auth']);
 
     //
        Route::get('appoint', [EmployeeController::class, 'appoint'])->name('appoint.appoint')->middleware(['auth']);
