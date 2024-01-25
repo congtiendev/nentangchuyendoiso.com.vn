@@ -21,7 +21,7 @@ class WorkShiftController extends Controller
   public function index()
   {
     if (Auth::user()->isAbleTo('attendance manage')) {
-      $employees = Employee::all();
+      $employees = Employee::where('workspace', getActiveWorkSpace())->get();
       if (Auth::user()->type == 'company' || Auth::user()->type == 'hr') {
         $workShifts = WorkShift::join('users', 'users.id', '=', 'workshift.user_id')
           ->select('workshift.*', 'users.name as user_name', 'users.id as user_id')

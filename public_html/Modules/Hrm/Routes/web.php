@@ -392,7 +392,9 @@ Route::group(['middleware' => 'PlanModuleCheck:Hrm'], function ()
             'auth',
         ]
     );
-    Route::post('promotion/accept/{id}', [PromotionController::class, 'accept'])->name('promotion.accept')->middleware(
+  
+
+    Route::GET('promotion/accept/{id}', [PromotionController::class, 'accept'])->name('promotion.accept')->middleware(
         [
             'auth',
         ]

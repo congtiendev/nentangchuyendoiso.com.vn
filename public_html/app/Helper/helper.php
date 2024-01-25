@@ -27,6 +27,7 @@ use App\Models\UserNotifications;
 
 use Modules\Hrm\Entities\Designation;
 use Modules\Hrm\Entities\Department;
+use Modules\Hrm\Entities\Employee;
 
 use Modules\Taskly\Entities\Project;
 use Modules\Taskly\Entities\Task;
@@ -1972,10 +1973,15 @@ if(! function_exists('AnnualLeaveCycle'))
         function getUserWorkSpace()
         {
             return  User::where('created_by', '=', creatorId())->where('workspace_id', getActiveWorkSpace())->get()->pluck('name', 'id');
-
         }
     }
 
+    if (!function_exists('getEmployeeWorkSpace')) {
+        function getEmployeeWorkSpace()
+        {
+            return Employee::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->get();
+        }
+    }
     if (!function_exists('getSignatureTypeById')) {
         function getSignatureTypeById($id)
         {
