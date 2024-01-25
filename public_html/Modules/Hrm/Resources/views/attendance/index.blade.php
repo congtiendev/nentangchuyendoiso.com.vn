@@ -9,12 +9,37 @@
     $company_settings = getCompanyAllSetting();
 @endphp
 @section('page-action')
-    <div>
+    <div class="d-flex gap-2">
+        @permission('attendance create')
+            <div class="dropdown">
+                <button class="btn btn-sm btn-primary dropdown-toggle d-flex align-items-center gap-2" type="button"
+                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Đăng ký thiết bị <i class="ti ti-settings"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item integration d-flex align-items-center justify-content-between gap-2 "
+                            href="#">Quẹt thẻ <i class="ti ti-credit-card"></i></a></li>
+                    <li><a class="dropdown-item integration d-flex align-items-center justify-content-between gap-2 "
+                            href="#">Xác nhận khuôn mặt <i class="ti ti-user-check"></i></a></li>
+                    <li><a class="dropdown-item integration d-flex align-items-center justify-content-between gap-2 "
+                            href="#">Định vị GPS <i class="ti ti-location"></i></a></li>
+                    <li><a class="dropdown-item integration d-flex align-items-center justify-content-between gap-2 "
+                            href="#">Quét mã QR <i class="ti ti-layout-grid"></i></a></li>
+                    <li><a class="dropdown-item integration d-flex align-items-center justify-content-between gap-2 "
+                            href="#">Kết nối Wifi <i class="ti ti-wifi"></i></a></li>
+                    <li><a class="dropdown-item integration d-flex align-items-center justify-content-between gap-2 "
+                            href="#">Upload file <i class="ti ti-upload"></i></a></li>
+                </ul>
+            </div>
+        @endpermission
+
         @if (auth()->user()->type == 'company' || auth()->user()->type == 'super admin')
             <a href="{{ route('attendance.pending') }}" class="btn btn-sm btn-primary" data-title="{{ __('Chờ duyệt') }}"
                 data-toggle="tooltip" title="{{ __('Chờ duyệt') }}"><i class="ti ti-list"></i>
             </a>
         @endif
+
+
         @permission('attendance import')
             <a href="#" class="btn btn-sm btn-primary" data-ajax-popup="true" data-title="{{ __('Import') }}"
                 data-url="{{ route('attendance.file.import') }}" data-toggle="tooltip" title="{{ __('Import') }}"><i
@@ -99,7 +124,8 @@
                                     <a href="{{ route('attendance.index') }}" class="btn btn-sm btn-danger "
                                         data-bs-toggle="tooltip" title="{{ __('Reset') }}"
                                         data-original-title="{{ __('Reset') }}">
-                                        <span class="btn-inner--icon"><i class="ti ti-trash-off text-white-off "></i></span>
+                                        <span class="btn-inner--icon"><i
+                                                class="ti ti-trash-off text-white-off "></i></span>
                                     </a>
                                 </div>
 
@@ -191,7 +217,19 @@
         </div>
     </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $('.integration').click(function() {
+            Swal.fire({
+                icon: "error",
+                title: "Cảnh báo...",
+                text: "Bạn cần tích hợp thiết bị để sử dụng chức năng này !",
+                footer: '<a href="#">Vui lòng kết nối thiết bị !</a>'
+            });
+        });
+    </script>
 @endsection
+
 @push('scripts')
     <script>
         $('input[name="type"]:radio').on('change', function(e) {
