@@ -12,6 +12,13 @@
                 <i class="ti ti-plus"></i>
             </a>
         @endpermission
+        @permission('attendance create')
+        <a href="{{ route('activityLog.policy') }}" data-title="{{ __('Lịch sử chỉnh sửa') }}" data-bs-toggle="tooltip"
+            title="" class="btn btn-sm btn-primary">
+            Lịch sử chỉnh sửa
+        </a>
+        @endpermission
+        
     </div>
 @endsection
 @php
