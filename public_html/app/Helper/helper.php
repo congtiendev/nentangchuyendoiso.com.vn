@@ -695,8 +695,8 @@ if(! function_exists('upload_file')){
                             'filesystems.disks.wasabi.endpoint' => $storage_settings['wasabi_url']
                         ]
                     );
-                    $max_size = !empty($storage_settings['wasabi_max_upload_size'])? $storage_settings['wasabi_max_upload_size']:'2048';
-                    $mimes =  !empty($storage_settings['wasabi_storage_validation'])? $storage_settings['wasabi_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
+                    $max_size = !empty($storage_settings['wasabi_max_upload_size'])? $storage_settings['wasabi_max_upload_size']:'20480';
+                    // $mimes =  !empty($storage_settings['wasabi_storage_validation'])? $storage_settings['wasabi_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
 
                 }else if($storage_settings['storage_setting'] == 's3'){
                     config(
@@ -709,19 +709,19 @@ if(! function_exists('upload_file')){
                             'filesystems.disks.s3.endpoint' => $storage_settings['s3_endpoint'],
                         ]
                     );
-                    $max_size = !empty($storage_settings['s3_max_upload_size'])? $storage_settings['s3_max_upload_size']:'2048';
-                    $mimes =  !empty($storage_settings['s3_storage_validation'])? $storage_settings['s3_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
+                    $max_size = !empty($storage_settings['s3_max_upload_size'])? $storage_settings['s3_max_upload_size']:'20480';
+                    // $mimes =  !empty($storage_settings['s3_storage_validation'])? $storage_settings['s3_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
 
                 }else{
-                    $max_size = !empty($storage_settings['local_storage_max_upload_size'])? $storage_settings['local_storage_max_upload_size']:'2048';
-                    $mimes =  !empty($storage_settings['local_storage_validation'])? $storage_settings['local_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
+                    $max_size = !empty($storage_settings['local_storage_max_upload_size'])? $storage_settings['local_storage_max_upload_size']:'20480';
+                    // $mimes =  !empty($storage_settings['local_storage_validation'])? $storage_settings['local_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
                 }
                 $file = $request->$key_name;
                 if(count($custom_validation) > 0){
                     $validation =$custom_validation;
                 }else{
                     $validation =[
-                        'mimes:'.$mimes,
+                        // 'mimes:'.$mimes,
                         'max:'.$max_size,
                     ];
                 }
@@ -794,8 +794,8 @@ if(! function_exists('multi_upload_file')){
                             'filesystems.disks.wasabi.endpoint' => $storage_settings['wasabi_url']
                         ]
                     );
-                    $max_size = !empty($storage_settings['wasabi_max_upload_size'])? $storage_settings['wasabi_max_upload_size']:'2048';
-                    $mimes =  !empty($storage_settings['wasabi_storage_validation'])? $storage_settings['wasabi_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
+                    $max_size = !empty($storage_settings['wasabi_max_upload_size'])? $storage_settings['wasabi_max_upload_size']:'20480';
+                    // $mimes =  !empty($storage_settings['wasabi_storage_validation'])? $storage_settings['wasabi_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
 
                 }else if($storage_settings['storage_setting'] == 's3'){
                     config(
@@ -809,11 +809,11 @@ if(! function_exists('multi_upload_file')){
                         ]
                     );
                     $max_size = !empty($storage_settings['s3_max_upload_size'])? $storage_settings['s3_max_upload_size']:'2048';
-                    $mimes =  !empty($storage_settings['s3_storage_validation'])? $storage_settings['s3_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
+                    // $mimes =  !empty($storage_settings['s3_storage_validation'])? $storage_settings['s3_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
 
                 }else{
-                    $max_size = !empty($storage_settings['local_storage_max_upload_size'])? $storage_settings['local_storage_max_upload_size']:'2048';
-                    $mimes =  !empty($storage_settings['local_storage_validation'])? $storage_settings['local_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
+                    $max_size = !empty($storage_settings['local_storage_max_upload_size'])? $storage_settings['local_storage_max_upload_size']:'20480';
+                //     $mimes =  !empty($storage_settings['local_storage_validation'])? $storage_settings['local_storage_validation']:'jpeg,jpg,png,svg,zip,txt,gif,docx';
                 }
 
                 $file = $request;
@@ -822,7 +822,6 @@ if(! function_exists('multi_upload_file')){
                     $validation =$custom_validation;
                 }else{
                     $validation =[
-                        'mimes:'.$mimes,
                         'max:'.$max_size,
                     ];
                 }

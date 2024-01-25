@@ -20,10 +20,9 @@ Quản lý hợp đồng mẫu
 <div>
     @stack('addButtonHook')
     @permission('contract create')
-    <button data-action="{{ route('contract.samples.store') }}" id="showAddContractSampleModal" class="btn btn-sm btn-primary">
+    <button style="background:green;" data-action="{{ route('contract.samples.store') }}" id="showAddContractSampleModal" class="btn btn-sm btn-primary">
         <i class="ti ti-plus"></i>
     </button>
-
     @endpermission
 </div>
 @endsection
@@ -78,7 +77,6 @@ Quản lý hợp đồng mẫu
                                 </td>
                                 <td class="text-center">
                                     <a href="{{ url($contract->content)}}" target="_blank">
-                                      <img src="{{ url($contract->content)}}" alt="" width="50px" height="50px">
                                     </a>
                                 </td>
                                 <td>
@@ -182,7 +180,7 @@ Quản lý hợp đồng mẫu
                         <div class="form-group">
                             <label class="col-form-label"> Người có thẩm quyền </label>
                             <select class="form-control" name="competent_person" id="competent_person" required>
-                                @foreach(getUserWorkSpace() as $key => $value)
+                                @foreach(getUserContract() as $key => $value)
                                 <option value="{{ $key }}"> {{ $value }} </option>
                                 @endforeach
                             </select>
@@ -192,8 +190,8 @@ Quản lý hợp đồng mẫu
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label"> Đối tượng </label>
-                            <select class="form-control" name="competent_person" id="competent_person" required>
-                                @foreach(getUserWorkSpace() as $key => $value)
+                            <select class="form-control" name="contract_object" id="contract_object" required>
+                                @foreach(getUserContract() as $key => $value)
                                 <option value="{{ $key }}"> {{ $value }} </option>
                                 @endforeach
                             </select>
