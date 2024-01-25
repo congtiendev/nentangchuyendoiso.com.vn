@@ -20,7 +20,7 @@ Quản lý hợp đồng mẫu
 <div>
     @stack('addButtonHook')
     @permission('contract create')
-    <button style="background:green;" data-action="{{ route('contract.samples.store') }}" id="showAddContractSampleModal" class="btn btn-sm btn-primary">
+    <button style="background:green;" data-url="{{ route('contract.samples.store') }}" id="showAddContractSampleModal" class="btn btn-sm btn-primary">
         <i class="ti ti-plus"></i>
     </button>
     @endpermission
@@ -77,6 +77,7 @@ Quản lý hợp đồng mẫu
                                 </td>
                                 <td class="text-center">
                                     <a href="{{ url($contract->content)}}" target="_blank">
+                                        <i class="ti ti-file" style="font-size: 25px;"></i>
                                     </a>
                                 </td>
                                 <td>
@@ -106,7 +107,7 @@ Quản lý hợp đồng mẫu
                                         @permission('contract edit')
                                         <div class="action-btn bg-info ms-2">
                                             <button
-                                                data-action="{{route('contract.samples.update', $contract->id)}}"
+                                                data-url="{{route('contract.samples.update', $contract->id)}}"
                                                 data-name="{{$contract->name}}" data-contract_type="{{$contract->contract_type}}"
                                                 data-competent_person="{{$contract->competent_person}}"
                                                 data-contract_object="{{$contract->contract_object}}"
@@ -180,7 +181,7 @@ Quản lý hợp đồng mẫu
                         <div class="form-group">
                             <label class="col-form-label"> Người có thẩm quyền </label>
                             <select class="form-control" name="competent_person" id="competent_person" required>
-                                @foreach(getUserContract() as $key => $value)
+                                @foreach(getUserWorkSpace() as $key => $value)
                                 <option value="{{ $key }}"> {{ $value }} </option>
                                 @endforeach
                             </select>
@@ -191,7 +192,7 @@ Quản lý hợp đồng mẫu
                         <div class="form-group">
                             <label class="col-form-label"> Đối tượng </label>
                             <select class="form-control" name="contract_object" id="contract_object" required>
-                                @foreach(getUserContract() as $key => $value)
+                                @foreach(getUserWorkSpace() as $key => $value)
                                 <option value="{{ $key }}"> {{ $value }} </option>
                                 @endforeach
                             </select>
@@ -229,7 +230,7 @@ Quản lý hợp đồng mẫu
     $(document).ready(function () {
         $('#showAddContractSampleModal').click(function () {
             $('#createContractSampleModal').modal('show');
-            $('#createContractSampleModal').find('#updateContractSampleForm').attr('action', $(this).data('action'));
+            $('#createContractSampleModal').find('#updateContractSampleForm').attr('action', $(this).data('url'));
             $('#createContractSampleModal').find('#name').val('');
             $('#createContractSampleModal').find('#contract_type').val('');
             $('#createContractSampleModal').find('#competent_person').val('');
@@ -238,7 +239,7 @@ Quản lý hợp đồng mẫu
          });
          $(document).on('click', '.btn-update-contract-sample', function () {
             $('#createContractSampleModal').modal('show');
-            $('#createContractSampleModal').find('#updateContractSampleForm').attr('action', $(this).data('action'));
+            $('#createContractSampleModal').find('#updateContractSampleForm').attr('action', $(this).data('url'));
             $('#createContractSampleModal').find('#name').val($(this).data('name'));
             $('#createContractSampleModal').find('#contract_type').val($(this).data('contract_type'));
             $('#createContractSampleModal').find('#competent_person').val($(this).data('competent_person'));

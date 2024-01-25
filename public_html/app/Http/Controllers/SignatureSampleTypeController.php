@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\SignatureSampleType;
 
 class SignatureSampleTypeController extends Controller
 {
@@ -11,7 +12,8 @@ class SignatureSampleTypeController extends Controller
      */
     public function index()
     {
-        //
+        $signatureSampleTypes = SignatureSampleType::where('workspace', getActiveWorkSpace())->get();
+        return view('signature_sample_type.index', compact('signatureSampleTypes'));
     }
 
     /**
@@ -27,7 +29,16 @@ class SignatureSampleTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            SignatureSampleType::create([
+                'name' => $request->name,
+                'description' => $request->description ?? 'Trống',
+                'workspace' => getActiveWorkSpace(),
+            ]);
+            return redirect()->back()->with('success', "Thêm loại trình ký mẫu thành công!");
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -35,7 +46,7 @@ class SignatureSampleTypeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // 
     }
 
     /**
@@ -51,7 +62,13 @@ class SignatureSampleTypeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $signatureSampleType = SignatureSampleType::find($id);
+        try {
+            $signatureSampleType->update($request->all());
+            return redirect()->back()->with('success', "Cật nhật loại trình ký mẫu thành công!");
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', __('Something went wrong'));
+        }
     }
 
     /**
@@ -59,6 +76,12 @@ class SignatureSampleTypeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $signatureSampleType = SignatureSampleType::find($id);
+        try {
+            $signatureSampleType->delete();
+            return redirect()->back()->with('success', "Xóa loại trình ký mẫu thành công!");
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', __('Something went wrong'));
+        }
     }
 }

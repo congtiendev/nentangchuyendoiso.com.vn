@@ -30,6 +30,7 @@ use App\Http\Controllers\WorkSpaceController;
 use App\Http\Controllers\CustomNotificationController;
 use App\Http\Controllers\HelpdeskTicketCategoryController;
 use App\Http\Controllers\SignatureSampleController;
+use App\Http\Controllers\SignatureSampleTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,9 @@ use App\Http\Controllers\SignatureSampleController;
 // Auth::routes();
 require __DIR__ . '/auth.php';
 Route::resource('signature-sample', SignatureSampleController::class);
+Route::resource('signature-sample-type', SignatureSampleTypeController::class);
+Route::DELETE('signature-sample-type/{id}', [SignatureSampleTypeController::class, 'destroy'])->name('signature-sample-type.destroy');
+Route::post('signature-sample-type/{id}', [SignatureSampleTypeController::class, 'update'])->name('signature-sample-type.update');
 Route::get('signature-sample/{id}', [SignatureSampleController::class, 'show'])->name('signature-sample.show');
 Route::DELETE('signature-sample/{id}', [SignatureSampleController::class, 'destroy'])->name('signature-sample.destroy');
 
