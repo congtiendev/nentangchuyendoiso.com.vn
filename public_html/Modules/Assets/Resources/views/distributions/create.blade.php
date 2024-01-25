@@ -18,12 +18,12 @@
 
         <div class="form-group col-md-6">
             {{ Form::label('dist_number', __('Distribution Number'), ['class' => 'form-label']) }}
-            {{ Form::text('dist_number', null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Enter Number']) }}
+            {{ Form::text('dist_number', null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Nhập số']) }}
         </div>
 
         <div class="form-group col-md-6">
             {{ Form::label('dis_quantity', __('Quantity'), ['class' => 'form-label']) }}
-            {{ Form::text('dis_quantity', null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Enter Quantity']) }}
+            {{ Form::text('dis_quantity', null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Nhập số lượng']) }}
         </div>
 
         <div class="form-group col-md-6">
@@ -38,12 +38,12 @@
         @if (module_is_active('Hrm'))
             <div class="form-group col-md-12">
                 {{ Form::label('assets_branch', __('Assets Branch'), ['class' => 'form-label']) }}
-                {{ Form::select('assets_branch', $branches,null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Enter Branch']) }}
+                {{ Form::select('assets_branch', $branches,null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Chọn chi nhánh']) }}
             </div>
         @endif
         <div class="form-group col-md-12">
             {{ Form::label('description', __('Description'), ['class' => 'form-label']) }}
-            {{ Form::textarea('description', null, ['class' => 'form-control', 'rows' => 3, 'placeholder' => 'Enter Description']) }}
+            {{ Form::textarea('description', null, ['class' => 'form-control', 'rows' => 3, 'placeholder' => 'Nhập mô tả']) }}
         </div>
 
 

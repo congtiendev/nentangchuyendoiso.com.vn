@@ -44,7 +44,7 @@
                                         <td> {{ $data->user->name }} </td>
                                         <td>{{ ($data->borrowed_day) }}</td>
                                         <td>{{ company_date_formate($data->borrowed_date) }}</td>
-                                        <td>{{ company_date_formate($data->give_back_day) }}</td>
+                                        <td>{{ company_date_formate($data->give_back_day) }}</td> 
                                         <td>
                                             @if ($data->status == 'Chờ phê duyệt')
                                                 <span

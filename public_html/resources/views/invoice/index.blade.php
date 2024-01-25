@@ -80,7 +80,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body table-border-style">
-                    <div class="table-responsive">Column not found: 1054 Unknown column 'project' in 'field list'
+                    <div class="table-responsive">
                         <table class="table mb-0 pc-dt-simple" id="assets">
                             <thead>
                                 <tr>

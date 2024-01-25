@@ -134,12 +134,12 @@
         @endforeach
         <div class="col-md-3">
             <a  data-url="{{ route('customer.create') }}" class="btn-addnew-project" data-ajax-popup="true"
-                data-size="lg" data-title="{{ __('Create New Customer') }}" style="padding: 90px 10px">
+                data-size="lg" data-title="{{ __('Tạo mới khách hàng') }}" style="padding: 90px 10px">
                 <div class="badge bg-primary proj-add-icon">
                     <i class="ti ti-plus"></i>
                 </div>
-                <h6 class="mt-4 mb-2">New Customer</h6>
-                <p class="text-muted text-center">Click here to add New Customer</p>
+                <h6 class="mt-4 mb-2">Thêm mới khách hàng</h6>
+                <p class="text-muted text-center">Click để tạo mới khách hàng</p>
             </a>
         </div>
     </div>

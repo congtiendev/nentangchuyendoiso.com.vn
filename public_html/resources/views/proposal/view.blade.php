@@ -240,7 +240,7 @@
                                         @if (!empty($customer->billing_name) && !empty($customer->billing_address) && !empty($customer->billing_zip))
                                             <div class="col">
                                                 <small class="font-style">
-                                                    <strong>{{__('Billed To')}} :</strong><br>
+                                                    <strong>{{__('Thông tin chi tiết')}} :</strong><br>
                                                         {{ !empty($customer->billing_name) ? $customer->billing_name : '' }}<br>
                                                         {{ !empty($customer->billing_address) ? $customer->billing_address : '' }}<br>
                                                         {{ !empty($customer->billing_city) ? $customer->billing_city . ' ,' : '' }}
@@ -257,7 +257,7 @@
                                         @if (!empty($customer->shipping_name) && !empty($customer->shipping_address) && !empty($customer->shipping_zip))
                                                 <div class="col">
                                                     <small>
-                                                        <strong>{{__('Shipped To')}} :</strong><br>
+                                                        <strong>{{__('Thông tin cơ bản')}} :</strong><br>
                                                         {{ !empty($customer->shipping_name) ? $customer->shipping_name : '' }}<br>
                                                         {{ !empty($customer->shipping_address) ? $customer->shipping_address : '' }}<br>
                                                         {{ !empty($customer->shipping_city) ? $customer->shipping_city .' ,': '' }}
@@ -272,9 +272,9 @@
                                             @endif
                                         @endif
                                         <div class="col">
-                                                <div class="float-end mt-3">
+                                                {{-- <div class="float-end mt-3">
                                                     {!! DNS2D::getBarcodeHTML(route('pay.proposalpay',\Illuminate\Support\Facades\Crypt::encrypt($proposal->id)), "QRCODE",2,2) !!}
-                                                </div>
+                                                </div> --}}
                                             </div>
                                     </div>
                                     <div class="row mt-3">

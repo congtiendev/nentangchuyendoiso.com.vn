@@ -1,9 +1,9 @@
 @extends('layouts.main')
 @section('page-title')
-    {{ __('Manage Customers') }}
+    {{ __('Quản lí người trình ký') }}
 @endsection
 @section('page-breadcrumb')
-    {{ __('Customers') }}
+    {{ __('Thông tin') }}
 @endsection
 @push('scripts')
     <script>
@@ -30,7 +30,7 @@
             <i class="ti ti-layout-grid text-white"></i>
         </a>
     @permission('customer create')
-        <a  class="btn btn-sm btn-primary" data-ajax-popup="true" data-size="lg" data-title="{{ __('Create New Customer') }}" data-url="{{route('customer.create')}}" data-bs-toggle="tooltip"  data-bs-original-title="{{ __('Create') }}">
+        <a  class="btn btn-sm btn-primary" data-ajax-popup="true" data-size="lg" data-title="{{ __('Tạo người trình ký') }}" data-url="{{route('customer.create')}}" data-bs-toggle="tooltip"  data-bs-original-title="{{ __('Create') }}">
             <i class="ti ti-plus"></i>
         </a>
     @endpermission
@@ -49,7 +49,7 @@
                                 <th> {{__('Name')}}</th>
                                 <th> {{__('Contact')}}</th>
                                 <th> {{__('Email')}}</th>
-                                <th> {{__('Balance')}}</th>
+                                {{-- <th> {{__('Balance')}}</th> --}}
                                 @if (Laratrust::hasPermission('customer edit') || Laratrust::hasPermission('customer delete') || Laratrust::hasPermission('customer show'))
                                     <th width="200px">{{ __('Action') }}</th>
                                 @endif
@@ -76,7 +76,7 @@
                                 <td class="font-style">{{$customer['name']}}</td>
                                 <td>{{$customer['contact']}}</td>
                                 <td>{{$customer['email']}}</td>
-                                <td>{{ currency_format_with_sym($customer['balance'])}}</td>
+                                {{-- <td>{{ currency_format_with_sym($customer['balance'])}}</td> --}}
                                 @if (Laratrust::hasPermission('customer edit') || Laratrust::hasPermission('customer delete') || Laratrust::hasPermission('customer show'))
                                     <td class="Action">
                                         @if($customer->is_disable == 1)
@@ -96,7 +96,7 @@
                                                         <a  class="mx-3 btn btn-sm  align-items-center"
                                                             data-url="{{ route('customer.edit',$customer['id']) }}" data-ajax-popup="true"  data-size="lg"
                                                             data-bs-toggle="tooltip" title=""
-                                                            data-title="{{ __('Edit Customer') }}"
+                                                            data-title="{{ __('Chỉnh sửa thông tin') }}"
                                                             data-bs-original-title="{{ __('Edit') }}">
                                                             <i class="ti ti-pencil text-white"></i>
                                                         </a>

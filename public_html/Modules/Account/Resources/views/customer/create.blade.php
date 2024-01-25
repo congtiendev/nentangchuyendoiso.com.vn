@@ -52,7 +52,7 @@
         @endif
     </div>
 
-    <h6 class="sub-title">{{ __('Billing Address') }}</h6>
+    <h6 class="sub-title">{{ __('Thông tin chi tiết') }}</h6>
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="form-group">

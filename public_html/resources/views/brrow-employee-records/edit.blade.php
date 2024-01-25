@@ -67,7 +67,6 @@
                             </div>
                         </div>
                         
-                        @dd($borrowEmployeeRecord)
                         <div class="row">
                             <div class="form-group col-md-8">
                                 <label class="require form-label">{{ __('Description') }}</label>

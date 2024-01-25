@@ -487,7 +487,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group" id="customer-box">
-                                {{ Form::label('customer_id', __('Customer/Client'), ['class' => 'form-label']) }}
+                                {{ Form::label('customer_id', __('Người trình ký'), ['class' => 'form-label']) }}
                                 {{ Form::select('customer_id', $customers, $customerId, ['class' => 'form-control', 'id' => 'customer', 'data-url' => route('proposal.customer'), 'required' => 'required', 'placeholder' => 'Chọn']) }}
                                 @if (empty($customers->count()))
                                     <div class=" text-xs">
