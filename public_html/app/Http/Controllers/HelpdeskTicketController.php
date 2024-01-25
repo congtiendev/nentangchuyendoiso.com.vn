@@ -37,7 +37,7 @@ class HelpdeskTicketController extends Controller
             
             if ($status == 'in-progress') {
                 $tickets->where('status', '=', 'In Progress');
-            } elseif ($status == 'on-hold') {
+            } elseif ($status == 'on-hold') {  
                 $tickets->where('status', '=', 'On Hold');
             } elseif ($status == 'closed') {
                 $tickets->where('status', '=', 'Closed');
