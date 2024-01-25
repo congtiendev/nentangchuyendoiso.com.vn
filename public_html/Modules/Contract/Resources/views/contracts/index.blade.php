@@ -34,6 +34,12 @@
         <i class="ti ti-plus"></i>
     </a>
     @endpermission
+    @permission('contract create')
+    <a href="{{ route('activityLog.contract') }}" data-title="{{ __('Lịch sử chỉnh sửa') }}" data-bs-toggle="tooltip"
+        title="" class="btn btn-sm btn-primary">
+        Lịch sử tác động
+    </a>
+@endpermission
 </div>
 @endsection
 @section('content')

@@ -54,4 +54,7 @@ Route::group(['middleware' => 'PlanModuleCheck:Contract'], function ()
     Route::post('contract/setting/store', [ContractController::class,'setting'])->name('contract.setting.store')->middleware(['auth']);
 
     Route::post('/getproject', [ContractController::class,'getProject'])->name('getproject');
+
+    Route::get('log-contract', [ContractController::class, 'activityLogContract'])->name('activityLog.contract')->middleware(['auth']);
+
 });

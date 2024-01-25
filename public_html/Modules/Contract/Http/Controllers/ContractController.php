@@ -23,7 +23,9 @@ use Modules\Contract\Events\StatusChangeContract;
 use Modules\Contract\Events\UpdateContract;
 use App\Models\CustomNotification;
 use App\Models\UserNotifications;
+use App\Models\ActivityLogContract;
 use App\Models\ContractSample;
+use Modules\Taskly\Entities\Project;
 use PhpParser\Node\Expr\FuncCall;
 
 class ContractController extends Controller
@@ -79,6 +81,17 @@ class ContractController extends Controller
             }
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
+        }
+    }
+
+    //activity log
+    public function activityLogContract()
+    {
+        if (Auth::user()->isAbleTo('contract manage')) {
+
+            $contracts = ActivityLogContract::latest()->get();
+
+            return view('contract::contracts.activityLog', compact('contracts'));
         }
     }
 
@@ -253,7 +266,7 @@ class ContractController extends Controller
                 return redirect()->route('contract.index')->with('error', $messages->first());
             }
 
-            $contract              = new Contract();
+            $contract              = new Contract(); 
             $contract->subject     = $request->subject;
             $contract->user_id     = (Auth::user()->type == 'company') ? $request->user_id : Auth::user()->id;
             $contract->project_id  = $request->project_id;
@@ -265,6 +278,30 @@ class ContractController extends Controller
             $contract->workspace   = getActiveWorkSpace();
             $contract->created_by  = creatorId();
             $contract->save();
+
+            $action = 'Tạo mới hợp đồng';
+            $typeAction = 'store';
+            $userName = User::find($contract->user_id)->name;
+            $projectName = Project::find($contract->project_id)->name;
+            $type = ContractType::find($contract->type)->name;
+            
+            $changes = [
+                'subject'          => $request->subject,
+                'user_id'          => $request->employee_id,
+                'project_id'       => $projectName,
+                'type'             => $type,
+                'name'             => $userName,
+                'start_date'       => $request->start_date,
+                'end_date'         => $request->end_date,
+                'notes'            => $request->notes,
+                'workspace'        => getActiveWorkSpace(),
+                'changed_by' => Auth::user()->name,
+                'changed_at' => now()->format('H:i:s d-m-Y'),
+            ];
+            // dd($changes);
+            $user = User::find($contract->user_id);
+            $this->saveLog($user, $contract, $changes, $action,$typeAction);
+            
 
 
             if (module_is_active('CustomField')) {
@@ -399,6 +436,7 @@ class ContractController extends Controller
 
                     return redirect()->route('contract.index')->with('error', $messages->first());
                 }
+                $originalData = $contract->getOriginal();
                 $notification_content = array();
                 $send_to = [$request->user_id];
                 if ($contract->user_id != $request->user_id) {
@@ -421,11 +459,11 @@ class ContractController extends Controller
                     $notification_content[] = "Đã thay đổi giá trị từ " . $contract->value . " sang " . $request->value;
                 }
 
-                if ($contract->type != $request->type) {
-                    $contract->contract_type = ContractType::find($contract->type);
-                    $newContractType = ContractType::find($request->type);
-                    $notification_content[] = "Đã thay đổi loại hợp đồng từ " . $contract->contract_type->name . " sang " . $newContractType->name;
-                }
+                // if ($contract->type != $request->type) {
+                //     $contract->contract_type = ContractType::find($contract->type);
+                //     $newContractType = ContractType::find($request->type);
+                //     $notification_content[] = "Đã thay đổi loại hợp đồng từ " . $contract->contract_type->name . " sang " . $newContractType->name;
+                // }
 
                 if ($contract->start_date != $request->start_date) {
                     $notification_content[] = "Đã thay đổi ngày bắt đầu từ " . $contract->start_date . " sang " . $request->start_date;
@@ -470,6 +508,15 @@ class ContractController extends Controller
                 $contract->notes       = $request->notes;
                 $contract->save();
 
+                $action = 'Cập nhật hợp đồng';
+                $typeAction = 'update';
+                $user = User::find($contract->user_id);
+                $newData = $contract->fresh()->getAttributes();
+                $changes = $this->getChanges($originalData, $newData);
+
+                $this->saveLog($user, $contract, $changes, $action,$typeAction);
+
+
                 if (module_is_active('CustomField')) {
                     \Modules\CustomField\Entities\CustomField::saveData($contract, $request->customField);
                 }
@@ -502,6 +549,23 @@ class ContractController extends Controller
         if (Auth::user()->isAbleTo('contract delete')) {
             $contract = Contract::find($id);
             if ($contract->created_by == creatorId() && $contract->workspace == getActiveWorkSpace()) {
+
+                $action = 'Xóa hợp đồng';
+                $typeAction = 'delete';
+                $userName = User::find($contract->user_id)->name;
+                $user = User::find($contract->user_id);
+                $contractName = $contract->subject;
+                $changes = [
+                    'name'             => $userName,
+                    'contractName'     => $contractName,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+                $this->saveLog($user, $contract, $changes, $action,$typeAction);
+
+
+
+
                 event(new DestroyContract($contract));
 
                 // $attechments = $contract->ContractAttechment()->get()->each;
@@ -513,6 +577,8 @@ class ContractController extends Controller
 
                 // $contract->ContractComment()->get()->each->delete();
                 // $contract->ContractNote()->get()->each->delete();
+
+
                 $contract->delete();
                 if (module_is_active('CustomField')) {
                     $customFields = \Modules\CustomField\Entities\CustomField::where('module', 'contract')->where('sub_module', 'contract')->get();
@@ -974,5 +1040,71 @@ class ContractController extends Controller
     public function list_liquidation(){
         $contracts = Contract::select('contracts.*', 'contract_types.name as contract_type', 'users.name as user_name', 'projects.name as project_name')->leftJoin('contract_types', 'contracts.type', '=', 'contract_types.id')->leftJoin('users', 'contracts.user_id', '=', 'users.id')->leftJoin('projects', 'contracts.project_id', '=', 'projects.id')->where('contracts.created_by', '=', creatorId())->where('contracts.workspace', getActiveWorkSpace())->where('contracts.status','liquidation')->get();
         return view('contract::contracts.liquidation', compact('contracts'));
+    }
+
+
+    private function getChanges($originalData = null, $newData = null)
+    {
+        $changes = [];
+    
+        foreach ($originalData as $key => $value) {
+            if ($key === 'updated_at' || $key === 'created_at') {
+                continue;
+            }
+    
+            $oldValue = $originalData[$key];
+            $newValue = $newData[$key];
+    
+            // Check if it's a select field
+            if ($this->isSelectField($key)) {
+                $oldName = $this->getNameFromDatabase($key, $oldValue);
+                $newName = $this->getNameFromDatabase($key, $newValue);
+            } else {
+                $oldName = $oldValue;
+                $newName = $newValue;
+            }
+    
+            if ($oldName !== $newName) {
+                $changes[$key] = [
+                    'old' => $oldName,
+                    'new' => $newName,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+            }
+        }
+    
+        return $changes;
+    }
+    private function isSelectField($key)
+    {
+        $selectFields = ['project_id', 'user_id','type'];
+        return in_array($key, $selectFields);
+    }
+
+    private function getNameFromDatabase($key, $id)
+    {
+        switch ($key) {
+            case 'project_id':
+                return Project::find($id)->name;
+            case 'type':
+                return ContractType::find($id)->name;
+            case 'user_id':
+                return User::find($id)->name;
+            default:
+                return $id;
+        }
+    }
+    private function saveLog($user, $employee, $changes, $action, $typeAction)
+    {
+        $logData = [
+            'action_type' => $typeAction,
+            'user_id' => $user->id,
+            'user_type' => get_class($user),
+            'employee_id' => $employee->id,
+            'log_type' => $action,
+            'remark' => json_encode(['changes' => $changes]),
+        ];
+        ActivityLogContract::create($logData);
     }
 }
