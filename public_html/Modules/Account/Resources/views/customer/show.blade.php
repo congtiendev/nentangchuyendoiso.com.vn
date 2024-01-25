@@ -1,9 +1,9 @@
 @extends('layouts.main')
 @section('page-title')
-    {{ __('Customer-Detail') }}
+    {{ __('Chi tiết người trình ký') }}
 @endsection
 @section('page-breadcrumb')
-    {{ __('Customer') }},{{ $customer['name'] }}
+    {{ __('Người trình ký') }},{{ $customer['name'] }}
 @endsection
 @push('css')
 <style>
@@ -99,18 +99,18 @@
         @php
             $user_id = !empty($customer->user_id) ? $customer->user_id: null;
         @endphp
-        @permission('invoice create')
+        {{-- @permission('invoice create')
             <a href="{{ route('invoice.create', $customer->id) }}" class="btn btn-sm btn-primary">
                 {{ __('Create Invoice') }}
             </a>
-        @endpermission
-        @permission('customer create')
+        @endpermission --}}
+        {{-- @permission('customer create')
             @if (!empty($user_id))
                 <a href="{{ route('proposal.create', $customer->id) }}" class="btn btn-sm btn-primary">
                     {{ __('Create Proposal') }}
                 </a>
             @endif
-        @endpermission
+        @endpermission --}}
         @if($customer->user->is_disable == 1)
             @permission('customer edit')
                 @if (!empty($user_id))
@@ -146,17 +146,17 @@
                                 data-bs-toggle="pill" data-bs-target="#customer-invoice"
                                 type="button">{{ __('Văn bản ký duyệt') }}</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        {{-- <li class="nav-item" role="presentation">
                             <button class="nav-link " id="customer-revenue-tab"
                                 data-bs-toggle="pill" data-bs-target="#customer-revenue"
                                 type="button">{{ __('Revenue') }}</button>
-                        </li>
-                        @stack('customer_project_tab')
-                        <li class="nav-item" role="presentation">
+                        </li> --}}
+                        {{-- @stack('customer_project_tab') --}}
+                        {{-- <li class="nav-item" role="presentation">
                             <button class="nav-link " id="statement-tab"
                                 data-bs-toggle="pill" data-bs-target="#statement"
                                 type="button">{{ __('Statement') }}</button>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </div>
@@ -173,7 +173,7 @@
                                 <div class="col-md-4 col-lg-4 col-xl-4">
                                     <div class="card customer-detail-box">
                                         <div class="card-body cus-card">
-                                            <h5 class="card-title">{{ __('Customer Info') }}</h5>
+                                            <h5 class="card-title">{{ __('Thông tin người trình ký') }}</h5>
                                             <p class="card-text mb-0">{{ $customer['name'] }}</p>
                                             <p class="card-text mb-0">{{ $customer['email'] }}</p>
                                             <p class="card-text mb-0">{{ $customer['contact'] }}</p>
@@ -233,7 +233,7 @@
                                                 @endphp
                                                 <div class="col-md-3 col-sm-6">
                                                     <div class="p-4">
-                                                        <p class="card-text mb-0">{{ __('Customer Id') }}</p>
+                                                        <p class="card-text mb-0">{{ __('ID người trình ký') }}</p>
                                                         <h6 class="report-text mb-3">
                                                             {{ Modules\Account\Entities\Customer::customerNumberFormat($customer['customer_id']) }}
                                                         </h6>

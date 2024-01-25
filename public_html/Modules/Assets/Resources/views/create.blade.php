@@ -9,7 +9,7 @@
 
         <div class="form-group col-md-6">
             {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
-            {{ Form::text('name', null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Enter Name']) }}
+            {{ Form::text('name', null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Nhập tên']) }}
         </div>
 
         <div class="form-group col-md-6">
@@ -24,27 +24,27 @@
 
         <div class="form-group col-md-6">
             {{ Form::label('serial_code', __('Serial Code'), ['class' => 'form-label']) }}
-            {{ Form::text('serial_code', null, ['class' => 'form-control', 'required' => 'required', 'step' => '1', 'placeholder' => 'Enter serial Code']) }}
+            {{ Form::text('serial_code', null, ['class' => 'form-control', 'required' => 'required', 'step' => '1', 'placeholder' => 'Nhập mã code']) }}
         </div>
 
         <div class="form-group col-md-6">
             {{ Form::label('quantity', __('Quantity'), ['class' => 'form-label']) }}
-            {{ Form::number('quantity', null, ['class' => 'form-control', 'required' => 'required', 'step' => '1', 'placeholder' => 'Enter Quantity', 'id' => 'quantity']) }}
+            {{ Form::number('quantity', null, ['class' => 'form-control', 'required' => 'required', 'step' => '1', 'placeholder' => 'Nhập số lượng', 'id' => 'quantity']) }}
         </div>
 
         <div class="form-group col-md-6">
             {{ Form::label('assets_unit', __('Unit Price'), ['class' => 'form-label']) }}
-            {{ Form::number('assets_unit', null, ['class' => 'form-control', 'required' => 'required', 'step' => '0.01', 'placeholder' => 'Enter Assets Unit', 'id' => 'assets_unit']) }}
+            {{ Form::number('assets_unit', null, ['class' => 'form-control', 'required' => 'required', 'step' => '0.01', 'placeholder' => 'Nhập đơn giá', 'id' => 'assets_unit']) }}
         </div>
 
         <div class="form-group col-md-6">
             {{ Form::label('purchase_cost', __('Purchase Cost'), ['class' => 'form-label']) }}
-            {{ Form::number('purchase_cost', null, ['class' => 'form-control', 'required' => 'required', 'step' => '0.01', 'placeholder' => 'Purchase Cost', 'id' => 'purchase_cost', 'readonly' => 'readonly']) }}
+            {{ Form::number('purchase_cost', null, ['class' => 'form-control', 'required' => 'required', 'step' => '0.01', 'placeholder' => 'Chi phí giá mua', 'id' => 'purchase_cost', 'readonly' => 'readonly']) }}
         </div>
         @stack('add_branch_in_asset_create')
         <div class="form-group col-md-6">
             {{ Form::label('warranty_period', __('Warranty Period'), ['class' => 'form-label']) }}
-            {{ Form::number('warranty_period', null, ['class' => 'form-control', 'required' => 'required', 'step' => '1', 'placeholder' => 'Enter Purchase Cost']) }}
+            {{ Form::number('warranty_period', null, ['class' => 'form-control', 'required' => 'required', 'step' => '1', 'placeholder' => 'Thời gian bảo hành']) }}
             <small class="text-danger font-weight-bold">{{__('Add Month For Warranty Period')}}</small>
         </div>
 

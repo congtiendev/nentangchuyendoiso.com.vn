@@ -14,7 +14,7 @@
         @if (\Auth::user()->type == 'company')
             <div class="col-md-6 form-group">
                 {{ Form::label('user_id', __('User'),['class'=>'col-form-label']) }}
-                {{ Form::select('user_id',$user,null, array('class' => 'form-control','id'=>'user_id','required'=>'required','placeholder' => 'Select User')) }}
+                {{ Form::select('user_id',$user,null, array('class' => 'form-control','id'=>'user_id','required'=>'required','placeholder' => 'Chọn người dùng')) }}
             </div>
         @else
             {{ Form::hidden('user_id',\Auth::user()->id,null) }}
@@ -22,7 +22,7 @@
         @if(module_is_active('Taskly'))
             <div class="col-md-6 form-group">
                 {{ Form::label('project_id', __('Project'),['class'=>'col-form-label']) }}
-                {{ Form::select('project_id',[],null, array('class' => 'form-control','id'=>'project_id','placeholder' => 'Select Project')) }}
+                {{ Form::select('project_id',[],null, array('class' => 'form-control','id'=>'project_id','placeholder' => 'Chọn công việc')) }}
             </div>
         @endif
         <div class="col-md-6 form-group">

@@ -80,7 +80,7 @@
                                     <th> {{ __('Tên công việc') }}</th>
                                     <th> {{ __('Start Date') }}</th>
                                     <th> {{ __('Due Date') }}</th>
-                                    <th> {{ __('Thành viên trong dự án') }}</th>
+                                    <th> {{ __('Thành viên') }}</th>
                                     <th> {{ __('Progress') }}</th>
                                     <th>{{ __('Trạng thái công việc') }}</th>
                                     <th>{{ __('Action') }}</th>
