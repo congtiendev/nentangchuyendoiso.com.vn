@@ -297,7 +297,7 @@
                     <tbody class="ui-sortable" data-repeater-item>
                         <tr>
                             {{ Form::hidden('id', null, ['class' => 'form-control id']) }}
-                            <td  class="form-group pt-0">
+                            <td hidden class="form-group pt-0">
                                 {{ Form::select('product_type', array_map('__', $product_type), null, ['class' => 'form-control product_type ', 'required' => 'required']) }}
                             </td>
                             <td width="25%" class="form-group pt-0 product_div">
