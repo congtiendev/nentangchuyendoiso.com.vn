@@ -102,6 +102,10 @@ Route::group(
         Route::get('/supplier/associate/create/{module}/{id}', [SupplierController::class, 'associateSuppliersView'])->name('supplier.associate.create');
         Route::post('/supplier/associate/{module}/{id}', [SupplierController::class, 'associateSuppliers'])->name('supplier.associate');
         Route::delete('/supplier/associate_remove/{module}/{id}', [SupplierController::class, 'removeAssociateSuppliers'])->name('supplier.associate_remove');
+        //activity log
+
+         Route::get('log-supplier', [SupplierController::class, 'activityLogSupplier'])->name('activityLog.supplier')->middleware(['auth']);
+
 
         Route::resource('woslogtime', WosLogTimeController::class)->middleware(['auth']);
 

@@ -314,4 +314,8 @@ Route::delete('/manager-file/destroy/{id}', [ManagerFileControler::class, 'destr
 Route::resource('borrow-employee-records', BorrowEmployeeRecordController::class);
 Route::get('/get-users-by-project/{projectId}', [BorrowEmployeeRecordController::class, 'getUsersByProject']);
 
+//activity
+Route::get('log-proposal', [ProposalController::class, 'activityLogProposal'])->name('activityLog.proposal')->middleware(['auth']);
+
+
 

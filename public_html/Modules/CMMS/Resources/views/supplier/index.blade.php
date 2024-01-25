@@ -47,6 +47,12 @@
                                 <i class="ti ti-plus text-white"></i>
                             </a>
                         @endpermission
+                        @permission('parts create')
+                        <a href="{{ route('activityLog.supplier') }}" data-title="{{ __('Lịch sử chỉnh sửa') }}" data-bs-toggle="tooltip"
+                            title="" class="btn btn-sm btn-primary">
+                            Lịch sử chỉnh sửa
+                        </a>
+                        @endpermission
                     </li>
                 </ul>
             </div>

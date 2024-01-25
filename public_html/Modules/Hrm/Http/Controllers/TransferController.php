@@ -385,5 +385,5 @@ class TransferController extends Controller
             'remark' => json_encode(['changes' => $changes]),
         ];
         ActivityLogTransfer::create($logData);
-    }
+    } 
 }

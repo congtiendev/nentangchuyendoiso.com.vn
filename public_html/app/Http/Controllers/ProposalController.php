@@ -12,6 +12,7 @@ use App\Events\StatusChangeProposal;
 use App\Events\UpdateProposal;
 use App\Models\Invoice;
 use App\Models\Proposal;
+use App\Models\ActivityLogProposal;
 use App\Models\ProposalProduct;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,6 +25,9 @@ use App\Models\Setting;
 use Modules\ProductService\Entities\ProductService;
 use App\Models\CustomNotification;
 use App\Models\UserNotifications;
+use Modules\Account\Entities\Customer;
+use Modules\ProductService\Entities\Category;
+
 class ProposalController extends Controller
 {
      /**
@@ -76,6 +80,23 @@ class ProposalController extends Controller
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
+    
+    // activity Log
+
+    public function activityLogProposal()
+    {
+        if (Auth::user()->isAbleTo('transfer manage')) {
+
+            $proposals = ActivityLogProposal::latest()->get();
+
+            return view('proposal.activityLog', compact('proposals'));
+        }
+    }
+
+
+
+
+    //
     public function Grid(Request $request)
     {
         if (Auth::user()->isAbleTo('proposal manage'))
@@ -233,6 +254,18 @@ class ProposalController extends Controller
                     $proposalProduct->save();
                 }
                 // first parameter request second parameter proposal
+
+                //log
+                $action = 'Tạo văn bản trình ký';
+                $typeAction = 'store';
+                $customerName = User::find($proposal->customer_id)->name;
+                $changes = [
+                    'customer_id'      => $customerName,
+                    'workspace'        => getActiveWorkSpace(),
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+                $this->saveLog($proposal, $changes, $action,$typeAction);
                 
                 event(new CreateProposal($request, $proposal));
                 try {
@@ -460,6 +493,9 @@ class ProposalController extends Controller
             {
                 if($request->proposal_type == "product")
                 {
+                $originalData = $proposal->getOriginal();
+                
+
                     $validator = \Validator::make(
                         $request->all(),
                         [
@@ -488,6 +524,7 @@ class ProposalController extends Controller
                     for ($i = 0; $i < count($products); $i++)
                     {
                         $proposalProduct = ProposalProduct::find($products[$i]['id']);
+                        $originalData2 = $proposalProduct->getOriginal();
                         if ($proposalProduct == null) {
                             $proposalProduct                = new ProposalProduct();
                             $proposalProduct->proposal_id   = $proposal->id;
@@ -503,7 +540,15 @@ class ProposalController extends Controller
                         $proposalProduct->price             = $products[$i]['price'] ?? 0;
                         $proposalProduct->description       = str_replace( array( '\'', '"', '`','{',"\n"), ' ', $products[$i]['description']);
                         $proposalProduct->save();
+                        //
                     }
+
+                    $action = 'Cập nhật văn bản trình ký';
+                    $typeAction = 'update';
+                    $newData = $proposal->fresh()->getAttributes();
+                    $changes = $this->getChanges($originalData, $newData);
+    
+                    $this->saveLog($proposal, $changes, $action,$typeAction);
 
                     // first parameter request second parameter proposal
                     event(new UpdateProposal($request, $proposal));
@@ -606,6 +651,15 @@ class ProposalController extends Controller
                         }
                     }
                 }
+                $action = 'Xóa văn bản trình ký';
+                $typeAction = 'delete';
+                $customer = User::find($proposal->customer_id)->name;
+                $changes = [
+                    'name'             =>$customer,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+                $this->saveLog($proposal, $changes, $action,$typeAction);
                 // first parameter proposal
                 event(new DestroyProposal($proposal));
                 $proposal->delete();
@@ -1463,4 +1517,68 @@ class ProposalController extends Controller
         $file->delete();
         return redirect()->back()->with('success', __('File successfully deleted.'));
     }
+
+    private function getChanges($originalData = null, $newData = null)
+    {
+        $changes = [];
+    
+        foreach ($originalData as $key => $value) {
+            if ($key === 'updated_at' || $key === 'created_at' || $key === 'product_type') {
+                continue;
+            }
+    
+            $oldValue = $originalData[$key];
+            $newValue = $newData[$key];
+    
+            // Check if it's a select field
+            if ($this->isSelectField($key)) {
+                $oldName = $this->getNameFromDatabase($key, $oldValue);
+                $newName = $this->getNameFromDatabase($key, $newValue);
+            } else {
+                $oldName = $oldValue;
+                $newName = $newValue;
+            }
+    
+            if ($oldName !== $newName) {
+                $changes[$key] = [
+                    'old' => $oldName,
+                    'new' => $newName,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+            }
+        }
+    
+        return $changes;
+    }
+    private function isSelectField($key)
+    {
+        $selectFields = ['category_id', 'customer_id','item'];
+        return in_array($key, $selectFields);
+    }
+
+    private function getNameFromDatabase($key, $id)
+    {
+        switch ($key) {
+            case 'category_id':
+                return Category::find($id)->name;
+            case 'customer_id':
+                return User::find($id)->name;
+            case 'product_id':
+                return ProductService::find($id)->name;
+            default:
+                return $id;
+        }
+    }
+    private function saveLog($proposal, $changes, $action, $typeAction)
+    {
+        $logData = [
+            'action_type' => $typeAction,
+            'user_type' => get_class($proposal),
+            'customer_id' => $proposal->customer_id,
+            'log_type' => $action,
+            'remark' => json_encode(['changes' => $changes]),
+        ];
+        ActivityLogProposal::create($logData);
+    } 
 }
