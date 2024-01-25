@@ -12,6 +12,12 @@
             <i class="ti ti-plus text-white"></i>
         </a>
     @endpermission
+    @permission('award create')
+    <a href="{{ route('activityLog.award') }}" data-title="{{ __('Lịch sử chỉnh sửa') }}" data-bs-toggle="tooltip"
+        title="" class="btn btn-sm btn-primary">
+        Lịch sử chỉnh sửa
+    </a>
+    @endpermission
 </div>
 @endsection
 @section('content')

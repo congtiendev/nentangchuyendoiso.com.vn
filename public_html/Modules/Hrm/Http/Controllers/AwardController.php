@@ -14,6 +14,7 @@ use Modules\Hrm\Entities\Employee;
 use Modules\Hrm\Events\CreateAward;
 use Modules\Hrm\Events\DestroyAward;
 use Modules\Hrm\Events\UpdateAward;
+use App\Models\ActivityLogAward;
 
 class AwardController extends Controller
 {
@@ -35,6 +36,17 @@ class AwardController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+
+    public function activityLogAward()
+    {
+        if (Auth::user()->isAbleTo('transfer manage')) {
+
+            $awards = ActivityLogAward::latest()->get();
+
+            return view('hrm::award.activityLog', compact('awards'));
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -90,6 +102,22 @@ class AwardController extends Controller
             $award->workspace   = getActiveWorkSpace();
             $award->created_by  = creatorId();
             $award->save();
+
+            $action = 'Tạo khen thưởng';
+            $typeAction = 'store';
+            $userName = User::find($award->user_id)->name;
+            $award_type = AwardType::find($award->award_type)->name;
+            $changes = [
+                'user_id'          => $request->employee_id,
+                'name'             =>$userName,
+                'award_type'       =>$award_type,
+                'gift'             =>$award->gift,
+                'workspace'        => getActiveWorkSpace(),
+                'changed_by' => Auth::user()->name,
+                'changed_at' => now()->format('H:i:s d-m-Y'),
+            ];
+            $user = User::find($award->user_id);
+            $this->saveLog($user, $award, $changes, $action,$typeAction);
 
             event(new CreateAward($request, $award));
 
@@ -173,6 +201,8 @@ class AwardController extends Controller
                     $messages = $validator->getMessageBag();
                     return redirect()->back()->with('error', $messages->first());
                 }
+                $originalData = $award->getOriginal();
+
                 $employee = Employee::where('user_id', '=', $request->employee_id)->first();
                 if (!empty($employee)) {
                     $award->employee_id = $employee->id;
@@ -183,6 +213,15 @@ class AwardController extends Controller
                 $award->gift        = $request->gift;
                 $award->description = $request->description;
                 $award->save();
+
+
+                $action = 'Cập nhật khen thưởng';
+                $typeAction = 'update';
+                $user = User::find($award->user_id);
+                $newData = $award->fresh()->getAttributes();
+                $changes = $this->getChanges($originalData, $newData);
+                $this->saveLog($user, $award, $changes, $action,$typeAction);
+
                 event(new UpdateAward($request, $award));
                 return redirect()->route('award.index')->with('success', __('Award successfully updated.'));
             } else {
@@ -203,6 +242,17 @@ class AwardController extends Controller
         if (Auth::user()->isAbleTo('award delete')) {
             if ($award->created_by == creatorId() && $award->workspace == getActiveWorkSpace()) {
                 event(new DestroyAward($award));
+                $action = 'Xóa điều chuyển';
+                $typeAction = 'delete';
+                $userName = User::find($award->user_id)->name;
+                $user = User::find($award->user_id);
+                $changes = [
+                    'name'             =>$userName,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+                $this->saveLog($user, $award, $changes, $action,$typeAction);
+
                 $award->delete();
 
                 return redirect()->route('award.index')->with('success', __('Award successfully deleted.'));
@@ -212,5 +262,68 @@ class AwardController extends Controller
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+    }
+
+    private function getChanges($originalData = null, $newData = null)
+    {
+        $changes = [];
+    
+        foreach ($originalData as $key => $value) {
+            if ($key === 'updated_at' || $key === 'created_at') {
+                continue;
+            }
+    
+            $oldValue = $originalData[$key];
+            $newValue = $newData[$key];
+    
+            // Check if it's a select field
+            if ($this->isSelectField($key)) {
+                $oldName = $this->getNameFromDatabase($key, $oldValue);
+                $newName = $this->getNameFromDatabase($key, $newValue);
+            } else {
+                $oldName = $oldValue;
+                $newName = $newValue;
+            }
+    
+            if ($oldName !== $newName) {
+                $changes[$key] = [
+                    'old' => $oldName,
+                    'new' => $newName,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+            }
+        }
+    
+        return $changes;
+    }
+    private function isSelectField($key)
+    {
+        $selectFields = ['award_type', 'user_id'];
+        return in_array($key, $selectFields);
+    }
+
+    private function getNameFromDatabase($key, $id)
+    {
+        switch ($key) {
+            case 'user_id':
+                return User::find($id)->name;
+            case 'award_type':
+                return AwardType::find($id)->name;
+            default:
+                return $id;
+        }
+    }
+    private function saveLog($user, $transfer, $changes, $action, $typeAction)
+    {
+        $logData = [
+            'action_type' => $typeAction,
+            'user_id' => $user->id,
+            'user_type' => get_class($user),
+            'employee_id' => $transfer->id,
+            'log_type' => $action,
+            'remark' => json_encode(['changes' => $changes]),
+        ];
+        ActivityLogAward::create($logData);
     }
 }
