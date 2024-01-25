@@ -27,14 +27,13 @@ class PromotionController extends Controller
             if (!in_array(Auth::user()->type, Auth::user()->not_emp_type)) {
                 $promotions = Promotion::where('user_id', '=', Auth::user()->id)->where('workspace', getActiveWorkSpace())->get();
             } else {
-                $promotions = Promotion::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->where('status','1')->with('designation')->get();
+                    $promotions = Promotion::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->get();
             }
             return view('hrm::promotion.index', compact('promotions'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
-
     /**
      * Show the form for creating a new resource.
      * @return Renderable
@@ -226,14 +225,13 @@ class PromotionController extends Controller
 
     public function accept($id)
     {
-            try {
-                $promotion = Promotion::find($id);
-                $promotion->status = 1;
-                $promotion->save();
-                return redirect()->route('promotion.index')->with('success', __('Promotion successfully accepted.'));
-            } catch (\Exception $e) {
-                return redirect()->back()->with('error', __('Permission denied.'));
-            }
+        try {
+            $promotion = Promotion::find($id);
+            $promotion->status = 1;
+            $promotion->save();
+            return redirect()->route('promotion.index')->with('success', "Đã xác nhận đăng ký");
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
-
 }

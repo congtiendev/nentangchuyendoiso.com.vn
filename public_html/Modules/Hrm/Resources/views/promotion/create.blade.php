@@ -13,7 +13,17 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('employee_id', __('Employee'), ['class' => 'col-form-label']) }}
-                {{ Form::select('employee_id[]', $employees, null, ['class' => 'form-control ', 'placeholder' => __('Select Employee'),'multiple' => 'multiple', 'required' => 'required']) }}
+                {{-- {{ Form::select('employee_id[]', $employees, null, ['class' => 'form-control ', 'placeholder' => __('Select Employee'),'multiple' => 'multiple', 'required' => 'required']) }} --}}
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                   Thêm nhân viên
+                    </button>
+                    <ul class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton1">
+                        @foreach (getEmployeeWorkSpace() as $employee)
+                      <li class="d-flex gap-2 my-2"><input type="checkbox" name="employee_id[]" id="employee_id" value="{{$employee->user_id}}">{{$employee->name}}</li>
+                        @endforeach
+                    </ul>
+                  </div>
             </div>
         </div>
         {{-- <div class="col-md-6">

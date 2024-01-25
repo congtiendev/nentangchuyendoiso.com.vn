@@ -52,7 +52,7 @@
             {{ Form::select('tax_id[]', $tax, null, ['class' => 'form-control choices tax_data', 'id' => 'choices-multiple1', 'multiple' , 'required' => 'required']) }}
             <p class="text-danger d-none" id="tax_validation">{{ __('Tax filed is required.') }}</p>
         </div> --}}
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-6 mt-3">
             {{ Form::label('category_id', __('Category'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
             {{ Form::select('category_id', $category, null, ['class' => 'form-control', 'required' => 'required']) }}
 
@@ -68,16 +68,9 @@
 
         <div class="col-6 form-group">
             {{ Form::label('image', __('Tải tệp'), ['class' => 'col-form-label']) }}
-            <div class="choose-files ">
-                <label for="image">
-                    <input type="file" class="form-control file" name="image" id="image"
+                    <input type="file" class="form-control" name="image"
                         data-filename="image_update"
                         onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
-                        <i class="fas fa-upload upload-icon"></i>
-                  <!--  <img id="blah" src="{{ asset('Modules/ProductService/Resources/assets/image/img01.jpg') }}" 
-                        alt="your image" width="100" height="100" /> -->
-                </label>
-            </div>
         </div>
 
         <div hidden class="col-md-6">
