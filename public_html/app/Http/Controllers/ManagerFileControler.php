@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BorrowAssetRecord;
+use App\Models\BorrowEmployeeRecord;
 use App\Models\ManagerFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,11 +13,16 @@ class ManagerFileControler extends Controller
 {
     public function index()
     {
-        $data = ManagerFile::where('user_id', '=', Auth::user()->id)->orderBy('id', 'desc')->get();
-        return view('manager.index', compact('data'));
+        $data = BorrowEmployeeRecord::query()->latest()->get();
+        return view('manager.index',compact('data'));
+    }
+    public function index2()
+    {
+        $data = BorrowAssetRecord::query()->latest()->get();
+        return view('manager.index2',compact('data'));
     }
 
-    public function create()
+    public function create() 
     {
         return view('manager.create');
     }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BanktransferController;
+use App\Http\Controllers\BorrowAssetRecordController;
 use App\Http\Controllers\BorrowEmployeeRecordController;
 use App\Http\Controllers\ManagerFileControler;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ use App\Http\Controllers\CustomNotificationController;
 use App\Http\Controllers\HelpdeskTicketCategoryController;
 use App\Http\Controllers\SignatureSampleController;
 use App\Http\Controllers\SignatureSampleTypeController;
+use App\Models\BorrowAssetRecord;
 
 /*
 |--------------------------------------------------------------------------
@@ -304,6 +306,7 @@ Route::get('/proposal/pay/{proposal}', [ProposalController::class, 'payproposal'
 Route::get('proposal/pdf/{id}', [ProposalController::class, 'proposal'])->name('proposal.pdf');
 // danh sách mượn
 Route::get('/manager-file', [ManagerFileControler::class, 'index'])->name('manager-file.index');
+Route::get('/manager-file-dc', [ManagerFileControler::class, 'index2'])->name('manager-file.index2');
 Route::get('/manager-file/create', [ManagerFileControler::class, 'create'])->name('manager-file.create');
 Route::post('/manager-file/store', [ManagerFileControler::class, 'store'])->name('manager-file.store');
 Route::get('/manager-file/edit/{id}', [ManagerFileControler::class, 'edit'])->name('manager-file.edit');
@@ -313,5 +316,14 @@ Route::delete('/manager-file/destroy/{id}', [ManagerFileControler::class, 'destr
 //Hồ sơ duyệt mượn lao động
 Route::resource('borrow-employee-records', BorrowEmployeeRecordController::class);
 Route::get('/get-users-by-project/{projectId}', [BorrowEmployeeRecordController::class, 'getUsersByProject']);
+
+// hồ sơ duyệt mượn dụng cụ
+Route::resource('borrow-asset-records', BorrowAssetRecordController::class);
+
+
+
+//activity
+Route::get('log-proposal', [ProposalController::class, 'activityLogProposal'])->name('activityLog.proposal')->middleware(['auth']);
+
 
 

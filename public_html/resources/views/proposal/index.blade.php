@@ -27,6 +27,13 @@
             @endpermission
         @endif
 
+        @permission('proposal create')
+        <a href="{{ route('activityLog.proposal') }}" data-title="{{ __('Lịch sử chỉnh sửa') }}" data-bs-toggle="tooltip"
+            title="" class="btn btn-sm btn-primary">
+            Lịch sử chỉnh sửa
+        </a>
+        @endpermission
+
     </div>
 @endsection
 @section('content')

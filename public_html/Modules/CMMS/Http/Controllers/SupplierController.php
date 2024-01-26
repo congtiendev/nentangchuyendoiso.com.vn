@@ -12,6 +12,7 @@ use Modules\CMMS\Entities\Workorder;
 use Modules\CMMS\Entities\Supplier;
 use Modules\CMMS\Entities\Part;
 use App\Models\User;
+use App\Models\ActivityLogSupplier;
 use Illuminate\Support\Facades\Validator;
 use App\Models\EmailTemplate;
 use DB;
@@ -36,6 +37,20 @@ class SupplierController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+
+    //activity log
+
+    public function activityLogSupplier()
+    {
+        if (Auth::user()->isAbleTo('suppliers manage')) {
+
+            $suppliers = ActivityLogSupplier::latest()->get();
+            return view('cmms::supplier.activityLog', compact('suppliers'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -116,6 +131,19 @@ class SupplierController extends Controller
                 'company_id' => creatorId(),
                 'workspace'  => getActiveWorkSpace()
             ]);
+
+            $action = 'Tạo người dùng liên kết';
+            $typeAction = 'store';
+            $locationName = Location::find($suppliers->location_id)->name;
+            $changes = [
+                'name'    => $suppliers->name,
+                'location' => $locationName,
+                'workspace'  => getActiveWorkSpace(),
+                'changed_by' => Auth::user()->name,
+                'changed_at' => now()->format('H:i:s d-m-Y'),
+            ];
+            $this->saveLog($suppliers, $changes, $action, $typeAction);
+
 
             event(new CreateSupplier($request, $suppliers));
 
@@ -233,12 +261,11 @@ class SupplierController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Supplier $supplier)
     {
         if (\Auth::user()->isAbleTo('suppliers edit')) {
             $objUser            = Auth::user();
             $currentlocation = Location::userCurrentLocation();
-
             if ($currentlocation == 0) {
                 return redirect()->back()->with('error', __('Current location is not available.'));
             }
@@ -250,10 +277,10 @@ class SupplierController extends Controller
                 return redirect()->back()->with('error', $messages->first());
             }
 
+            $originalData = $supplier->getOriginal();
 
             if ($request->hasFile('image')) {
 
-                $supplier = Supplier::where('id', $id)->first();
                 $thumbnail_file = storage_path('Supplier/' . $supplier->thumbnail);
 
                 $valid = ['name' => 'required', 'image' => 'required|image|mimes:png,jpeg,jpg|max:20480'];
@@ -275,24 +302,30 @@ class SupplierController extends Controller
                 } else {
                     return redirect()->back()->with('error', __($path['msg']));
                 }
-                $suppliers['image']  = $url;
+                $supplier->image  = $url;
             }
 
-            $suppliers['name']       = $request->name;
-            $suppliers['contact']    = $request->contact;
-            $suppliers['email']      = $request->email;
-            $suppliers['phone']      = $request->phone;
-            $suppliers['address']    = $request->address;
-            $suppliers['location_id'] = $request->location;
-            $suppliers['created_by'] = $objUser->id;
-            $suppliers['company_id'] = creatorId();
-            $suppliers['workspace']  = getActiveWorkSpace();
+            $supplier->name     = $request->name;
+            $supplier->contact    = $request->contact;
+            $supplier->email      = $request->email;
+            $supplier->phone      = $request->phone;
+            $supplier->address    = $request->address;
+            $supplier->location_id = $request->location;
+            $supplier->created_by = $objUser->id;
+            $supplier->company_id = creatorId();
+            $supplier->workspace  = getActiveWorkSpace();
+            $supplier->save();
 
-            $suppliers = Supplier::where('id', $id)->update($suppliers);
+            $action = 'Cập nhật người dùng liên kết';
+            $typeAction = 'update';
+            $newData = $supplier->getAttributes();
+            $changes = $this->getChanges($originalData, $newData);
+            $this->saveLog($supplier, $changes, $action, $typeAction);
 
-            event(new UpdateSupplier($request, $suppliers));
 
-            if ($suppliers) {
+            event(new UpdateSupplier($request, $supplier));
+
+            if ($supplier) {
                 return redirect()->back()->with('success', __('Supplier update successfully.') . ((isset($result) && $result != 1) ? '<br> <span class="text-danger">' . $result . '</span>' : ''));
             } else {
                 return redirect()->back()->with('error', __('Something went wrong.'));
@@ -307,15 +340,32 @@ class SupplierController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(Supplier $supplier)
     {
         if (\Auth::user()->isAbleTo('suppliers delete')) {
-            $suppliers = Supplier::find($id);
 
-            if ($suppliers) {
-                $suppliers->delete();
 
-                event(new DestroySupplier($suppliers));
+            if ($supplier) {
+                $action = 'Xóa người dùng liên kết';
+                $typeAction = 'delete';
+
+                $name = $supplier->name;
+                $changes = [
+                    'name'      => $name,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+                $logData = [
+                    'action_type' => $typeAction,
+                    'type' => get_class($supplier),
+                    'log_type' => $action,
+                    'remark' => json_encode(['changes' => $changes]),
+                ];
+                ActivityLogSupplier::create($logData);
+
+                $supplier->delete();
+
+                event(new DestroySupplier($supplier));
 
                 return redirect()->back()->with('success', __('Supplier successfully deleted .'));
             } else {
@@ -440,5 +490,67 @@ class SupplierController extends Controller
         } else {
             return redirect()->back()->with('error', __('Something went to wrong.'));
         }
+    }
+
+
+    //Log
+    private function getChanges($originalData = null, $newData = null)
+    {
+        $changes = [];
+
+        foreach ($originalData as $key => $value) {
+            if ($key === 'updated_at' || $key === 'created_at') {
+                continue;
+            }
+
+            $oldValue = $originalData[$key];
+            $newValue = $newData[$key];
+
+            // Check if it's a select field
+            if ($this->isSelectField($key)) {
+
+                $oldName = $this->getNameFromDatabase($key, $oldValue);
+                $newName = $this->getNameFromDatabase($key, $newValue);
+            } else {
+                $oldName = $oldValue;
+                $newName = $newValue;
+            }
+
+            if ($oldName !== $newName) {
+                $changes[$key] = [
+                    'old' => $oldName,
+                    'new' => $newName,
+                    'changed_by' => Auth::user()->name,
+                    'changed_at' => now()->format('H:i:s d-m-Y'),
+                ];
+            }
+        }
+
+        return $changes;
+    }
+    private function isSelectField($key)
+    {
+        $selectFields = ['location_id'];
+        return in_array($key, $selectFields);
+    }
+
+    private function getNameFromDatabase($key, $id)
+    {
+        switch ($key) {
+            case 'location_id':
+                return Location::find($id)->name;
+            default:
+                return $id;
+        }
+    }
+    private function saveLog($suppliers, $changes, $action, $typeAction)
+    {
+        $logData = [
+            'action_type' => $typeAction,
+            'type' => get_class($suppliers),
+            'log_type' => $action,
+            'remark' => json_encode(['changes' => $changes]),
+        ];
+        ActivityLogSupplier::create($logData);
     }
 }
