@@ -84,9 +84,9 @@
                         <table class="table mb-0 pc-dt-simple" id="assets">
                             <thead>
                                 <tr>
-                                    <th> {{ __('Văn bản') }}</th>
+                                    <th> {{ __('Mã văn bản ký duyệt') }}</th>
                                     @if (\Auth::user()->type != 'client')
-                                        <th>{{ __('Loại văn bản') }}</th>
+                                        <th>{{ __('Người trình ký') }}</th>
                                     @endif
                                     <th>{{ __('Issue Date') }}</th>
                                     <th>{{ __('Due Date') }}</th>

@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('occasion', __('Occasion'), ['class' => 'col-form-label']) }}
-                {{ Form::text('occasion', null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Enter Occasion']) }}
+                {{ Form::text('occasion', null, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Nhập tiêu đề']) }}
             </div>
         </div>
         <div class="col-md-6">

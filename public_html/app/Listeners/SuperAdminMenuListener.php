@@ -157,17 +157,17 @@ class SuperAdminMenuListener
             'module' => $module,
             'permission' => 'setting manage'
         ]);
-        $menu->add([
-            'title' => __('Add-on Manager'),
-            'icon' => 'layout-2',
-            'name' => 'add-on-manager',
-            'parent' => null,
-            'order' => 1100,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => 'module.index',
-            'module' => $module,
-            'permission' => 'module manage'
-        ]);
+        // $menu->add([
+        //     'title' => __('Add-on Manager'),
+        //     'icon' => 'layout-2',
+        //     'name' => 'add-on-manager',
+        //     'parent' => null,
+        //     'order' => 1100,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => 'module.index',
+        //     'module' => $module,
+        //     'permission' => 'module manage'
+        // ]);
     }
 }

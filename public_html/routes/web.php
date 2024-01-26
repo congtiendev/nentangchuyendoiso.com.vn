@@ -315,6 +315,9 @@ Route::delete('/manager-file/destroy/{id}', [ManagerFileControler::class, 'destr
 
 //Hồ sơ duyệt mượn lao động
 Route::resource('borrow-employee-records', BorrowEmployeeRecordController::class);
+
+Route::get('/get-borrow-employee-records', [BorrowEmployeeRecordController::class, 'getlistLd'])->name('list.ld');
+
 Route::get('/get-users-by-project/{projectId}', [BorrowEmployeeRecordController::class, 'getUsersByProject']);
 
 // hồ sơ duyệt mượn dụng cụ

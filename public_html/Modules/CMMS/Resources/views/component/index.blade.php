@@ -106,7 +106,7 @@
                                                                 data-url="{{ route('component.edit', $component->id) }}"
                                                                 data-ajax-popup="true" data-size="lg" data-toggle="tooltip"
                                                                 title="{{ __('Edit') }}"
-                                                                data-title="{{ __('Edit Component') }}">
+                                                                data-title="{{ __('Chỉnh sửa thông tin') }}">
                                                                 <i class="ti ti-pencil text-white"></i>
                                                             </a>
                                                         </div>

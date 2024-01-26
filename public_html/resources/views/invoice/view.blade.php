@@ -99,9 +99,9 @@
                                     <i class="ti ti-plus text-primary"></i>
                                 </div>
                                 <h6 class="text-primary my-3">{{ __('Tạo văn bản') }}</h6>
-                                <p class="text-muted text-sm mb-3"><i
+                                {{-- <p class="text-muted text-sm mb-3"><i
                                         class="ti ti-clock mr-2"></i>{{ __('Created on ') }}{{ company_date_formate($invoice->issue_date) }}
-                                </p>
+                                </p> --}}
                                 @permission('invoice edit')
                                     {{-- <a href="{{ route('invoice.edit', \Crypt::encrypt($invoice->id)) }}"
                                         class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
@@ -114,14 +114,14 @@
                                     <i class="ti ti-mail text-warning"></i>
                                 </div>
                                 <h6 class="text-warning my-3">{{ __('Gửi văn bản') }}</h6>
-                                <p class="text-muted text-sm mb-3">
+                                {{-- <p class="text-muted text-sm mb-3">
                                     @if ($invoice->status != 0)
                                         <i class="ti ti-clock mr-2"></i>{{ __('Sent on') }}
                                         {{ company_date_formate($invoice->send_date) }}
                                     @else
                                         <small>{{ __('Status') }} : {{ __('Not Sent') }}</small>
                                     @endif
-                                </p>
+                                </p> --}}
 
                                 @if ($invoice->status == 0)
                                     {{-- @permission('invoice send')
@@ -136,7 +136,7 @@
                                     <i class="ti ti-report-money text-info"></i>
                                 </div>
                                 <h6 class="text-info my-3">{{ __('Văn bản được ban hành') }}</h6>
-                                <p class="text-muted text-sm mb-3">{{ __('Status') }} : {{ __('Awaiting payment') }} </p>
+                                {{-- <p class="text-muted text-sm mb-3">{{ __('Status') }} : {{ __('Awaiting payment') }} </p> --}}
                                 @if ($invoice->status != 0)
                                     @permission('invoice payment create')
                                         <a href="#" data-url="{{ route('invoice.payment', $invoice->id) }}"
@@ -212,12 +212,12 @@
     @else
         <div class="row justify-content-between align-items-center mb-3">
             <div class="col-md-12 d-flex align-items-center justify-content-between justify-content-md-end">
-                <div class="all-button-box mx-2">
+                {{-- <div class="all-button-box mx-2">
                     <a href="{{ route('invoice.pdf', Crypt::encrypt($invoice->id)) }}" target="_blank"
                         class="btn btn-xs btn-primary btn-icon-only width-auto">
                         {{ __('Download') }}
                     </a>
-                </div>
+                </div> --}}
                 {{-- @if ($invoice->getDue() > 0 && !empty($company_payment_setting) && ($company_payment_setting['is_stripe_enabled'] == 'on' || $company_payment_setting['is_paypal_enabled'] == 'on' || $company_payment_setting['is_paystack_enabled'] == 'on' || $company_payment_setting['is_flutterwave_enabled'] == 'on' || $company_payment_setting['is_razorpay_enabled'] == 'on' || $company_payment_setting['is_mercado_enabled'] == 'on' || $company_payment_setting['is_paytm_enabled'] == 'on' || $company_payment_setting['is_mollie_enabled'] == 'on' || $company_payment_setting['is_paypal_enabled'] == 'on' || $company_payment_setting['is_skrill_enabled'] == 'on' || $company_payment_setting['is_coingate_enabled'] == 'on' || $company_payment_setting['is_paymentwall_enabled'] == 'on'))
                     <div class="all-button-box">
                         <a href="#" class="btn btn-xs btn-primary btn-icon-only width-auto" data-bs-toggle="modal" data-bs-target="#paymentModal">
@@ -412,7 +412,7 @@
                                                     <tr>
                                                         <th data-width="40" class="text-dark">#</th>
                                                         @if ($invoice->invoice_module == 'account')
-                                                            <th class="text-dark">{{ __('Loại văn bản') }}</th>
+                                                            {{-- <th class="text-dark">{{ __('Loại văn bản') }}</th> --}}
                                                             <th class="text-dark">{{ __('Văn bản') }}</th>
                                                         @elseif($invoice->invoice_module == 'taskly')
                                                             <th class="text-dark">{{ __('Project') }}</th>
@@ -456,9 +456,9 @@
                                                         <tr>
                                                             <td>{{ $key + 1 }}</td>
                                                             @if ($invoice->invoice_module == 'account')
-                                                                <td>{{ !empty($iteam->product_type) ? Str::ucfirst($iteam->product_type) : '--' }}
+                                                                {{-- <td>{{ !empty($iteam->product_type) ? Str::ucfirst($iteam->product_type) : '--' }} --}}
                                                                 </td>
-                                                                <td>{{ !empty($iteam->product()) ? $iteam->product()->name : '' }}</td>
+                                                               <td>{{ !empty($iteam->product()) ? $iteam->product()->name : '' }}</td>
                                                             @elseif($invoice->invoice_module == 'taskly')
                                                                 <td>{{ !empty($iteam->product()) ? $iteam->product()->title : '' }}</td>
                                                             @endif
@@ -494,9 +494,7 @@
                                                                     -
                                                                 @endif
                                                             </td> --}}
-
-                                                            <td style="white-space: break-spaces;">
-                                                                {{ !empty($iteam->description) ? $iteam->description : '-' }}</td>
+                                                            <td style="white-space: break-spaces;">{{!empty($iteam->description)?$iteam->description:'-'}}</td>
                                                             {{-- @php
                                                                 $tr_tex = array_key_exists($key, $TaxPrice_array) == true ? $TaxPrice_array[$key] : 0;
                                                             @endphp

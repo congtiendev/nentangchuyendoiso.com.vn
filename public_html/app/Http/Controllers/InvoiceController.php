@@ -387,13 +387,16 @@ class InvoiceController extends Controller
                     {
                         $customer = $invoice->customer;
                     }
+                    $proposal = Proposal::find($id);
+                   
+                    $iteams   = $proposal->items;
+
                     if(module_is_active('CustomField')){
                         $invoice->customField = \Modules\CustomField\Entities\CustomField::getData($invoice, 'Base','Invoice');
                         $customFields      = \Modules\CustomField\Entities\CustomField::where('workspace_id', '=', getActiveWorkSpace())->where('module', '=', 'Base')->where('sub_module','Invoice')->get();
                     }else{
                         $customFields = null;
                     }
-                    $iteams   = $invoice->items;
 
                     return view('invoice.view', compact('invoice', 'customer', 'iteams', 'invoicePayment','customFields','bank_transfer_payments','invoice_attachment'));
                 }

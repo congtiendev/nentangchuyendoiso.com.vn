@@ -90,7 +90,7 @@
                                 <tr>
                                     <th> {{ __('Văn bản trình ký') }}</th>
                                     @if (\Auth::user()->type != 'client')
-                                        <th> {{ __('Customer') }}</th>
+                                        <th> {{ __('Người trình ký') }}</th>
                                     @endif
                                     <th> {{ __('Issue Date') }}</th>
                                     <th> {{ __('Status') }}</th>

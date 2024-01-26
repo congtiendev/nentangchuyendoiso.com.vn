@@ -24,7 +24,8 @@ class BorrowAssetRecordController extends Controller
      */
     public function create()
     {
-        $assets = Asset::query()->pluck('name','id');
+        $assets = Asset::where('workspace_id', getActiveWorkSpace())
+        ->pluck('name','id');
         $users = User::where('created_by', creatorId())
              ->where('workspace_id', getActiveWorkSpace())
              ->pluck('name', 'id');

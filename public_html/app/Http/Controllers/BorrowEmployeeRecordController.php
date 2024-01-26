@@ -19,6 +19,12 @@ class BorrowEmployeeRecordController extends Controller
         return view('brrow-employee-records.index',compact('data'));
     }
 
+    public function getlistLd()
+    {
+        $data = BorrowEmployeeRecord::query()->latest()->get();
+        return view('brrow-employee-records.listld',compact('data'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

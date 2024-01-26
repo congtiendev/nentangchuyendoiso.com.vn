@@ -46,7 +46,7 @@
                         style="width:25%;" />
         </div>
     </div>
-        @if (count($ComponentsField) > 0)
+        {{-- @if (count($ComponentsField) > 0)
             @foreach ($ComponentsField as $key => $value)
                 <div class="col-md-6">
                     <div class="form-group">
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             @endforeach
-        @endif
+        @endif --}}
     </div>
 </div>
 

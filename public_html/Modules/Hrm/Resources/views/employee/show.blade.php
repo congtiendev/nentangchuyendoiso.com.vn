@@ -18,7 +18,7 @@
 @endphp
 @section('page-action')
     <div class="col-auto p-0">
-        <div class="d-flex justify-content-end drp-languages">
+        {{-- <div class="d-flex justify-content-end drp-languages">
             <ul class="list-unstyled mb-0 m-2">
                 <li class="dropdown dash-h-item drp-language">
                     <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" role="button"
@@ -73,7 +73,7 @@
                     </div>
                 </li>
             </ul>
-        </div>
+        </div> --}}
     </div>
     @if ($employee->user->is_disable == 1)
         <div class="col-auto pe-0 pt-3">
