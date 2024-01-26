@@ -150,7 +150,7 @@ Quản lý hợp đồng mẫu
 <div class="modal fade" id="createContractSampleModal" tabindex="-2" role="dialog"
     aria-labelledby="employeeCreateWorkShiftModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form class="modal-content" method="POST" enctype="multipart/form-data"
+        <form id="updateContractSampleForm" class="modal-content" method="POST" enctype="multipart/form-data"
             action="{{ route('contract.samples.store') }}">
             @csrf
             <div class="modal-header">
@@ -202,7 +202,7 @@ Quản lý hợp đồng mẫu
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label"> Nội dung </label>
-                            <input type="file" class="form-control" name="content" id="content" required>
+                            <input type="file" class="form-control" name="content" id="content" >
                         </div>
                     </div>
 
