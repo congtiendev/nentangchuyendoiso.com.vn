@@ -87,7 +87,38 @@ class SignatureSampleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $signatureSample = SignatureSample::findOrfail($id);
+        if ($request->hasFile('content')) {
+            $filenameWithExt = $request->file('content')->getClientOriginalName();
+            $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension       = $request->file('content')->getClientOriginalExtension();
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+            try {
+                $uploadContent = multi_upload_file($request->file('content'), 'document', $fileNameToStore, 'emp_document');
+                delete_file($signatureSample->content);
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', $e->getMessage());
+            }
+        } else {
+            $uploadContent['url'] = $signatureSample->content;
+        }
+        $data = [
+            'name' => $request->name,
+            'content' => $uploadContent['url'],
+            'signature_object' => $request->signature_object,
+            'approver' => $request->approver,
+            'description' => $request->description,
+            'created_by' => Auth::user()->id,
+            'signature_type' => $request->signature_type,
+            'workspace' => getActiveWorkSpace(),
+        ];
+        try {
+            $signatureSample->update($data);
+            return redirect()->back()->with('success', 'Cập nhật trình ký mẫu thành công !');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

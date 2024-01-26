@@ -188,9 +188,9 @@
                             <a href="{{ route('proposal.resent',$proposal->id) }}" class="btn btn-xs btn-primary btn-icon-only width-auto">{{__('Gửi lại văn bản')}}</a>
                         </div>
                     @endif
-                    <div class="all-button-box">
+                    {{-- <div class="all-button-box">
                         <a href="{{ route('proposal.pdf', Crypt::encrypt($proposal->id))}}" class="btn btn-xs btn-primary btn-icon-only width-auto" target="_blank">{{__('Download')}}</a>
-                    </div>
+                    </div> --}}
                     <div class="all-button-box mx-2">
                         <select class="form-control status_change pe-5" name="status" data-url="{{route('proposal.status.change',$proposal->id)}}">
                             @foreach($status as $k=>$val)

@@ -68,7 +68,7 @@ Quản lý loại trình ký mẫu
                                     <span>
                                         <div class="action-btn bg-info ms-2">
                                             <button
-                                                data-action="{{route('signature-sample.update', $contract->id)}}"
+                                                data-action="{{route('signature-sample-type.update', $contract->id)}}"
                                                 data-name="{{ $contract->name }}"
                                                 data-description="{{ $contract->description }}"
                                                 class="mx-3 btn btn-sm  btn-update-signature-sample"
@@ -76,6 +76,7 @@ Quản lý loại trình ký mẫu
                                         </div>
                                         <div class="action-btn bg-danger ms-2">
                                             <form method="POST"
+                                            id="updatesignatureSampleForm"
                                                 action="{{ route('signature-sample-type.destroy',['id' => $contract->id]) }}"
                                                 accept-charset="UTF-8" class="m-0">
                                                 @csrf
@@ -106,7 +107,7 @@ Quản lý loại trình ký mẫu
 <div class="modal fade" id="createsignatureSampleModal" tabindex="-2" role="dialog"
     aria-labelledby="employeeCreateWorkShiftModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form class="modal-content" method="POST" enctype="multipart/form-data" action="">
+        <form id="updatesignatureSampleForm" class="modal-content" method="POST" enctype="multipart/form-data" action="">
             @csrf
             <div class="modal-header">
                 <h5 class="modal-title">Thêm trình ký mẫu</h5>
@@ -132,7 +133,7 @@ Quản lý loại trình ký mẫu
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-close-modal" data-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary">Thêm</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
                 </div>
         </form>
     </div>
@@ -144,6 +145,7 @@ Quản lý loại trình ký mẫu
     $(document).ready(function () {
         $('#showAddsignatureSampleModal').click(function () {
             $('#createsignatureSampleModal').modal('show');
+            $('.modal-title').text('Thêm loại trình ký mẫu');
             $('#createsignatureSampleModal').find('#updatesignatureSampleForm').attr('action', $(this).data('action'));
             $('#createsignatureSampleModal').find('#name').val('');
             $('#createsignatureSampleModal').find('#signature_type').val('');
@@ -153,6 +155,7 @@ Quản lý loại trình ký mẫu
          });
          $(document).on('click', '.btn-update-signature-sample', function () {
             $('#createsignatureSampleModal').modal('show');
+            $('.modal-title').text('Sửa loại trình ký mẫu');
             $('#createsignatureSampleModal').find('#updatesignatureSampleForm').attr('action', $(this).data('action'));
             $('#createsignatureSampleModal').find('#name').val($(this).data('name'));
             $('#createsignatureSampleModal').find('#signature_type').val($(this).data('signature_type'));

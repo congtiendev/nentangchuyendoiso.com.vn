@@ -270,7 +270,7 @@ class CompanyMenuListener
             'permission' => 'helpdesk ticket manage'
         ]);
         $menu->add([
-            'title' => __('Hồ sơ duyệt mượn LD'),
+            'title' => __('Hồ sơ mượn LĐ'),
             'icon' => '',
             'name' => 'borrow-employee-records',
             'parent' => 'record management',
@@ -283,7 +283,7 @@ class CompanyMenuListener
         ]);
 
         $menu->add([
-            'title' => __('Hồ sơ duyệt mượn DC'),
+            'title' => __('Hồ sơ mượn DC'),
             'icon' => '',
             'name' => 'borrow-asset-records',
             'parent' => 'record management',

@@ -196,7 +196,7 @@ Quản lý trình ký mẫu
                     <div class="col-12">
                         <div class="form-group" id="content__group">
                             <label class="col-form-label"> Nội dung </label>
-                            <input type="file" class="form-control" name="content" id="content" required>
+                            <input type="file" class="form-control" name="content" id="content" >
 
                         </div>
                     </div>
