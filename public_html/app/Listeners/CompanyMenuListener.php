@@ -267,10 +267,10 @@ class CompanyMenuListener
             'depend_on' => [],
             'route' => '',
             'module' => $module,
-            'permission' => ''
+            'permission' => 'helpdesk ticket manage'
         ]);
         $menu->add([
-            'title' => __('Hồ sơ duyệt mượn lao động'),
+            'title' => __('Hồ sơ duyệt mượn LD'),
             'icon' => '',
             'name' => 'borrow-employee-records',
             'parent' => 'record management',
@@ -279,7 +279,20 @@ class CompanyMenuListener
             'depend_on' => [],
             'route' => 'borrow-employee-records.index',
             'module' => $module,
-            'permission' => ''
+            'permission' => 'helpdesk ticket manage'
+        ]);
+
+        $menu->add([
+            'title' => __('Hồ sơ duyệt mượn DC'),
+            'icon' => '',
+            'name' => 'borrow-asset-records',
+            'parent' => 'record management',
+            'order' => 607,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'borrow-asset-records.index',
+            'module' => $module,
+            'permission' => 'helpdesk ticket manage'
         ]);
         //
          $menu->add([
