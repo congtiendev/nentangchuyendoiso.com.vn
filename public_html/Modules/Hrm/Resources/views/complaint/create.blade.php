@@ -23,7 +23,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('title', __('Title'), ['class' => 'col-form-label']) }}
-                {{ Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Enter Complaint Title', 'required' => 'required']) }}
+                {{ Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Nhập tiêu đề', 'required' => 'required']) }}
             </div>
         </div>
         <div class="col-md-6">

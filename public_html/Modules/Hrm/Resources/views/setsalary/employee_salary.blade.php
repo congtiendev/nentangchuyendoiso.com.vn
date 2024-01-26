@@ -89,7 +89,7 @@
                                                 </td>
                                                 <td>{{ $allowance->title }}</td>
 
-                                                <td>{{ ucfirst($allowance->type) }}</td>
+                                                <td>{{ __(ucfirst($allowance->type)) }}</td>
                                                 @if ($allowance->type == 'fixed')
                                                     <td>{{ currency_format_with_sym($allowance->amount) }}</td>
                                                 @else
@@ -178,7 +178,7 @@
                                             <tr>
                                                 <td>{{ !empty( Modules\Hrm\Entities\Employee::GetEmployeeByEmp($commission->employee_id)) ? Modules\Hrm\Entities\Employee::GetEmployeeByEmp($commission->employee_id)->name : '' }}</td>
                                                 <td>{{ $commission->title }}</td>
-                                                <td>{{ ucfirst($commission->type) }}</td>
+                                                <td>{{ __(ucfirst($commission->type)) }}</td>
                                                 @if ($commission->type == 'fixed')
                                                     <td>{{ currency_format_with_sym($commission->amount) }}</td>
                                                 @else
@@ -269,7 +269,7 @@
                                                 <td>{{ !empty( Modules\Hrm\Entities\Employee::GetEmployeeByEmp($loan->employee_id)) ? Modules\Hrm\Entities\Employee::GetEmployeeByEmp($loan->employee_id)->name : '' }}</td>
                                                 <td>{{ !empty($loan->loan_option) ? $loan->loanoption->name : '' }}</td>
                                                 <td>{{ $loan->title }}</td>
-                                                <td>{{ ucfirst($loan->type) }}</td>
+                                                <td>{{ __(ucfirst($loan->type)) }}</td>
                                                 @if ($loan->type == 'fixed')
                                                     <td>{{ currency_format_with_sym($loan->amount) }}</td>
                                                 @else
@@ -360,7 +360,7 @@
                                                 <td>{{ !empty( Modules\Hrm\Entities\Employee::GetEmployeeByEmp($saturationdeduction->employee_id)) ? Modules\Hrm\Entities\Employee::GetEmployeeByEmp($saturationdeduction->employee_id)->name : '' }}</td>
                                                 <td>{{ !empty($saturationdeduction->deduction_option) ? $saturationdeduction->deductionoption->name : '' }}</td>
                                                 <td>{{ $saturationdeduction->title }}</td>
-                                                <td>{{ ucfirst($saturationdeduction->type) }}</td>
+                                                <td>{{ __(ucfirst($saturationdeduction->type)) }}</td>
                                                 @if ($saturationdeduction->type == 'fixed')
                                                     <td>{{ currency_format_with_sym($saturationdeduction->amount) }}
                                                     </td>
@@ -449,7 +449,7 @@
                                             <tr>
                                                 <td>{{ !empty( Modules\Hrm\Entities\Employee::GetEmployeeByEmp($otherpayment->employee_id)) ? Modules\Hrm\Entities\Employee::GetEmployeeByEmp($otherpayment->employee_id)->name : '' }}</td>
                                                 <td>{{ $otherpayment->title }}</td>
-                                                <td>{{ ucfirst($otherpayment->type) }}</td>
+                                                <td>{{ __(ucfirst($otherpayment->type)) }}</td>
                                                 @if ($otherpayment->type == 'fixed')
                                                     <td>{{ currency_format_with_sym($otherpayment->amount) }}</td>
                                                 @else

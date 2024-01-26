@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('salary_type', __('Payslip Type'), ['class' => 'form-label']) }}
-                {{ Form::select('salary_type', $payslip_type, null, ['class' => 'form-control ', 'required' => 'required', 'placeholder' => 'Select Payslip Type']) }}
+                {{ Form::select('salary_type', $payslip_type, null, ['class' => 'form-control ', 'required' => 'required', 'placeholder' => 'Chọn loại phiếu lương']) }}
             </div>
         </div>
         <div class="col-md-12">

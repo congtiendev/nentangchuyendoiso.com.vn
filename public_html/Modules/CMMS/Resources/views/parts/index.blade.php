@@ -105,7 +105,7 @@
                                                                 data-url="{{ route('parts.edit', $part->id) }}"
                                                                 data-ajax-popup="true" data-size="md" data-toggle="tooltip"
                                                                 title="{{ __('Edit') }}"
-                                                                data-title="{{ __('Edit Parts') }}"
+                                                                data-title="{{ __('Chỉnh sửa thông tin') }}"
                                                                 data-bs-original-title="{{ __('Edit') }}">
                                                                 <i class="ti ti-pencil text-white"></i>
                                                             </a>

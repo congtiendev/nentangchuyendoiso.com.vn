@@ -2,7 +2,7 @@
     <div class="row">
         @if(isset($customer['billing_name']))
             <div class="col-md-5">
-                <h6>{{__('Bill to')}}</h6>
+                <h6>{{__('Thông tin cơ bản')}}</h6>
                 <div class="bill-to">
                     <small>
                         <span>{{$customer['billing_name']}}</span><br>
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="col-md-5">
-                <h6>{{__('Ship to')}}</h6>
+                <h6>{{__('Thông tin chi tiết')}}</h6>
                 <div class="bill-to">
                     <small>
                         <span>{{$customer['shipping_name']}}</span><br>

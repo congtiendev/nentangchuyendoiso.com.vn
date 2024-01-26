@@ -11,8 +11,7 @@ use Modules\Hrm\Entities\AwardType;
 use Modules\Hrm\Events\CreateAwardType;
 use Modules\Hrm\Events\DestroyAwardType;
 use Modules\Hrm\Events\UpdateAwardType;
-use App\Models\CustomNotification;
-use App\Models\UserNotifications;
+
 class AwardTypeController extends Controller
 {
     /**
@@ -50,82 +49,35 @@ class AwardTypeController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->isAbleTo('award create')) {
+        if (Auth::user()->isAbleTo('awardtype create')) {
 
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    'employee_id' => 'required',
-                    'award_type' => 'required',
-                    'date' => 'required|after:yesterday',
-                    'gift' => 'required',
-                    'description' => 'required',
+
+                    'name' => 'required|max:30',
                 ]
             );
-
             if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
 
                 return redirect()->back()->with('error', $messages->first());
             }
-            $award              = new Award();
-            $employee = Employee::where('user_id', '=', $request->employee_id)->first();
-            if (!empty($employee)) {
-                $award->employee_id = $employee->id;
-            }
-            $award->user_id     = $request->employee_id;
-            $award->award_type  = $request->award_type;
-            $award->date        = $request->date;
-            $award->gift        = $request->gift;
-            $award->description =  $request->description;
-            $award->workspace   = getActiveWorkSpace();
-            $award->created_by  = creatorId();
-            $award->save();
-            event(new CreateAward($request, $award));
-            try {
-                $notification = CustomNotification::create(
-                    [
-                        'title' => 'Khen thưởng ',
-                        'content' => 'Bạn vừa được khen thưởng một ' . $award->gift  . ' vào ngày ' . date('d-m-Y', strtotime($award->date)),
-                        'link' => "#",
-                        'from' => $award->created_by,
-                        'send_to' => json_encode([$award->user_id], JSON_NUMERIC_CHECK),
-                        'type' => 'application',
-                    ]
-                );
-                UserNotifications::create(
-                    [
-                        'user_id' => $award->user_id,
-                        'notification_id' => $notification->id,
-                        'is_read' => 0,
-                    ]
-                );
-            } catch (\Exception $e) {
-                return redirect()->back()->with('error', __('Something went wrong please try again.'));
-            }
-            $awardtype = AwardType::find($request->award_type);
-            $company_settings = getCompanyAllSetting();
 
-            if (!empty($company_settings['New Award']) && $company_settings['New Award']  == true) {
-                $User        = User::where('id', $request->employee_id)->where('workspace_id', '=',  getActiveWorkSpace())->first();
+            $awardtype             = new AwardType();
+            $awardtype->name       = $request->name;
+            $awardtype->workspace   = getActiveWorkSpace();
+            $awardtype->created_by = creatorId();
+            $awardtype->save();
 
-                $uArr = [
-                    'award_name' => $User->name,
-                    'award_date' => $award->date,
-                    'award_type' => $awardtype->name,
-                ];
-                try {
-                    $resp = EmailTemplate::sendEmailTemplate('New Award', [$User->email], $uArr);
-                } catch (\Exception $e) {
-                    $resp['error'] = $e->getMessage();
-                }
-                return redirect()->route('award.index')->with('success', __('Award  successfully created.') . ((!empty($resp) && $resp['is_success'] == false && !empty($resp['error'])) ? '<br> <span class="text-danger">' . $resp['error'] . '</span>' : ''));
-            }
-            return redirect()->route('award.index')->with('success', __('Award  successfully created.'));
+            event(new CreateAwardType($request, $awardtype));
+
+            return redirect()->route('awardtype.index')->with('success', __('Award Type  successfully created.'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+
     /**
      * Show the specified resource.
      * @param int $id
@@ -161,72 +113,29 @@ class AwardTypeController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, Award $award)
+    public function update(Request $request, AwardType $awardtype)
     {
-        if (Auth::user()->isAbleTo('award edit')) {
-            if ($award->created_by == creatorId() && $award->workspace == getActiveWorkSpace()) {
+        if (Auth::user()->isAbleTo('awardtype edit')) {
+            if ($awardtype->created_by == creatorId() && $awardtype->workspace == getActiveWorkSpace()) {
                 $validator = \Validator::make(
                     $request->all(),
                     [
-                        'employee_id' => 'required',
-                        'award_type' => 'required',
-                        'date' => 'required|after:' . date('Y-m-d'),
-                        'gift' => 'required',
-                        'description' => 'required',
+
+                        'name' => 'required|max:30',
                     ]
                 );
-
                 if ($validator->fails()) {
                     $messages = $validator->getMessageBag();
+
                     return redirect()->back()->with('error', $messages->first());
                 }
-                $employee = Employee::where('user_id', '=', $request->employee_id)->first();
-                if (!empty($employee)) {
-                    $award->employee_id = $employee->id;
-                }
-                $send_to = [];
-                if ($award->user_id !=  $request->employee_id) {
-                    $send_to = [$request->employee_id, $award->user_id];
-                    $award_user = User::find($award->user_id);
-                    $newUser = User::find($request->employee_id);
-                    $notification_content= 'Đã thay đổi nhân viên từ ' . $award_user->name . ' sang ' . $newUser->name;
-                }else{
-                    $send_to = [$award->user_id];
-                    $notification_content= 'Vừa cập nhật thông tin khen thưởng';
-                }
 
-                try {
-                    $notification = CustomNotification::create(
-                        [
-                            'title' => 'Khen thưởng ',
-                            'content' => $notification_content,
-                            'link' => "#",
-                            'from' => Auth::user()->id,
-                            'send_to' => json_encode($send_to, JSON_NUMERIC_CHECK),
-                            'type' => 'update_award',
-                        ]
-                    );
-                   foreach ($send_to as $key => $value) {
-                        UserNotifications::create(
-                            [
-                                'user_id' => $value,
-                                'notification_id' => $notification->id,
-                                'is_read' => 0,
-                            ]
-                        );
-                    }
-                } catch (\Exception $e) {
-                    return redirect()->back()->with('error', __('Something went wrong please try again.'));
-                }
+                $awardtype->name = $request->name;
+                $awardtype->save();
 
-                $award->user_id     = $request->employee_id;
-                $award->award_type  = $request->award_type;
-                $award->date        = $request->date;
-                $award->gift        = $request->gift;
-                $award->description = $request->description;
-                $award->save();
-                event(new UpdateAward($request, $award));
-                return redirect()->route('award.index')->with('success', __('Award successfully updated.'));
+                event(new UpdateAwardType($request, $awardtype));
+
+                return redirect()->route('awardtype.index')->with('success', __('Award Type successfully updated.'));
             } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }

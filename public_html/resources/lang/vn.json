@@ -1083,7 +1083,7 @@
     "Select Allowance Option" : "Tùy chọn loại phụ cấp",
     "Select Loan Option" : "Chọn loại khoản ứng",
     "Select Deduction Option" : "Chọn loại khấu trừ",
-    "fixed" : "Số tiền",
+    "Fixed" : "Số tiền",
     "Percentage" : "Tỷ lệ phần trăm",
     "Enter Number of days" : "Nhập số ngày",
     "Enter Hours" : "Nhập giờ",
@@ -1211,5 +1211,20 @@
     "Tags" : "Thẻ",
     "Instruction" : "Người hướng dẫn",
     "Log Time" : "Thời gian đăng nhập",
-    "client" : "Khách hàng"
+    "client" : "Khách hàng",
+    "Internal" : "Bên ngoài",
+    "External" : "Nội bộ",
+    "Component Detail" : "Chi tiết yêu cầu",
+    "Component Details" : "Chi tiết yêu cầu",
+    "Component" : "Yêu cầu",
+    "Documents and Picture" : "Tài liệu và hình ảnh",
+    "Suppliers" : "Đối tượng liên kết",
+    "Parts Detail" : "Chi tiết bộ phận",
+    "Parts Details" : "Chi tiết bộ phận",
+    "Components Thumbnail" : "Ảnh",
+    "Supplier Thumbnail" : "Ảnh",
+    "Parts Used" : "Bộ phận",
+    "Cost" : "Giá"
+    
+
 }

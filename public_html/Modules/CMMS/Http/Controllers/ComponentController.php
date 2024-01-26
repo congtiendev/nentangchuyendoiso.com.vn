@@ -354,9 +354,8 @@ class ComponentController extends Controller
                     ComponentsFieldValues::where('record_id', $ComponentsField_Values->record_id)->where('field_id', $ComponentsField_Values->field_id)->update($data);
                 }
             }
-
-            return redirect()->back()->with('success', __('Components Updated Successfully') . ((isset($result) && $result != 1) ? '<br> <span class="text-danger">' . $result . '</span>' : ''));
         }
+        return redirect()->back()->with('success', __('Components Updated Successfully') . ((isset($result) && $result != 1) ? '<br> <span class="text-danger">' . $result . '</span>' : ''));
     }
     /**
      * Remove the specified resource from storage.

@@ -31,7 +31,7 @@
                     
                             <div class="form-group col-md-6" id="username">
                                 <select class="form-control select_user" name="user_id" required="">
-                                    <option value="">{{ __('Chọn nhân viên') }}</option>
+                                    <option value="">{{ __('Chọn người mượn') }}</option>
                                     @foreach ($users as $key => $value)
                                     <option value="{{ $key }}" {{ old('user_id') == $key ? 'selected' : '' }}>
                                         {{ $value }}

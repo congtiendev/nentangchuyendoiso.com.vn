@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-group">
-                {{ Form::label('thumbnail', __('Part Thumbnail'), ['class' => 'col-form-label']) }}
+                {{ Form::label('thumbnail', __('Tệp'), ['class' => 'col-form-label']) }}
                 <div class="choose-file">
                     <label for="Component Thumbnail">
                         <input type="file" class="form-control" name="thumbnail" id="thumbnail"
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('number', __('Part Number'), ['class' => 'col-form-label']) }}
                 {{ Form::text('number', $parts->number, ['class' => 'form-control', 'required' => 'required']) }}
@@ -62,7 +62,7 @@
                 {{ Form::label('category', __('Category'), ['class' => 'col-form-label']) }}
                 {{ Form::text('category', $parts->category, ['class' => 'form-control', 'required' => 'required']) }}
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 <div class="modal-footer">

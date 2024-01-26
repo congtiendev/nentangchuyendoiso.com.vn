@@ -18,7 +18,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('trainer_option', __('Trainer Option'), ['class' => 'col-form-label']) }}
-                {{ Form::select('trainer_option', $options, null, ['class' => 'form-control ', 'placeholder' => __('Select Trainer Option'), 'required' => 'required']) }}
+                {{ Form::select('trainer_option', array_map('__', $options), null, ['class' => 'form-control ', 'placeholder' => __('Select Trainer Option'), 'required' => 'required']) }}
             </div>
         </div>
         <div class="col-md-6">

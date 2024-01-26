@@ -137,8 +137,8 @@
                                                                     <i class="ti ti-shopping-cart"></i>
                                                                 </div>
                                                                 <div class="ms-3">
-                                                                    <small class="text-muted">{{ 'Total' }}</small>
-                                                                    <h6 class="m-0">{{ 'Cost' }}</h6>
+                                                                    <small class="text-muted">{{ 'Tổng' }}</small>
+                                                                    <h6 class="m-0">{{ 'Giá' }}</h6>
                                                                 </div>
                                                             </div>
                                                         </div>

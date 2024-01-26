@@ -471,6 +471,18 @@ class CompanyMenuListener
             'permission' => 'helpdesk ticket manage'
         ]);
         $menu->add([
+            'title' => __('Danh sách mượn LĐ'),
+            'icon' => '',
+            'name' => 'list-ld',
+            'parent' => 'archive work',
+            'order' => 684,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'list.ld',
+            'module' => $module,
+            'permission' => 'helpdesk ticket manage'
+        ]);
+        $menu->add([
             'title' => __('Dự án'),
             'icon' => '',
             'name' => 'prj',
