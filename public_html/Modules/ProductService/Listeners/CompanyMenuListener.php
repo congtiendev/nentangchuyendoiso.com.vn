@@ -14,7 +14,7 @@ class CompanyMenuListener
         $module = 'ProductService';
         $menu = $event->menu;
         $menu->add([
-            'title' => __('Văn bản liên quan'),
+            'title' => __('Văn bản gốc'),
             'icon' => 'shopping-cart',
             'name' => 'product-service',
             'parent' => null,

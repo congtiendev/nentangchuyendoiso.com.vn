@@ -254,6 +254,8 @@
                             {
                                 $(el.parent().parent().find('.price')).val(item.product.sale_price);
                                 $(el.parent().parent().parent().find('.pro_description')).val(item.product.description);
+                                $(el.parent().parent().parent().find('.sku')).val(item.product.sku);
+                                $(el.parent().parent().parent().find('.file_vb')).attr('href', 'http://127.0.0.1:8000/' + item.product.image);
 
                             }else{
                                 $(el.parent().parent().find('.price')).val(0);

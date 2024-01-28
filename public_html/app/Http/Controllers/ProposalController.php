@@ -432,7 +432,7 @@ class ProposalController extends Controller
                 if(module_is_active('ProductService'))
                 {
                     $category = \Modules\ProductService\Entities\Category::where('created_by', '=', creatorId())->where('workspace_id', getActiveWorkSpace())->where('type', 1)->get()->pluck('name', 'id');
-
+                    $product_services = \Modules\ProductService\Entities\ProductService::where('workspace_id', getActiveWorkSpace())->get()->pluck('name', 'id');
                 }
                 else
                 {
@@ -465,6 +465,7 @@ class ProposalController extends Controller
                 }else{
                     $customFields = null;
                 }
+                
                 return view('proposal.edit', compact('customers','proposal', 'proposal_number', 'category', 'items','taxs','projects','customFields'));
             }
             else
@@ -735,6 +736,7 @@ class ProposalController extends Controller
                 $customer = \Modules\Account\Entities\Customer::where('user_id',$proposal['customer_id'])->first();
                 $convertInvoice->customer_id    = !empty($customer) ?  $customer->id : null;
             }
+            $convertInvoice->id                  =$proposal_id;
             $convertInvoice->invoice_id          = $this->invoiceNumber();
             $convertInvoice->user_id             = $proposal->customer_id;
             $convertInvoice->issue_date          = date('Y-m-d');
@@ -833,8 +835,9 @@ class ProposalController extends Controller
     }
     public function items(Request $request)
     {
+        
         $items = ProposalProduct::where('proposal_id', $request->proposal_id)->where('product_id', $request->product_id)->first();
-
+        dd($items);
         return json_encode($items);
     }
     public function payproposal($proposal_id)

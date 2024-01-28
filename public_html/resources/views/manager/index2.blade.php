@@ -9,9 +9,9 @@
     <div>
         @stack('addButtonHook')
         @permission('location create')
-        <a href="{{ route('manager-file.index') }}" data-title="{{ __('Danh sách mượn LD') }}" data-bs-toggle="tooltip"
+        <a href="{{ route('manager-file.index') }}" data-title="{{ __('Danh sách mượn LĐ') }}" data-bs-toggle="tooltip"
             title="" class="btn btn-sm btn-primary">
-           Danh sách mượn LD
+           Danh sách mượn LĐ
         </a>
         @endpermission
         @permission('location create')

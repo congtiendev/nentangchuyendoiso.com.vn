@@ -48,8 +48,8 @@
                         @if (\Auth::user()->type != 'client')
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mr-2">
                                 <div class="btn-box">
-                                    {{ Form::label('customer', __('Loại văn bản'), ['class' => 'form-label']) }}
-                                    {{ Form::select('customer', $customer, isset($_GET['customer']) ? $_GET['customer'] : '', ['class' => 'form-control select', 'placeholder' => 'Chọn văn bản']) }}
+                                    {{ Form::label('customer', __('Người trình ký'), ['class' => 'form-label']) }}
+                                    {{ Form::select('customer', $customer, isset($_GET['customer']) ? $_GET['customer'] : '', ['class' => 'form-control select', 'placeholder' => 'Chọn người trình ký']) }}
                                 </div>
                             </div>
                         @endif

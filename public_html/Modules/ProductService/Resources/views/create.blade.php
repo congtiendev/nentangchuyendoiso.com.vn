@@ -53,7 +53,7 @@
             <p class="text-danger d-none" id="tax_validation">{{ __('Tax filed is required.') }}</p>
         </div> --}}
         <div class="form-group col-md-6 mt-3">
-            {{ Form::label('category_id', __('Category'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
+            {{ Form::label('category_id', __('Loại văn bản'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
             {{ Form::select('category_id', $category, null, ['class' => 'form-control', 'required' => 'required']) }}
 
             <div class=" text-xs">

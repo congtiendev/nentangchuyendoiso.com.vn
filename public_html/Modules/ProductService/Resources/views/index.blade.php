@@ -1,9 +1,9 @@
 @extends('layouts.main')
 @section('page-title')
-{{__('Quản lí văn bản liên quan')}}
+{{__('Quản lí văn bản gốc')}}
 @endsection
 @section('page-breadcrumb')
-{{ __('Văn bản liên quan') }}
+{{ __('Văn bản gốc') }}
 @endsection
 @section('page-action')
 @permission('product&service create')
@@ -116,12 +116,12 @@
                                 @if (Laratrust::hasPermission('product&service delete') || Laratrust::hasPermission('product&service edit'))
                                    <td class="Action">
                                     @if(module_is_active('Pos'))
-                                        <div class="action-btn bg-warning ms-2">
+                                        {{-- <div class="action-btn bg-warning ms-2">
                                             <a  class="mx-3 btn btn-sm align-items-center" data-url="{{ route('productservice.detail',$productService->id) }}"
                                             data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Chi tiêt văn bản')}}" data-title="{{__('Chi tiết văn bản')}}">
                                                 <i class="ti ti-eye text-white"></i>
                                             </a>
-                                        </div>
+                                        </div> --}}
                                     @endif
                                         @permission('product&service edit')
                                             <div class="action-btn bg-info ms-2">

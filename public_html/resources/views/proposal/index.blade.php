@@ -52,8 +52,8 @@
                             @if (\Auth::user()->type != 'client')
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mr-2">
                                     <div class="btn-box">
-                                        {{ Form::label('customer', __('Văn bản nguồn gốc'), ['class' => 'text-type']) }}
-                                        {{ Form::select('customer', $customer, isset($_GET['customer']) ? $_GET['customer'] : '', ['class' => 'form-control', 'placeholder' => 'Chọn văn bản']) }}
+                                        {{ Form::label('customer', __('Người trình ký'), ['class' => 'text-type']) }}
+                                        {{ Form::select('customer', $customer, isset($_GET['customer']) ? $_GET['customer'] : '', ['class' => 'form-control', 'placeholder' => 'Chọn người trình ký']) }}
                                     </div>
                                 </div>
                             @endif
@@ -165,7 +165,7 @@
                                                             </div>
 
                                                         @endpermission
-                                                    @elseif($proposal->is_convert ==1)
+                                                    @elseif($proposal->is_convert == 1)
 
                                                         @permission('invoice show')
                                                             <div class="action-btn bg-success ms-2">
