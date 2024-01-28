@@ -51,7 +51,7 @@ Quản lý trình ký mẫu
                             <tr>
                                 <td class="Id">
                                     @permission('contract show')
-                                    <a href="{{ route('contract.show', $contract->id) }}"
+                                    <a href="{{ route('signature-sample.show', $contract->id) }}"
                                         class="btn btn-outline-primary">
                                         {{ Modules\Contract\Entities\Contract::contractNumberFormat($contract->id) }}
                                     </a>

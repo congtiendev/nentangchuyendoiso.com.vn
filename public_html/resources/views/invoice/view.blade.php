@@ -423,6 +423,8 @@
                                                         <th class="text-dark">{{ __('Discount') }}</th>
                                                         <th class="text-dark">{{ __('Tax') }}</th> --}}
                                                         <th class="text-dark">{{ __('Ý kiến của lãnh đạo trình ký') }}</th>
+                                                        <th class="text-dark">{{ __('Đơn vị') }}</th>
+                                                        <th class="text-dark">{{ __('File văn bản') }}</th>
                                                         {{-- <th class="text-right text-dark" width="12%">{{ __('Price') }}<br>
                                                             <small
                                                                 class="text-danger font-weight-bold">{{ __('After discount & tax') }}</small>
@@ -462,45 +464,18 @@
                                                             @elseif($invoice->invoice_module == 'taskly')
                                                                 <td>{{ !empty($iteam->product()) ? $iteam->product()->title : '' }}</td>
                                                             @endif
-                                                            {{-- <td>{{ $iteam->quantity }}</td> --}}
-                                                            {{-- <td>{{ currency_format_with_sym($iteam->price) }}</td> --}}
-                                                            {{-- <td>
-                                                                {{ currency_format_with_sym($iteam->discount) }}
-                                                            </td> --}}
-                                                            {{-- <td>
+                                                           
+                                                            <td>{{!empty($iteam->description)?$iteam->description:'-'}}</td>
+                                                            
+                                                            <td>
+                                                                {{ !empty($iteam->product()) ? $iteam->product()->sku : '' }}
+                                                            </td>
 
-                                                                @if (!empty($iteam->tax))
-                                                                    <table>
-                                                                        @php
-                                                                            $totalTaxRate = 0;
-                                                                            $data = 0;
-                                                                        @endphp
-                                                                        @foreach ($taxes as $tax)
-                                                                            @php
-                                                                                $taxPrice = \App\Models\Invoice::taxRate($tax->rate, $iteam->price, $iteam->quantity, $iteam->discount);
-                                                                                $totalTaxPrice += $taxPrice;
-                                                                                $data += $taxPrice;
-                                                                            @endphp
-                                                                            <tr>
-                                                                                <td>{{ $tax->name . ' (' . $tax->rate . '%)' }}</td>
-                                                                                <td>{{ currency_format_with_sym($taxPrice) }}</td>
-                                                                            </tr>
-                                                                        @endforeach
-                                                                        @php
-                                                                            array_push($TaxPrice_array, $data);
-                                                                        @endphp
-                                                                    </table>
-                                                                @else
-                                                                    -
-                                                                @endif
-                                                            </td> --}}
-                                                            <td style="white-space: break-spaces;">{{!empty($iteam->description)?$iteam->description:'-'}}</td>
-                                                            {{-- @php
-                                                                $tr_tex = array_key_exists($key, $TaxPrice_array) == true ? $TaxPrice_array[$key] : 0;
-                                                            @endphp
-                                                            <td class="">
-                                                                {{ currency_format_with_sym($iteam->price * $iteam->quantity - $iteam->discount + $tr_tex) }}
-                                                            </td> --}}
+                                                            <td>
+                                                                <a  class="btn btn-outline-primary file_vb" href="{{ url(!empty($iteam->product()) ? $iteam->product()->image : '') }}">
+                                                                    <i class="fa fa-file" style="font-size: 18px;"></i>
+                                                                </a>
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                     {{-- <tfoot>

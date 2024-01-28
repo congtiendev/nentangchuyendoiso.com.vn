@@ -282,9 +282,10 @@
                 <table class="table mb-0" data-repeater-list="items" id="sortable-table">
                     <thead>
                         <tr>
-                            <th>{{ __('Loại') }}</th>
-                            <th>{{ __('Văn bản') }}</th>
-                            {{-- <th>{{ __('Quantity') }}</th> --}}
+                            <th>{{ __('Tên văn bản') }}</th>
+                            <th>{{ __('Đơn vị') }}</th>
+                            <th>{{ __('Ý kiến của lãnh đạo') }}</th>
+                            <th>{{ __('Tệp') }}</th>
                             {{-- <th>{{ __('Price') }} </th>
                             <th>{{ __('Discount') }}</th>
                             <th>{{ __('Tax') }} (%)</th> --}}
@@ -295,121 +296,35 @@
                         </tr>
                     </thead>
                     <tbody class="ui-sortable" data-repeater-item>
-                        <tr>
+                        <tr> 
+                            {{-- product -service --}}
                             {{ Form::hidden('id', null, ['class' => 'form-control id']) }}
                             <td hidden class="form-group pt-0">
                                 {{ Form::select('product_type', array_map('__', $product_type), null, ['class' => 'form-control product_type ', 'required' => 'required']) }}
                             </td>
-                            <td width="25%" class="form-group pt-0 product_div">
-                                    <select name="item" class="form-control product_id item  js-searchBox" data-url="{{route('proposal.product')}}" required>
-                                        <option value="0">{{'--'}}</option>
-                                        @foreach ($product_services as $key =>$product_service)
-                                            <option value="{{$key}}">{{$product_service}}</option>
-                                        @endforeach
-                                    </select>
-                                @if (empty($product_services_count))
-                                    <div class=" text-xs">{{ __('Please create Product first.') }}<a
-                                            href="{{ route('product-service.index') }}"><b>{{ __('Add Product') }}</b></a>
-                                    </div>
-                                @endif
-                            </td>
-                            {{-- <td>
-                                <div class="form-group price-input input-group search-form">
-                                    {{ Form::text('quantity', '', ['class' => 'form-control quantity', 'required' => 'required', 'placeholder' => __('Qty'), 'required' => 'required']) }}
-                                    <span class="unit input-group-text bg-transparent"></span>
-                                </div>
+                            {{-- product -service --}}
+                            <td class="form-group">
+                                <select name="item" class="form-control product_id item" data-url="{{route('proposal.product')}}" required>
+                                    <option value="0">{{'--'}}</option>
+                                    @foreach ($product_services as $key =>$product_service)
+                                        <option value="{{$key}}">{{$product_service}}</option>
+                                    @endforeach
+                                </select>
                             </td>
                             <td>
-                                <div class="form-group price-input input-group search-form">
-                                    {{ Form::text('price', '', ['class' => 'form-control price', 'required' => 'required', 'placeholder' => __('Price'), 'required' => 'required']) }}
-                                    <span
-                                        class="input-group-text bg-transparent">{{ isset($company_settings['defult_currancy_symbol']) ? $company_settings['defult_currancy_symbol'] : '' }}</span>
-                                </div>
-                            </td> --}}
-                            {{-- <td>
-                                <div class="form-group price-input input-group search-form">
-                                    {{ Form::text('discount', '', ['class' => 'form-control discount', 'required' => 'required', 'placeholder' => __('Discount')]) }}
-                                    <span
-                                        class="input-group-text bg-transparent">{{ isset($company_settings['defult_currancy_symbol']) ? $company_settings['defult_currancy_symbol'] : '' }}</span>
-                                </div>
+                                <input value="" type="text" name="sku" class="form-control sku" placeholder="Đơn vị">
+                            </td>
+                            <td >
+                                <input value="" type="text" name="description" class="form-control pro_description" placeholder="Ý kiến của lãnh đạo">
                             </td>
                             <td>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="taxes "></div>
-                                        {{ Form::hidden('tax', null, ['class' => 'form-control tax']) }}
-                                        {{ Form::hidden('itemTaxPrice', '', ['class' => 'form-control itemTaxPrice']) }}
-                                        {{ Form::hidden('itemTaxRate', '', ['class' => 'form-control itemTaxRate']) }}
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-end amount">
-                                0.00
-                            </td>
-                            <td>
-                                <a href="#" class="bs-pass-para repeater-action-btn" data-repeater-delete>
-                                    <div class="repeater-action-btn action-btn bg-danger ms-2">
-                                        <i class="ti ti-trash text-white text-white"></i>
-                                    </div>
+                                <a  class="btn btn-outline-primary file_vb" href="">
+                                    <i class="fa fa-file" style="font-size: 18px;"></i>
                                 </a>
-                            </td> --}}
-                        </tr>
-                        <tr>
-                            <td colspan="1">
-                                <label for=""><strong>Ý kiến của lãnh đạo trình kí</strong></label>
-                                <div class="form-group">
-                                    {{ Form::textarea('description', null, ['class' => 'form-control pro_description', 'rows' => '1', 'placeholder' => __('Description')]) }}
-                                </div>
                             </td>
-                            <td colspan="5"></td>
                         </tr>
                     </tbody>
-                    {{-- <tfoot>
-                        <tr class="border-none">
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td></td>
-                            <td><strong>{{ __('Sub Total') }}
-                                    ({{ isset($company_settings['defult_currancy_symbol']) ? $company_settings['defult_currancy_symbol'] : '' }})</strong></td>
-                            <td class="text-end subTotal">0.00</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td></td>
-                            <td><strong>{{ __('Discount') }}
-                                    ({{ isset($company_settings['defult_currancy_symbol']) ? $company_settings['defult_currancy_symbol'] : '' }})</strong></td>
-                            <td class="text-end totalDiscount">0.00</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td></td>
-                            <td><strong>{{ __('Tax') }} ({{ isset($company_settings['defult_currancy_symbol']) ? $company_settings['defult_currancy_symbol'] : '' }})</strong>
-                            </td>
-                            <td class="text-end totalTax">0.00</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td class="blue-text border-none"><strong>{{ __('Total Amount') }}
-                                    ({{ isset($company_settings['defult_currancy_symbol']) ? $company_settings['defult_currancy_symbol'] : '' }})</strong></td>
-                            <td class="text-end totalAmount blue-text border-none">0.00</td>
-                            <td></td>
-                        </tr>
-                    </tfoot> --}}
+                   
                 </table>
             </div>
         </div>
@@ -491,7 +406,7 @@
                             </td>
                             <td colspan="5"></td>
                         </tr>
-                    </tbody>
+                    </tbody>section_div
                     <tfoot>
                         <tr>
                             <td>&nbsp;</td>

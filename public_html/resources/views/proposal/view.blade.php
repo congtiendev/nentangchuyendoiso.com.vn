@@ -124,49 +124,20 @@
                                         <i class="ti ti-plus text-primary"></i>
                                     </div>
                                     <h6 class="text-primary my-3">{{ __('Tạo văn bản') }}</h6>
-                                    {{-- <p class="text-muted text-sm mb-3"><i class="ti ti-clock mr-2"></i>{{__('Created on ')}}{{ company_date_formate($proposal->issue_date)}}</p> --}}
-                                    @permission('proposal edit')
-                                        {{-- <a href="{{ route('proposal.edit',\Crypt::encrypt($proposal->id)) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="ti ti-pencil mr-2"></i>{{__('Edit')}}</a> --}}
-                                    @endpermission
                                 </div>
                                 <div class="col-md-6 col-lg-4 col-xl-4">
                                     <div class="timeline-icons"><span class="timeline-dots"></span>
                                         <i class="ti ti-mail text-warning"></i>
                                     </div>
                                     <h6 class="text-warning my-3">{{ __('Gửi văn bản') }}</h6>
-                                    {{-- <p class="text-muted text-sm mb-3">
-                                        @if ($proposal->status != 0)
-                                            <i class="ti ti-clock mr-2"></i>{{__('Sent on')}} {{ company_date_formate($proposal->send_date)}}
-                                        @else
-                                            @permission('proposal send')
-                                                <small>{{__('Status')}} : {{__('Not Sent')}}</small>
-                                            @endpermission
-                                        @endif
-                                    </p> --}}
-                                    {{-- @if ($proposal->status == 0)
-                                        @permission('proposal send')
-                                            <a href="{{ route('proposal.sent',$proposal->id) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" data-original-title="{{__('Mark Sent')}}"><i class="ti ti-send mr-2"></i>{{__('Send')}}</a>
-                                        @endpermission
-                                    @endif --}}
+                                    
                                 </div>
                                 <div class="col-md-6 col-lg-4 col-xl-4">
                                     <div class="timeline-icons"><span class="timeline-dots"></span>
                                         <i class="ti ti-report-money text-info"></i>
                                     </div>
                                     <h6 class="text-info my-3">{{ __('Trạng thái văn bản') }}</h6>
-                                    {{-- <small>
-                                        @if ($proposal->status == 0)
-                                            <span class="badge fix_badge bg-primary p-2 px-3 rounded">{{ __(\App\Models\Proposal::$statues[$proposal->status]) }}</span>
-                                        @elseif($proposal->status == 1)
-                                            <span class="badge fix_badge bg-info p-2 px-3 rounded">{{ __(\App\Models\Proposal::$statues[$proposal->status]) }}</span>
-                                        @elseif($proposal->status == 2)
-                                            <span class="badge fix_badge bg-secondary p-2 px-3 rounded">{{ __(\App\Models\Proposal::$statues[$proposal->status]) }}</span>
-                                        @elseif($proposal->status == 3)
-                                            <span class="badge fix_badge bg-warning p-2 px-3 rounded">{{ __(\App\Models\Proposal::$statues[$proposal->status]) }}</span>
-                                        @elseif($proposal->status == 4)
-                                            <span class="badge fix_badge bg-danger p-2 px-3 rounded">{{ __(\App\Models\Proposal::$statues[$proposal->status]) }}</span>
-                                        @endif
-                                    </small> --}}
+                                    
                                     <br>
                                 </div>
                             </div>
@@ -342,7 +313,6 @@
                                             {{-- <div class="font-weight-bold">{{ __('Item Summary') }}</div>
                                             <small>{{ __('All items here cannot be deleted.') }}</small>
                                             <div class="table-responsive mt-2"> --}}
-
                                                 <table class="table mb-0 table-striped">
 
                                                     <tr>
@@ -358,6 +328,8 @@
                                                         <th class="text-dark">{{__('Discount')}}</th>
                                                         <th class="text-dark">{{__('Tax')}}</th> --}}
                                                         <th class="text-dark">{{ __('Ý kiến của lãnh đạo ký trình') }}
+                                                        <th class="text-dark">{{ __('Đơn vị') }}
+                                                        <th class="text-dark">{{ __('File văn bản') }}
                                                         </th>
                                                         {{-- <th class="text-end text-dark" width="12%">{{__('Price')}}<br>
                                                             <small class="text-danger font-weight-bold">{{__('After discount & tax')}}</small>
@@ -371,8 +343,8 @@
                                                         $taxesData = [];
                                                         $TaxPrice_array = [];
                                                     @endphp
-
                                                     @foreach ($iteams as $key => $iteam)
+
                                                         @if (!empty($iteam->tax))
                                                             @php
                                                                 $taxes = \App\Models\Proposal::tax($iteam->tax);
@@ -399,92 +371,26 @@
                                                                 <td>{{ !empty($iteam->product()) ? $iteam->product()->title : '' }}
                                                                 </td>
                                                             @endif
-                                                            {{-- <td>{{$iteam->quantity}}</td>
-                                                            <td>{{ currency_format_with_sym($iteam->price)}}</td>
-                                                            <td>
-                                                                    {{ currency_format_with_sym($iteam->discount)}}
-                                                            </td>
-                                                            <td>
-                                                                @if (!empty($iteam->tax))
-                                                                    <table>
-                                                                        @php
-                                                                            $totalTaxRate = 0;
-                                                                            $data = 0;
-                                                                        @endphp
-                                                                        @foreach ($taxes as $tax)
-                                                                            @php
-                                                                                $taxPrice= \App\Models\Proposal::taxRate($tax->rate,$iteam->price,$iteam->quantity,$iteam->discount);
-                                                                                $totalTaxPrice+=$taxPrice;
-                                                                                $data+=$taxPrice;
-                                                                            @endphp
-                                                                            <tr>
-                                                                                <td>{{$tax->name .' ('.$tax->rate .'%)'}}</td>
-                                                                                <td>{{ currency_format_with_sym($taxPrice)}}</td>
-                                                                            </tr>
-                                                                        @endforeach
-                                                                        @php
-                                                                            array_push($TaxPrice_array,$data);
-                                                                        @endphp
-                                                                    </table>
-                                                                @else
-                                                                    -
-                                                                @endif
-                                                            </td> --}}
+                                                         
                                                             @php
                                                                 $tr_tex = array_key_exists($key, $TaxPrice_array) == true ? $TaxPrice_array[$key] : 0;
                                                             @endphp
-                                                            <td style="white-space: break-spaces;">
+                                                            <td>
                                                                 {{ !empty($iteam->description) ? $iteam->description : $iteam->description }}
                                                             </td>
+                                                            <td>
+                                                                {{ !empty($iteam->product()) ? $iteam->product()->sku : '' }}
+                                                            </td>
+                                                            <td>
+                                                                <a  class="btn btn-outline-primary file_vb" href="{{ url(!empty($iteam->product()) ? $iteam->product()->image : '') }}">
+                                                                    <i class="fa fa-file" style="font-size: 18px;"></i>
+                                                                </a>
+                                                            </td>
+
                                                             {{-- <td class="text-end">{{ currency_format_with_sym(($iteam->price*$iteam->quantity) -$iteam->discount + $tr_tex )}}</td> --}}
                                                         </tr>
                                                     @endforeach
-                                                    {{-- <tfoot>
-                                                        <tr>
-                                                            <td></td>
-                                                            @if ($proposal->proposal_module == 'account')
-                                                                <td></td>
-                                                            @endif
-                                                            <td><b>{{__('Total')}}</b></td>
-                                                            <td><b>{{$totalQuantity}}</b></td>
-                                                            <td><b>{{ currency_format_with_sym ($totalRate)}}</b></td>
-                                                            <td><b>{{ currency_format_with_sym ($totalDiscount)}}</b></td>
-                                                            <td><b>{{ currency_format_with_sym ($totalTaxPrice)}}</b></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        @php
-                                                            $colspan = 6;
-                                                            if($proposal->proposal_module == "account"){
-                                                                $colspan = 7;
-                                                            }
-                                                        @endphp
-                                                        <tr>
-                                                            <td colspan="{{$colspan}}"></td>
-                                                            <td class="text-end"><b>{{__('Sub Total')}}</b></td>
-                                                            <td class="text-end">{{ currency_format_with_sym   ($proposal->getSubTotal())}}</td>
-                                                        </tr>
-                                                        <tr>
-
-                                                            <td colspan="{{$colspan}}"></td>
-                                                            <td class="text-end"><b>{{__('Discount')}}</b></td>
-                                                            <td class="text-end">{{ currency_format_with_sym   ($proposal->getTotalDiscount())}}</td>
-                                                        </tr>
-                                                        @if (!empty($taxesData))
-                                                            @foreach ($taxesData as $taxName => $taxPrice)
-                                                                <tr>
-                                                                    <td colspan="{{$colspan}}"></td>
-                                                                    <td class="text-end"><b>{{$taxName}}</b></td>
-                                                                    <td class="text-end">{{  currency_format_with_sym  ($taxPrice) }}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                        @endif
-                                                        <tr>
-                                                            <td colspan="{{$colspan}}"></td>
-                                                            <td class="blue-text text-end"><b>{{__('Total')}}</b></td>
-                                                            <td class="blue-text text-end">{{ currency_format_with_sym ($proposal->getTotal())}}</td>
-                                                        </tr>
-                                                    </tfoot> --}}
+                                                    
                                                 </table>
                                             </div>
                                         </div>

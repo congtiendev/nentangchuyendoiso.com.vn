@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('page-title')
-    {{ __('Hồ sơ duyệt mượn lao động') }}
+    {{ __('Hồ sơ duyệt mượn LĐ') }}
 @endsection
 @section('page-breadcrumb')
     {{ __('Hồ sơ duyệt mượn') }}
