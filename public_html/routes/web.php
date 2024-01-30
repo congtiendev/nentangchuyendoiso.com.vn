@@ -217,6 +217,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('helpdesk/pdf/{id}', [HelpdeskTicketController::class, 'download_pdf'])->name('helpdesk.pdf');
     Route::get('helpdesk/export', [HelpdeskTicketController::class, 'export'])->name('helpdesk.export');
     Route::resource('helpdesk', HelpdeskTicketController::class);
+
+    Route::get('recordkeeping', [HelpdeskTicketController::class, 'recordkeeping'])->name('recordkeeping.list');
+
+
     Route::resource('helpdeskticket-category', HelpdeskTicketCategoryController::class);
     Route::get('helpdesk-tickets/search/{status?}', [HelpdeskTicketController::class, 'index'])->name('helpdesk-tickets.search');
     Route::post('helpdesk-ticket/getUser', [HelpdeskTicketController::class, 'getUser'])->name('helpdesk-tickets.getuser');

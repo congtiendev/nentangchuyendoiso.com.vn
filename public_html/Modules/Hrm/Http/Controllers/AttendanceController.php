@@ -27,10 +27,10 @@ class AttendanceController extends Controller
         if (Auth::user()->isAbleTo('attendance manage')) {
             $currentWorkspace = getActiveWorkSpace();
             $branch = Branch::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->get()->pluck('name', 'id');
-            $branch->prepend('All', '');
+            $branch->prepend('Tất cả', '');
 
             $department = Department::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->get()->pluck('name', 'id');
-            $department->prepend('All', '');
+            $department->prepend('Tất cả', '');
 
             if (!in_array(Auth::user()->type, Auth::user()->not_emp_type)) {
                 $attendances = Attendance::where('employee_id', Auth::user()->id)->where('status','Present')->where('workspace', getActiveWorkSpace());

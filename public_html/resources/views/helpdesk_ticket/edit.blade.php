@@ -89,6 +89,11 @@
                                         {{ __('On Hold') }}</option>
                                     <option value="Closed" @if ($ticket->status == 'Closed') selected @endif>
                                         {{ __('Closed') }}</option>
+                                    <option value="Phê duyệt" @if ($ticket->status == 'Phê duyệt') selected @endif>
+                                        {{ __('Phê duyệt') }}</option>
+                                    <option value="Từ chối" @if ($ticket->status == 'Từ chối') selected @endif>
+                                        {{ __('Từ chối') }}</option>
+                                    
                                 </select>
                                 @if ($errors->has('status'))
                                     <div class="invalid-feedback">

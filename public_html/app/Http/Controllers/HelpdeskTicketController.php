@@ -41,6 +41,10 @@ class HelpdeskTicketController extends Controller
                 $tickets->where('status', '=', 'On Hold');
             } elseif ($status == 'closed') {
                 $tickets->where('status', '=', 'Closed');
+            } elseif ($status == 'Phê duyệt') {
+                $tickets->where('status', '=', 'Phê duyệt');
+            } elseif ($status == 'Từ chối') {
+                $tickets->where('status', '=', 'Từ chối');
             }
             if(Auth::user()->type == 'super admin')
             {
@@ -466,5 +470,36 @@ class HelpdeskTicketController extends Controller
        } catch (\Exception $e) {
            return redirect()->back()->with('error', __('Something is wrong'));
        }
+    }
+
+    public function recordkeeping($status = '')
+    {
+        if (Auth::user()->isAbleTo('helpdesk ticket manage')) {
+            $tickets = HelpdeskTicket::select(
+                [
+                    'helpdesk_tickets.*',
+                    'helpdesk_ticket_categories.name as category_name',
+                    'helpdesk_ticket_categories.color',
+                ]
+            )->join('helpdesk_ticket_categories', 'helpdesk_ticket_categories.id', '=', 'helpdesk_tickets.category');
+            
+            if ($status == 'in-progress') {
+                $tickets->where('status', '=', 'In Progress');
+            } elseif ($status == 'on-hold') {  
+                $tickets->where('status', '=', 'On Hold');
+            } elseif ($status == 'closed') {
+                $tickets->where('status', '=', 'Closed');
+            }
+            if(Auth::user()->type == 'super admin')
+            {
+                $tickets = $tickets->orderBy('id', 'desc')->get();
+            }elseif(Auth::user()->type == 'company')
+            {
+                $tickets = $tickets->where('workspace',getActiveWorkSpace())->orderBy('id', 'desc')->get();
+            }
+            return view('helpdesk_ticket.recordkeeping', compact('tickets', 'status'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 }

@@ -1224,7 +1224,9 @@
     "Components Thumbnail" : "Ảnh",
     "Supplier Thumbnail" : "Ảnh",
     "Parts Used" : "Bộ phận",
-    "Cost" : "Giá"
+    "Cost" : "Giá",
+    "Present" : "Hiện tại",
+    "Pandding": ""
     
 
 }

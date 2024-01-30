@@ -78,7 +78,21 @@
 
                                     <td><span class="badge badge-white p-2 px-3 rounded fix_badge" style="background: {{$ticket->color}};">{{$ticket->category_name}}</span></td>
 
-                                    <td><span class="badge fix_badge @if($ticket->status == 'In Progress')bg-warning @elseif($ticket->status == 'On Hold') bg-danger @else bg-success @endif  p-2 px-3 rounded">{{__($ticket->status)}}</span></td>
+                                    <td>
+                                        <span class="badge fix_badge 
+                                            @if($ticket->status == 'In Progress')
+                                            bg-warning 
+                                            @elseif($ticket->status == 'On Hold')
+                                            bg-danger 
+                                            @elseif($ticket->status == 'Từ chối')
+                                            bg-danger
+                                            @elseif($ticket->status == 'Phê duyệt')
+                                            bg-success 
+                                            @else 
+                                            bg-success 
+                                            @endif p-2 px-3 rounded">{{__($ticket->status)}}
+                                        </span>
+                                    </td>
 
                                     <td>{{$ticket->created_at->diffForHumans()}}</td>
 

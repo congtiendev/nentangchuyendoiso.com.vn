@@ -133,30 +133,30 @@ class CompanyMenuListener
             'module' => $module,
             'permission' => 'setting manage'
         ]);
-        $menu->add([
-            'title' => __('Setup Subscription Plan'),
-            'icon' => '',
-            'name' => 'setup-subscription-plan',
-            'parent' => 'settings',
-            'order' => 20,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => 'plans.index',
-            'module' => $module,
-            'permission' => 'plan manage'
-        ]);
-        $menu->add([
-            'title' => __('Order'),
-            'icon' => '',
-            'name' => 'order',
-            'parent' => 'settings',
-            'order' => 30,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => 'plan.order.index',
-            'module' => $module,
-            'permission' => 'plan orders'
-        ]);
+        // $menu->add([
+        //     'title' => __('Setup Subscription Plan'),
+        //     'icon' => '',
+        //     'name' => 'setup-subscription-plan',
+        //     'parent' => 'settings',
+        //     'order' => 20,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => 'plans.index',
+        //     'module' => $module,
+        //     'permission' => 'plan manage'
+        // ]);
+        // $menu->add([
+        //     'title' => __('Order'),
+        //     'icon' => '',
+        //     'name' => 'order',
+        //     'parent' => 'settings',
+        //     'order' => 30,
+        //     'ignore_if' => [],
+        //     'depend_on' => [],
+        //     'route' => 'plan.order.index',
+        //     'module' => $module,
+        //     'permission' => 'plan orders'
+        // ]);
 
          $menu->add([
             'title' => __('Hỗ trợ kỹ thuật'),
@@ -316,6 +316,18 @@ class CompanyMenuListener
             'ignore_if' => [],
             'depend_on' => [],
             'route' => 'helpdesk.index',
+            'module' => $module,
+            'permission' => 'helpdesk ticket manage'
+        ]);
+        $menu->add([
+            'title' => __('Danh sách lưu trữ hồ sơ'),
+            'icon' => '',
+            'name' => 'list contract',
+            'parent' => 'document management',
+            'order' => 690,
+            'ignore_if' => [],
+            'depend_on' => [],
+            'route' => 'recordkeeping.list',
             'module' => $module,
             'permission' => 'helpdesk ticket manage'
         ]);
