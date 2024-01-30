@@ -166,7 +166,7 @@
                                         <td>{{ !empty($attendance->employees) ? $attendance->employees->name : '' }}</td>
                                     @endif
                                     <td>{{ company_date_formate($attendance->date) }}</td>
-                                    <td>{{ $attendance->status }}</td>
+                                    <td>{{ __($attendance->status) }}</td>
                                     <td>{{ $attendance->clock_in != '00:00:00' ? $attendance->clock_in : '00:00' }}
                                     </td>
                                     <td>{{ $attendance->clock_out != '00:00:00' ? $attendance->clock_out : '00:00' }}

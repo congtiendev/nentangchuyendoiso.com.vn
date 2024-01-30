@@ -30,6 +30,20 @@
                 Lịch sử chỉnh sửa
             </a>
         @endpermission
+        @permission('employee create')
+            <select class="btn btn-sm btn-primary" onchange="toggleColumn(this.value)">
+                <option value="">Chọn để ẩn hiện cột</option>
+                <option value="0">Mã nhân viên</option>
+                <option value="1">Tên</option>
+                <option value="2">Email</option>
+                <option value="3">Chi nhánh</option>
+                <option value="4">Bộ phận</option>
+                <option value="5">Chức danh</option>
+                <option value="6">Ngày vào công ty</option>
+            </select>
+        @endpermission
+
+
     </div>
 @endsection
 @php
@@ -41,6 +55,7 @@
             <div class="card">
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
+
                         <table class="table mb-0 pc-dt-simple" id="assets">
                             <thead>
                                 <tr>
@@ -143,9 +158,69 @@
                                 @endforeach
                             </tbody>
                         </table>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        applyStoredColumnState();
+    });
+    // Hàm để lấy trạng thái đã lưu từ Local Storage
+    function getStoredColumnState() {
+        var columnStates = localStorage.getItem('columnStates');
+        return columnStates ? JSON.parse(columnStates) : {};
+    }
+
+    // Hàm để lưu trạng thái của các cột vào Local Storage
+    function saveColumnState(columnStates) {
+        localStorage.setItem('columnStates', JSON.stringify(columnStates));
+    }
+
+    // Hàm để toggle trạng thái của một cột và lưu vào Local Storage
+    function toggleColumn(colIndex) {
+        var table = document.getElementById('assets');
+        var rows = table.rows;
+        var columnStates = getStoredColumnState();
+
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].cells;
+            if (cells.length > colIndex) {
+                if (cells[colIndex].style.display === 'none') {
+                    cells[colIndex].style.display = '';
+                    columnStates[colIndex] = 'visible'; // Lưu trạng thái của cột
+                } else {
+                    cells[colIndex].style.display = 'none';
+                    columnStates[colIndex] = 'hidden'; // Lưu trạng thái của cột
+                }
+            }
+        }
+
+        saveColumnState(columnStates); // Lưu trạng thái của các cột vào Local Storage
+    }
+
+    // Hàm để áp dụng trạng thái đã lưu từ Local Storage khi tải lại trang
+    function applyStoredColumnState() {
+        var columnStates = getStoredColumnState();
+        var table = document.getElementById('assets');
+        var rows = table.rows;
+        for (var colIndex = 0; colIndex < rows[0].cells.length; colIndex++) {
+            if (columnStates[colIndex]) {
+                for (var i = 0; i < rows.length; i++) {
+                    var cells = rows[i].cells;
+                    if (cells.length > colIndex) {
+                        cells[colIndex].style.display = columnStates[colIndex] === 'hidden' ? 'none' : '';
+                    }
+                }
+            }
+        }
+    }
+</script>
+@endpush
