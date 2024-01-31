@@ -285,6 +285,8 @@
                             <th>{{ __('Tên văn bản') }}</th>
                             <th>{{ __('Đơn vị') }}</th>
                             <th>{{ __('Ý kiến của lãnh đạo') }}</th>
+                            <th>{{ __('Số văn bản') }}</th>
+                            <th>{{ __('Trích yếu') }}</th>
                             <th>{{ __('Tệp') }}</th>
                             {{-- <th>{{ __('Price') }} </th>
                             <th>{{ __('Discount') }}</th>
@@ -316,6 +318,12 @@
                             </td>
                             <td >
                                 <input value="" type="text" name="description" class="form-control pro_description" placeholder="Ý kiến của lãnh đạo">
+                            </td>
+                            <td >
+                                <input value="" type="text" name="so_vb" class="form-control so_vb" placeholder="Số văn bản">
+                            </td>
+                            <td >
+                                <input value="" type="text" name="trich_yeu" class="form-control trich_yeu" placeholder="Trích yếu">
                             </td>
                             <td>
                                 <a  class="btn btn-outline-primary file_vb" href="">

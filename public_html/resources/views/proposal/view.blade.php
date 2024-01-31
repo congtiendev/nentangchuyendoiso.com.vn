@@ -328,6 +328,8 @@
                                                         <th class="text-dark">{{__('Discount')}}</th>
                                                         <th class="text-dark">{{__('Tax')}}</th> --}}
                                                         <th class="text-dark">{{ __('Ý kiến của lãnh đạo ký trình') }}
+                                                        <th class="text-dark">{{ __('Số văn bản') }}
+                                                        <th class="text-dark">{{ __('Trích yếu') }}
                                                         <th class="text-dark">{{ __('Đơn vị') }}
                                                         <th class="text-dark">{{ __('File văn bản') }}
                                                         </th>
@@ -377,6 +379,12 @@
                                                             @endphp
                                                             <td>
                                                                 {{ !empty($iteam->description) ? $iteam->description : $iteam->description }}
+                                                            </td>
+                                                            <td>
+                                                                {{ !empty($iteam->product()) ? $iteam->product()->so_vb : '' }}
+                                                            </td>
+                                                            <td>
+                                                                {{ !empty($iteam->product()) ? $iteam->product()->trich_yeu : '' }}
                                                             </td>
                                                             <td>
                                                                 {{ !empty($iteam->product()) ? $iteam->product()->sku : '' }}

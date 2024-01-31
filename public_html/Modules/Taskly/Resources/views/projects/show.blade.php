@@ -327,7 +327,7 @@
                                     <div class="card-header ">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <h5 class="mb-0">{{ __('Clients') }} ({{ count($project->clients) }})</h5>
+                                                <h5 class="mb-0">{{ __('Người theo dõi') }} ({{ count($project->clients) }})</h5>
                                             </div>
                                             <div class="float-end">
                                                 <p class="text-muted d-none d-sm-flex align-items-center mb-0">

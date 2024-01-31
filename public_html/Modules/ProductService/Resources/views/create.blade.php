@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
+                {{ Form::label('name', __('Tiêu đề'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
                 <div class="form-icon-user">
                     {{ Form::text('name', '', ['class' => 'form-control', 'required' => 'required']) }}
                 </div>
@@ -23,9 +23,32 @@
             </div>
         </div>
 
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ Form::label('so_vb', __('Số văn bản'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
+                <div class="form-icon-user">
+                    {{ Form::text('so_vb', '', ['class' => 'form-control', 'required' => 'required']) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ Form::label('ngay_bh', __('Ngày ban hành'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
+                <div class="form-icon-user">
+                    {{ Form::date('ngay_bh', '', ['class' => 'form-control', 'required' => 'required']) }}
+                </div>
+            </div>
+        </div>
+
         <div class="form-group col-md-12">
             {{ Form::label('description', __('Ý kiến của lãnh đạo trình ký'), ['class' => 'form-label']) }}
             {!! Form::textarea('description', null, ['class' => 'form-control', 'rows' => '2']) !!}
+        </div>
+
+        <div class="form-group col-md-12">
+            {{ Form::label('trich_yeu', __('Trích yếu'), ['class' => 'form-label']) }}
+            {!! Form::textarea('trich_yeu', null, ['class' => 'form-control', 'rows' => '2']) !!}
         </div>
         {{-- <div class="col-md-6">
             <div class="form-group">

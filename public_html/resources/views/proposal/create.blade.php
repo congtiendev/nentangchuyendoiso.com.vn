@@ -255,6 +255,8 @@
                                 $(el.parent().parent().find('.price')).val(item.product.sale_price);
                                 $(el.parent().parent().parent().find('.pro_description')).val(item.product.description);
                                 $(el.parent().parent().parent().find('.sku')).val(item.product.sku);
+                                $(el.parent().parent().parent().find('.so_vb')).val(item.product.so_vb);
+                                $(el.parent().parent().parent().find('.trich_yeu')).val(item.product.trich_yeu);
                                 $(el.parent().parent().parent().find('.file_vb')).attr('href', 'http://127.0.0.1:8000/' + item.product.image);
 
                             }else{

@@ -110,6 +110,9 @@ class ProductServiceController extends Controller
             $productService->name           = $request->name;
             $productService->description    = $request->description;
             $productService->sku            = $request->sku;
+            $productService->so_vb          = $request->so_vb;
+            $productService->ngay_bh        = $request->ngay_bh;
+            $productService->trich_yeu      = $request->trich_yeu;
             if($request->hasFile('image')){
                 $name = time() . "_" . $request->image->getClientOriginalName();
                 $path = upload_file($request,'image',$name,'products');
@@ -221,6 +224,9 @@ class ProductServiceController extends Controller
             $productService->name           = $request->name;
             $productService->description    = $request->description;
             $productService->sku            = $request->sku;
+            $productService->so_vb          = $request->so_vb;
+            $productService->ngay_bh        = $request->ngay_bh;
+            $productService->trich_yeu      = $request->trich_yeu;
             $productService->sale_price     = $request->sale_price;
             $productService->purchase_price = $request->purchase_price;
             $productService->tax_id         = !empty($request->tax_id) ? implode(',', $request->tax_id) : '';

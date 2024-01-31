@@ -179,7 +179,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('plan/list', [PlanController::class, 'PlanList'])->name('plan.list');
     Route::post('plan/store', [PlanController::class, 'PlanStore'])->name('plan.store');
 
-    Route::get('plan/active', [PlanController::class, 'ActivePlans'])->name('active.plans');
+    // Route::get('plan/active', [PlanController::class, 'ActivePlans'])->name('active.plans');
     Route::any('plan/package-data', [PlanController::class, 'PackageData'])->name('package.data');
     Route::get('plan/plan-buy/{id}', [PlanController::class, 'PlanBuy'])->name('plan.buy');
     Route::get('plan/plan-trial/{id}', [PlanController::class, 'PlanTrial'])->name('plan.trial');
