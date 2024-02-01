@@ -17,14 +17,14 @@
                 <div class="form-control-label">{{ __('Due Date')}}</div>
                 <p class="mt-1">{{ company_date_formate($task->due_date) }}</p>
             </div>
-            <div class="col-md-3">
+            {{-- <div class="col-md-3">
                 <div class="form-control-label">{{ __('Assigned')}}</div>
                 @if($users = $task->users())
                     @foreach($users as $user)
                         <img alt="image" data-bs-toggle="tooltip" data-bs-placement="top" title="{{$user->name}}" @if($user->avatar) src="{{get_file($user->avatar)}}" @else src="{{ get_file('avatar.png')}}"  @endif class="rounded-circle " width="20px" height="20px">
                     @endforeach
                 @endif
-            </div>
+            </div> --}}
             <div class="col-md-3">
                 <div class="form-control-label">{{ __('Milestone')}}</div>
                 @php($milestone = $task->milestone())

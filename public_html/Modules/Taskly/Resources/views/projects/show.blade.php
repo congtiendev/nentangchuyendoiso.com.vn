@@ -46,15 +46,9 @@
             class="btn btn-xs btn-primary btn-icon-only width-auto ">{{ __('Gantt Chart') }}</a>
     </div>
     @permission('task manage')
-        <div class="col-sm-auto">
-            <a href="{{ route('projects.task.board', [$project->id]) }}"
-                class="btn btn-xs btn-primary btn-icon-only width-auto ">{{ __('Danh sách công việc tôi tạo') }}</a>
-        </div>
-    @endpermission
-    @permission('task manage')
     <div class="col-sm-auto">
         <a href="{{ route('projects.task.board', [$project->id]) }}"
-            class="btn btn-xs btn-primary btn-icon-only width-auto ">{{ __('Danh sách công việc tôi giao') }}</a>
+            class="btn btn-xs btn-primary btn-icon-only width-auto ">{{ __('Tạo công việc con') }}</a>
     </div>
 @endpermission
     @permission('bug manage')
@@ -154,7 +148,7 @@
                             </div>
                             <div class="row">
                                 @if($project->type == 'project')
-                                    <div class="col-lg-3 col-6">
+                                    <div class="col-lg-4 col-6">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
@@ -169,7 +163,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-6">
+                                    {{-- <div class="col-lg-3 col-6">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
@@ -185,10 +179,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 @endif
                                 @php
-                                    $class = ($project->type == 'template') ? 'col-lg-6 col-6' : 'col-lg-3 col-6';
+                                    $class = ($project->type == 'template') ? 'col-lg-6 col-6' : 'col-lg-4 col-6';
                                 @endphp
                                 <div class="{{$class}}">
                                     <div class="card">
@@ -250,7 +244,7 @@
                 @if($project->type == 'project')
                     <div class="col-xxl-12">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="card deta-card">
                                     <div class="card-header">
                                         <div class="d-flex justify-content-between align-items-center">
@@ -322,7 +316,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="card deta-card">
                                     <div class="card-header ">
                                         <div class="d-flex justify-content-between align-items-center">
@@ -332,7 +326,7 @@
                                             <div class="float-end">
                                                 <p class="text-muted d-none d-sm-flex align-items-center mb-0">
                                                     <a href="#" class="btn btn-sm btn-primary" data-ajax-popup="true"
-                                                        data-title="{{ __('Share to Client') }}" data-toggle="tooltip"
+                                                        data-title="{{ __('Thêm người theo dõi') }}" data-toggle="tooltip"
                                                         title="{{ __('Share to Client') }}"
                                                         data-url="{{ route('projects.share.popup', [$project->id]) }}"><i
                                                             class="ti ti-share"></i></a>
@@ -388,7 +382,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if(module_is_active('Account',$project->created_by))
+                            {{-- @if(module_is_active('Account',$project->created_by))
                                 <div class="col-4">
                                     <div class="card deta-card">
                                         <div class="card-header ">
@@ -514,7 +508,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
 
                     </div>

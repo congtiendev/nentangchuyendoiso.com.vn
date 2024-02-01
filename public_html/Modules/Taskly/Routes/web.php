@@ -27,7 +27,14 @@ Route::group(['middleware' => 'PlanModuleCheck:Taskly'], function ()
     Route::post('projects/approved', [ProjectController::class,'approved'])->name('projects.approved')->middleware(['auth']);
     Route::post('projects/reject', [ProjectController::class,'reject'])->name('projects.reject')->middleware(['auth']);
     Route::resource('stages', 'StageController')->middleware(['auth']);
+
     Route::resource('projects', 'ProjectController')->middleware(['auth']);
+
+    Route::get('list-create', [ProjectController::class,'listCreate'])->name('project.list.create')->middleware(['auth']);
+    Route::get('list-deliver', [ProjectController::class,'listDeliver'])->name('project.list.deliver')->middleware(['auth']);
+
+
+
     //project import
     Route::get('project/import/export', [ProjectController::class,'fileImportExport'])->name('project.file.import')->middleware(['auth']);
     Route::post('project/import', [ProjectController::class,'fileImport'])->name('project.import')->middleware(['auth']);

@@ -287,6 +287,7 @@
                             <th>{{ __('Ý kiến của lãnh đạo') }}</th>
                             <th>{{ __('Số văn bản') }}</th>
                             <th>{{ __('Trích yếu') }}</th>
+                            <th>{{ __('Ngày ban hành') }}</th>
                             <th>{{ __('Tệp') }}</th>
                             {{-- <th>{{ __('Price') }} </th>
                             <th>{{ __('Discount') }}</th>
@@ -314,16 +315,19 @@
                                 </select>
                             </td>
                             <td>
-                                <input value="" type="text" name="sku" class="form-control sku" placeholder="Đơn vị">
+                                <input value="" type="text" name="sku" class="form-control sku" placeholder="Đơn vị" readonly>
                             </td>
                             <td >
-                                <input value="" type="text" name="description" class="form-control pro_description" placeholder="Ý kiến của lãnh đạo">
+                                <input value="" type="text" name="description" class="form-control pro_description" placeholder="Ý kiến của lãnh đạo" readonly>
                             </td>
                             <td >
-                                <input value="" type="text" name="so_vb" class="form-control so_vb" placeholder="Số văn bản">
+                                <input value="" type="text" name="so_vb" class="form-control so_vb" placeholder="Số văn bản" readonly>
                             </td>
                             <td >
-                                <input value="" type="text" name="trich_yeu" class="form-control trich_yeu" placeholder="Trích yếu">
+                                <input value="" type="text" name="trich_yeu" class="form-control trich_yeu" placeholder="Trích yếu" readonly>
+                            </td>
+                            <td >
+                                <input value="" type="date" name="ngay_bh" class="form-control ngay_bh" placeholder="Ngày ban hành" readonly>
                             </td>
                             <td>
                                 <a  class="btn btn-outline-primary file_vb" href="">

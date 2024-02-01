@@ -27,6 +27,7 @@ use App\Models\CustomNotification;
 use App\Models\UserNotifications;
 use App\Models\ActivityLogEmployee;
 use App\Models\ActivityLogAppoint;
+use Modules\Assets\Entities\Asset;
 
 class EmployeeController extends Controller
 {
@@ -124,12 +125,14 @@ class EmployeeController extends Controller
             $designations     = Designation::where('created_by', creatorId())->where('workspace', getActiveWorkSpace())->get()->pluck('name', 'id');
             $employees        = User::where('created_by', creatorId())->where('workspace_id', getActiveWorkSpace())->get();
             $employeesId      = Employee::employeeIdFormat($this->employeeNumber());
+            $assets = Asset::where('workspace_id', getActiveWorkSpace())->pluck('name','id');
+        
             if (module_is_active('CustomField')) {
                 $customFields =  \Modules\CustomField\Entities\CustomField::where('workspace_id', getActiveWorkSpace())->where('module', '=', 'hrm')->where('sub_module', 'Employee')->get();
             } else {
                 $customFields = null;
             }
-            return view('hrm::employee.create', compact('employees', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'role', 'customFields'));
+            return view('hrm::employee.create', compact('employees', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'role', 'customFields','assets'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -236,6 +239,9 @@ class EmployeeController extends Controller
                     return redirect()->back()->with('error', $e->getMessage());
                 }
             }
+            $dataAsset = $request['asset_id'];
+
+            $asset = json_encode($dataAsset);
 
             try {
                 $employee = Employee::create(
@@ -252,6 +258,7 @@ class EmployeeController extends Controller
                         'department_id' => $request['department_id'],
                         'designation_id' => $request['designation_id'],
                         'company_doj' => $request['company_doj'],
+                        'asset_id' => $asset,
                         'documents' => $document_implode,
                         'account_holder_name' => $request['account_holder_name'],
                         'account_number' => $request['account_number'],
@@ -352,13 +359,16 @@ class EmployeeController extends Controller
                 $documents    = DocumentType::where('created_by', creatorId())->where('workspace', getActiveWorkSpace())->get();
                 $user         = User::where('id', $empId)->where('workspace_id', getActiveWorkSpace())->first();
                 $employeesId  = Employee::employeeIdFormat($employee->employee_id);
+                $assetIds = json_decode($employee->asset_id, true);
+                $assets = Asset::whereIn('id', $assetIds)->get();
+                
                 if (module_is_active('CustomField')) {
                     $employee->customField = \Modules\CustomField\Entities\CustomField::getData($employee, 'hrm', 'Employee');
                     $customFields             = \Modules\CustomField\Entities\CustomField::where('workspace_id', '=', getActiveWorkSpace())->where('module', '=', 'hrm')->where('sub_module', 'Employee')->get();
                 } else {
                     $customFields = null;
                 }
-                return view('hrm::employee.show', compact('employee', 'user', 'employeesId', 'documents', 'customFields'));
+                return view('hrm::employee.show', compact('employee', 'user', 'employeesId', 'documents', 'customFields', 'assets'));
             } else {
                 return redirect()->back()->with('error', __('Something went wrong please try again.'));
             }
@@ -414,6 +424,10 @@ class EmployeeController extends Controller
             $departments  = Department::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->get()->pluck('name', 'id');
             $designations = Designation::where('created_by', '=', creatorId())->where('workspace', getActiveWorkSpace())->get()->pluck('name', 'id');
             $employee     = Employee::where('user_id', $id)->where('workspace', getActiveWorkSpace())->first();
+
+            $assets = Asset::where('workspace_id', getActiveWorkSpace())->pluck('name','id');
+            $currenAssetIds = json_decode($employee->asset_id, true);
+
             $user         = User::where('id', $id)->where('workspace_id', getActiveWorkSpace())->first();
             if (!empty($employee)) {
                 if (module_is_active('CustomField')) {
@@ -432,7 +446,7 @@ class EmployeeController extends Controller
                 $employeesId  = Employee::employeeIdFormat($this->employeeNumber());
             }
 
-            return view('hrm::employee.edit', compact('employee', 'user', 'employeesId', 'branches', 'departments', 'designations', 'document_types', 'customFields'));
+            return view('hrm::employee.edit', compact('employee', 'user', 'employeesId', 'branches', 'departments', 'designations', 'document_types', 'customFields','assets','currenAssetIds'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }

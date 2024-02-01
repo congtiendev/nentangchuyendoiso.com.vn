@@ -94,6 +94,19 @@ $company_settings = getCompanyAllSetting();
                                 {!! Form::textarea('address', old('address'), ['class' => 'form-control', 'rows' => 2
                                 ,'placeholder'=>'Nhập địa chỉ', 'required' => 'required']) !!}
                             </div>
+                            {{--  --}}
+                            <div class="form-group col-md-12">
+                                <label for="users_list" class="col-form-label">{{ __('Chọn trang thiết bị') }}</label>
+                                <select class="multi-select choices" id="assets" data-toggle="select2" required name="asset_id[]" multiple="multiple" data-placeholder="{{ __('Chọn trang thiết bị ...') }}">
+                                    @foreach ($assets as $key => $value)
+                                    <option value="{{ $key }}" {{ old('asset_id') == $key ? 'selected' : '' }}>
+                                        {{ $value }}
+                                    </option>
+                                @endforeach
+                                </select>
+                            </div>
+
+                            {{--  --}}
 
                             <div class="form-group">
                                 {!! Form::label('information_of_relatives', "Thông tin người thân", ['class' =>
@@ -216,15 +229,16 @@ $company_settings = getCompanyAllSetting();
                                     {{ Form::select('role', $role, null, ['class' => 'form-control', 'required' =>
                                     'required', 'placeholder' => 'Chọn quyền']) }}
                                 </div>
-                                <div class="form-group ">
+                                <div class="form-group col-md-12 ">
                                     {!! Form::label('company_doj', __('Company Date Of Joining'), ['class' =>
                                     'form-label']) !!}
                                     {{ Form::date('company_doj', date('Y-m-d'), ['class' => 'form-control ', 'required'
                                     => 'required', 'autocomplete' => 'off' ,'placeholder'=>'Select company date of
                                     joining']) }}
                                 </div>
+                               
                                 @if(module_is_active('CustomField') && !$customFields->isEmpty())
-                                <div class="col-md-12">
+                                <div class="col-md-">
                                     <div class="tab-pane fade show" id="tab-2" role="tabpanel">
                                         @include('customfield::formBuilder')
                                     </div>

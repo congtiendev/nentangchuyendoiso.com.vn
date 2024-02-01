@@ -2,8 +2,8 @@
     @csrf
     <div class="modal-body">
         <div class="form-group col-md-12 mb-0">
-            <label for="users_list" class="col-form-label">{{ __('Clients') }}</label>
-            <select class="multi-select choices" id="clients" data-toggle="select2" required name="clients[]" multiple="multiple" data-placeholder="{{ __('Select Clients ...') }}">
+            <label for="users_list" class="col-form-label">{{ __('Người theo dõi') }}</label>
+            <select class="multi-select choices" id="clients" data-toggle="select2" required name="clients[]" multiple="multiple" data-placeholder="{{ __('Chọn người theo dõi ...') }}">
                 @foreach($clients as $client)
                     <option value="{{$client->id}}">{{$client->name}} - {{$client->email}}</option>
                 @endforeach
@@ -13,7 +13,7 @@
     </div>
     <div class="modal-footer">
            <button type="button" class="btn  btn-light" data-bs-dismiss="modal">{{ __('Close')}}</button>
-             <input type="submit" value="{{ __('Share to Client')}}" id="submit" class="btn  btn-primary">
+             <input type="submit" value="{{ __('Xác nhận')}}" id="submit" class="btn  btn-primary">
         </div>
 </form>
 

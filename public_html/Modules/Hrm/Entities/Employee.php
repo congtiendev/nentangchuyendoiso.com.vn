@@ -29,6 +29,7 @@ class Employee extends Model
         'department_id',
         'designation_id',
         'company_doj',
+        'asset_id',
         'documents',
         'account_holder_name',
         'account_number',

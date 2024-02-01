@@ -163,7 +163,7 @@ class CompanyMenuListener
             'icon' => 'users',
             'name' => 'support-tech',
             'parent' => null,
-            'order' => 700,
+            'order' => 1900,
             'ignore_if' => [],
             'depend_on' => [],
             'route' => '',
@@ -444,31 +444,6 @@ class CompanyMenuListener
             'permission' => 'helpdesk ticket manage'
         ]);
 
-        //Quản lí công việc
-        $menu->add([
-            'title' => __('Quản lí công việc'),
-            'icon' => 'icon ti ti-calendar-time',
-            'name' => 'work management',
-            'parent' => null,
-            'order' => 670,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => '',
-            'module' => $module,
-            'permission' => 'helpdesk ticket manage'
-        ]);
-        $menu->add([
-            'title' => __('Nhóm'),
-            'icon' => '',
-            'name' => 'group',
-            'parent' => 'work management',
-            'order' => 670,
-            'ignore_if' => [],
-            'depend_on' => [],
-            'route' => 'pms.index',
-            'module' => $module,
-            'permission' => 'helpdesk ticket manage'
-        ]);
         //
           $menu->add([
             'title' => __('Lưu trữ công việc'),

@@ -94,6 +94,18 @@ $company_settings = getCompanyAllSetting();
                                 => 'required']) !!}
                             </div>
 
+                            <div class="form-group col-md-12">
+                                <label for="assets" class="col-form-label">{{ __('Chọn trang thiết bị') }}</label>
+                                <select class="multi-select choices" id="assets" data-toggle="select2" name="asset_id[]" multiple="multiple" data-placeholder="{{ __('Chọn trang thiết bị ...') }}">
+                                    @foreach ($assets as $assetId => $assetName)
+                                        <option value="{{ $assetId }}" {{ in_array($assetId, $currenAssetIds) ? 'selected' : '' }}>
+                                            {{ $assetName }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+
                             <div class="form-group">
                                 {!! Form::label('information_of_relatives', "Thông tin người thân", ['class' =>
                                 'form-label']) !!}<span class="text-danger pl-1"></span>

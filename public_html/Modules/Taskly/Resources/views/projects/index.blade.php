@@ -3,7 +3,7 @@
     {{ __('Công việc') }}
 @endsection
 @section('page-breadcrumb')
-    {{ __('Manage Projects') }}
+    {{ __('Công việc') }}
 @endsection
 
 @section('page-action')

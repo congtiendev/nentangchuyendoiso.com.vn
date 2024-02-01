@@ -145,6 +145,19 @@
                                         <span>{{ $employee->salary }}</span>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+
+                                @if (!empty($assets))
+                                <div class="info text-sm">
+                                    <strong class="font-bold">{{ __('Danh sách trang thiết bị') }} :</strong>
+                                        @foreach ($assets as $asset)
+                                            <span>{{ $asset->name }},</span>
+                                        @endforeach
+                                </div>
+                                @endif
+                            </div>
+
+                               
                             </div>
                         </div>
                     </div>
@@ -153,6 +166,9 @@
 
                     <div class="card ">
                         <div class="card-body employee-detail-body fulls-card emp-card">
+
+                           
+
                             <h5>{{ __('Company Detail') }}</h5>
                             <hr>
                             <div class="row">
@@ -208,6 +224,7 @@
                                 @endif
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

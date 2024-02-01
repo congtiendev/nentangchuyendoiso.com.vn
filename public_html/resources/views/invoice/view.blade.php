@@ -427,6 +427,7 @@
                                                         <th class="text-dark">{{ __('Trích yếu') }}</th>
                                                         
                                                         <th class="text-dark">{{ __('Đơn vị') }}</th>
+                                                        <th class="text-dark">{{ __('Ngày ban hành') }}</th>
                                                         <th class="text-dark">{{ __('File văn bản') }}</th>
                                                         {{-- <th class="text-right text-dark" width="12%">{{ __('Price') }}<br>
                                                             <small
@@ -480,6 +481,10 @@
                                                             
                                                             <td>
                                                                 {{ !empty($iteam->product()) ? $iteam->product()->sku : '' }}
+                                                            </td>
+
+                                                            <td>
+                                                                {{ !empty($iteam->product()) ? date('d-m-Y', strtotime($iteam->product()->ngay_bh)) : '' }}
                                                             </td>
 
                                                             <td>

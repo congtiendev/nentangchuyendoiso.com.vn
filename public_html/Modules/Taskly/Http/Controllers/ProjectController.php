@@ -80,6 +80,38 @@ class ProjectController extends Controller
         }
     }
 
+    public function listCreate(Request $request)
+    {
+        // Check  tất cả các quyền người dùng đang đăng nhập
+        if (Auth::user()->isAbleTo('project manage')) {
+            $objUser          = Auth::user();
+            if (Auth::user()->hasRole('client')) {
+                $projects = Project::select('projects.*')->join('client_projects', 'projects.id', '=', 'client_projects.project_id')->projectonly()->where('client_projects.client_id', '=', Auth::user()->id)->where('projects.workspace', '=', getActiveWorkSpace())->where('projects.status', '!=', 'Disapproved')->get();
+            } else {
+                $projects = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->projectonly()->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', getActiveWorkSpace())->where('projects.status', '!=', 'Disapproved')->get();
+            }
+            return view('taskly::projects.index_create', compact('projects'));
+        } else {
+            return redirect()->back()->with('error', __('Permission Denied.'));
+        }
+    }
+
+    public function listDeliver(Request $request)
+    {
+        // Check  tất cả các quyền người dùng đang đăng nhập
+        if (Auth::user()->isAbleTo('project manage')) {
+            $objUser          = Auth::user();
+            if (Auth::user()->hasRole('client')) {
+                $projects = Project::select('projects.*')->join('client_projects', 'projects.id', '=', 'client_projects.project_id')->projectonly()->where('client_projects.client_id', '=', Auth::user()->id)->where('projects.workspace', '=', getActiveWorkSpace())->where('projects.status', '!=', 'Disapproved')->get();
+            } else {
+                $projects = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->projectonly()->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', getActiveWorkSpace())->where('projects.status', '!=', 'Disapproved')->get();
+            }
+            return view('taskly::projects.index_deliver', compact('projects'));
+        } else {
+            return redirect()->back()->with('error', __('Permission Denied.'));
+        }
+    }
+
     public function listDisapproved(Request $request)
     {
         // Check  tất cả các quyền người dùng đang đăng nhập
@@ -602,12 +634,16 @@ class ProjectController extends Controller
         $currentWorkspace = getActiveWorkSpace();
         $project          = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace)->where('projects.id', '=', $projectID)->first();
 
-        $clients = User::where('created_by', '=', creatorId())->where('type', 'client')->where('workspace_id', getActiveWorkSpace())->whereNOTIn(
-            'id',
-            function ($q) use ($project) {
-                $q->select('client_id')->from('client_projects')->where('project_id', '=', $project->id);
-            }
-        )->get();
+            $clients = User::where('workspace_id', $currentWorkspace)
+                ->where(function ($query) use ($project) {
+                    $query->where('created_by', creatorId())->where('type', 'client');
+                })
+                ->orWhere(function ($query) use ($project) {
+                    $query->whereIn('id', function ($q) use ($project) {
+                        $q->select('user_id')->from('user_projects')->where('project_id', $project->id);
+                    });
+                })
+                ->get();
         return view('taskly::projects.share', compact('currentWorkspace', 'project', 'clients'));
     }
 
@@ -617,12 +653,16 @@ class ProjectController extends Controller
         $currentWorkspace = getActiveWorkSpace();
         $project          = Project::select('projects.*')->join('user_projects', 'projects.id', '=', 'user_projects.project_id')->where('user_projects.user_id', '=', $objUser->id)->where('projects.workspace', '=', $currentWorkspace)->where('projects.id', '=', $projectID)->first();
 
-        $venders = User::where('created_by', '=', creatorId())->where('type', 'vendor')->where('workspace_id', getActiveWorkSpace())->whereNOTIn(
-            'id',
-            function ($q) use ($project) {
-                $q->select('vender_id')->from('vender_projects')->where('project_id', '=', $project->id);
-            }
-        )->get();
+        $venders = User::where('workspace_id', $currentWorkspace)
+            ->where(function ($query) use ($project) {
+                $query->where('created_by', creatorId())->where('type', 'vendor');
+            })
+            ->orWhere(function ($query) use ($project) {
+                $query->whereIn('id', function ($q) use ($project) {
+                    $q->select('user_id')->from('user_projects')->where('project_id', $project->id);
+                });
+            })
+            ->get();
         return view('taskly::projects.share_vender', compact('currentWorkspace', 'project', 'venders'));
     }
 
@@ -662,15 +702,15 @@ class ProjectController extends Controller
 
             event(new ProjectShareToClient($request, $client, $project));
 
-            ActivityLog::create(
-                [
-                    'user_id' => Auth::user()->id,
-                    'user_type' => get_class(Auth::user()),
-                    'project_id' => $project->id,
-                    'log_type' => 'Share with Client',
-                    'remark' => json_encode(['client_id' => $client->id]),
-                ]
-            );
+            // ActivityLog::create(
+            //     [
+            //         'user_id' => Auth::user()->id,
+            //         'user_type' => get_class(Auth::user()),
+            //         'project_id' => $project->id,
+            //         'log_type' => 'Share with Client',
+            //         'remark' => json_encode(['client_id' => $client->id]),
+            //     ]
+            // );
         }
 
         return redirect()->back()->with('success', __('Project Share Successfully!') . ((isset($smtp_error)) ? ' <br> <span class="text-danger">' . $smtp_error . '</span>' : ''));

@@ -331,6 +331,7 @@
                                                         <th class="text-dark">{{ __('Số văn bản') }}
                                                         <th class="text-dark">{{ __('Trích yếu') }}
                                                         <th class="text-dark">{{ __('Đơn vị') }}
+                                                            <th class="text-dark">{{ __('Ngày ban hành') }}
                                                         <th class="text-dark">{{ __('File văn bản') }}
                                                         </th>
                                                         {{-- <th class="text-end text-dark" width="12%">{{__('Price')}}<br>
@@ -388,6 +389,9 @@
                                                             </td>
                                                             <td>
                                                                 {{ !empty($iteam->product()) ? $iteam->product()->sku : '' }}
+                                                            </td>
+                                                            <td>
+                                                                {{ !empty($iteam->product()) ? date('d-m-Y', strtotime($iteam->product()->ngay_bh)) : '' }}
                                                             </td>
                                                             <td>
                                                                 <a  class="btn btn-outline-primary file_vb" href="{{ url(!empty($iteam->product()) ? $iteam->product()->image : '') }}">

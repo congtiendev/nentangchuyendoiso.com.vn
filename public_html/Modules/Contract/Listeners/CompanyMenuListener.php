@@ -17,7 +17,7 @@ class CompanyMenuListener
             'title' => 'Contract',
             'icon' => 'device-floppy',
             'name' => 'contract',
-            'parent' => null,
+            'parent' => 'hrm',
             'order' => 725,
             'ignore_if' => [],
             'depend_on' => [],
